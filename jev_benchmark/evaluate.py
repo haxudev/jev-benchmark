@@ -12,7 +12,7 @@ from pathlib import Path
 from time import perf_counter
 from typing import Protocol
 
-from . import RESULTS_DIR, Decision, ModelError
+from . import DATA_PATH, RESULTS_DIR, Decision, ModelError
 
 CONTESTANTS = ("local", "jev", "intranet")
 GROUP_FIELDS = ("subset", "category", "phenomenon")
@@ -179,6 +179,73 @@ def run_benchmark(
     return report
 
 
+def load_results(dataset_path: Path = DATA_PATH, results_dir: Path = RESULTS_DIR) -> dict[str, dict]:
+    """按文件名返回与当前题集哈希一致的完整结果；跳过未完成或基于旧题集的文件。"""
+    digest = sha256(dataset_path.read_bytes()).hexdigest()
+    reports = {}
+    for path in sorted(results_dir.glob("*.json")):
+        if path.name.endswith(".partial.json"):
+            continue
+        report = json.loads(path.read_text(encoding="utf-8"))
+        if report.get("status") == "complete" and report.get("dataset_sha256") == digest:
+            reports[path.name] = report
+    return reports
+
+
+_STYLE = (
+    "<style>.jev-benchmark{font:14px/1.65 system-ui;max-width:1400px}"
+    ".jev-benchmark table{border-collapse:collapse;width:100%;margin:12px 0}"
+    ".jev-benchmark th,.jev-benchmark td{border:1px solid #94a3b8;padding:8px;text-align:left}"
+    ".jev-benchmark th{background:#e2e8f0;color:#0f172a}"
+    ".jev-benchmark small{opacity:.8}.jev-benchmark summary{cursor:pointer;font-weight:600;padding:10px}"
+    ".jev-benchmark pre{white-space:pre-wrap}.jev-benchmark details{border:1px solid #94a3b8;margin:10px 0}"
+    ".jev-benchmark .note{border-left:4px solid #2563eb;padding:10px 16px}</style>"
+)
+
+
+def _e(value) -> str:
+    return escape(str(value), quote=True)
+
+
+def _table(headers, rows) -> str:
+    return (
+        "<table><thead><tr>" + "".join(f"<th>{_e(h)}</th>" for h in headers)
+        + "</tr></thead><tbody>"
+        + "".join("<tr>" + "".join(f"<td>{cell}</td>" for cell in row) + "</tr>" for row in rows)
+        + "</tbody></table>"
+    )
+
+
+def _rate_cell(value) -> str:
+    return f"<b>{value['rate']:.1%}</b> <small>({value['matches']}/{value['total']})</small>"
+
+
+def render_leaderboard(reports: dict[str, dict], dataset: dict) -> str:
+    """每个模型一行，取最近一次完整结果，按参考一致率排序。"""
+    subsets = dataset.get("subsets", {})
+    latest = {}
+    for file, report in reports.items():
+        stats = summarize(report["results"], report["models"])["reference_agreement"]
+        contrast = summarize_contrast_pairs(report["results"], dataset, report["models"])["by_model"]
+        for name in report["models"]:
+            if name not in latest or report["executed_at"] > latest[name]["executed_at"]:
+                latest[name] = {"file": file, "executed_at": report["executed_at"],
+                                "stats": stats[name], "contrast": contrast[name]}
+    if not latest:
+        return "<div class='jev-benchmark'><p>results/ 中没有与当前题集一致的完整结果。</p></div>"
+    rows = [
+        [_e(name), _e(", ".join(item["stats"]["actual_models"])), _rate_cell(item["stats"]),
+         *(_rate_cell(item["stats"]["groups"]["subset"][key]) for key in subsets),
+         _rate_cell(item["contrast"]), _e(item["file"]), _e(item["executed_at"][:10])]
+        for name, item in sorted(latest.items(), key=lambda pair: -pair[1]["stats"]["rate"])
+    ]
+    return (
+        f"<div class='jev-benchmark'>{_STYLE}<h3>排行榜 · {_e(dataset['name'])} v{_e(dataset['version'])}</h3>"
+        + _table(["模型", "实际版本", "参考一致率", *subsets.values(), "同末句对照（整对）", "结果文件", "日期"], rows)
+        + "</div>"
+    )
+
+
 def render_report(report: dict, dataset: dict) -> str:
     if report.get("status") != "complete":
         raise ValueError("不能为未完成的评测生成排行榜。")
@@ -191,18 +258,7 @@ def render_report(report: dict, dataset: dict) -> str:
     stats = summarize(report["results"], names)
     cases = {case["id"]: case for case in dataset["cases"]}
     subset_labels = dataset.get("subsets", {})
-    e = lambda value: escape(str(value), quote=True)
-
-    def table(headers, rows) -> str:
-        return (
-            "<table><thead><tr>" + "".join(f"<th>{e(h)}</th>" for h in headers)
-            + "</tr></thead><tbody>"
-            + "".join("<tr>" + "".join(f"<td>{cell}</td>" for cell in row) + "</tr>" for row in rows)
-            + "</tbody></table>"
-        )
-
-    def rate(value) -> str:
-        return f"<b>{value['rate']:.1%}</b> <small>({value['matches']}/{value['total']})</small>"
+    e, table, rate = _e, _table, _rate_cell
 
     def prediction(row, name) -> str:
         decision = row["decisions"][name]
@@ -224,13 +280,7 @@ def render_report(report: dict, dataset: dict) -> str:
     subsets = list(stats["reference_agreement"][names[0]]["groups"]["subset"])
     html = [
         "<div class='jev-benchmark'>",
-        "<style>.jev-benchmark{font:14px/1.65 system-ui;max-width:1400px}"
-        ".jev-benchmark table{border-collapse:collapse;width:100%;margin:12px 0}"
-        ".jev-benchmark th,.jev-benchmark td{border:1px solid #94a3b8;padding:8px;text-align:left}"
-        ".jev-benchmark th{background:#e2e8f0;color:#0f172a}"
-        ".jev-benchmark small{opacity:.8}.jev-benchmark summary{cursor:pointer;font-weight:600;padding:10px}"
-        ".jev-benchmark pre{white-space:pre-wrap}.jev-benchmark details{border:1px solid #94a3b8;margin:10px 0}"
-        ".jev-benchmark .note{border-left:4px solid #2563eb;padding:10px 16px}</style>",
+        _STYLE,
         f"<h2>{'单模型评测' if len(names) == 1 else f'{len(names)} 模型同题对比'} · {len(report['results'])} 题</h2>",
         f"<p>{e(report['benchmark'])} v{e(report['version'])} · UTC {e(report['executed_at'])}</p>",
         "<p class='note'><b>两个指标不要混淆：</b>参考一致率 = 模型选择与编写者参考相同；"

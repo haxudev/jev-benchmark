@@ -4,10 +4,11 @@
   "dataset_sha256": "99553482cfdebca1e6610fcbd388e7d8443fa8f313c896984a3ef849a7b83ca4",
   "question": "结合完整对话，最后发言者这句话最可能是在间接表达什么？区分话面内容与沟通意图，只使用上下文证据，不按性别推断，也不要把明确拒绝反解为同意。",
   "models": [
-    "Qwen3.5-0.8B-Jev"
+    "Qwen3.5-0.8B-Jev",
+    "Jev-API"
   ],
   "status": "complete",
-  "started_at": "2026-09-24T02:49:03.139230+00:00",
+  "started_at": "2026-09-24T03:04:09.291420+00:00",
   "results": [
     {
       "id": "love-001",
@@ -27,7 +28,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7442817999999534
+          "seconds": 2.2543558999996094
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.04,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.96
+          },
+          "confidence": 0.95,
+          "model": "jev-1.13.0",
+          "seconds": 3.42173830000047
         }
       }
     },
@@ -49,7 +62,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7254070999997566
+          "seconds": 2.3611396999995122
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3156298000003517
         }
       }
     },
@@ -71,7 +96,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5652122999999847
+          "seconds": 2.1724023000006127
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4023858000000473
         }
       }
     },
@@ -93,7 +130,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5932153999997354
+          "seconds": 2.1101779999999053
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4844693000004554
         }
       }
     },
@@ -115,7 +164,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5457649999998466
+          "seconds": 2.32419900000059
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.5896166000002268
         }
       }
     },
@@ -137,7 +198,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5597760000000562
+          "seconds": 2.246113900000637
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.2741554000003816
         }
       }
     },
@@ -159,7 +232,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7997878000001037
+          "seconds": 2.1099034999997457
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.7018207999999504
         }
       }
     },
@@ -181,7 +266,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7057546999999431
+          "seconds": 2.1701224999997066
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.6060770000003686
         }
       }
     },
@@ -203,7 +300,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5459996999998111
+          "seconds": 2.2345024999995076
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.99,
+            "C": 0.01,
+            "D": 0.0
+          },
+          "confidence": 0.98,
+          "model": "jev-1.13.0",
+          "seconds": 1.3656495000004725
         }
       }
     },
@@ -225,7 +334,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5695757999997113
+          "seconds": 2.160532400000193
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.5641482999999425
         }
       }
     },
@@ -247,7 +368,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.61157779999985
+          "seconds": 3.182954300000347
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.5851339000000735
         }
       }
     },
@@ -269,7 +402,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.612082499999815
+          "seconds": 2.3497049999996307
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4892879999997604
         }
       }
     },
@@ -291,7 +436,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6105421000002025
+          "seconds": 2.383034399999815
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.579971099999966
         }
       }
     },
@@ -313,7 +470,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6142331999999442
+          "seconds": 2.0666789000006247
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.99,
+            "B": 0.01,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 0.99,
+          "model": "jev-1.13.0",
+          "seconds": 1.4116302000002179
         }
       }
     },
@@ -335,7 +504,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5702566999998453
+          "seconds": 2.111520199999177
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.5683435000000827
         }
       }
     },
@@ -357,7 +538,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5007912999999462
+          "seconds": 2.144048699999985
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.2533828999994512
         }
       }
     },
@@ -379,7 +572,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5942798999999468
+          "seconds": 2.232315000000199
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.99,
+            "C": 0.01,
+            "D": 0.0
+          },
+          "confidence": 0.99,
+          "model": "jev-1.13.0",
+          "seconds": 1.982086299999537
         }
       }
     },
@@ -401,7 +606,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6459435000001577
+          "seconds": 2.1261569999996937
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.02,
+            "B": 0.01,
+            "C": 0.96,
+            "D": 0.01
+          },
+          "confidence": 0.95,
+          "model": "jev-1.13.0",
+          "seconds": 1.4071686000006594
         }
       }
     },
@@ -423,7 +640,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6608502000003682
+          "seconds": 2.0445434000002933
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.681428699999742
         }
       }
     },
@@ -445,7 +674,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5708975000002283
+          "seconds": 2.009757699999682
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 2.0500036000003092
         }
       }
     },
@@ -467,7 +708,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6045961000004354
+          "seconds": 2.180128400000285
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.561642199999369
         }
       }
     },
@@ -489,7 +742,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.9299126999999316
+          "seconds": 2.440744200000154
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 3.7653709999995044
         }
       }
     },
@@ -511,7 +776,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7107068000000254
+          "seconds": 1.7844992000000275
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.01,
+            "B": 0.01,
+            "C": 0.98,
+            "D": 0.0
+          },
+          "confidence": 0.98,
+          "model": "jev-1.13.0",
+          "seconds": 1.4343222999996215
         }
       }
     },
@@ -533,7 +810,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.891398400000071
+          "seconds": 1.9876291000000492
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.386484499999824
         }
       }
     },
@@ -555,7 +844,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7456653999997798
+          "seconds": 2.0303644999994503
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.5209985999999844
         }
       }
     },
@@ -577,7 +878,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5668789000001198
+          "seconds": 1.8952150000004622
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.38458509999964
         }
       }
     },
@@ -599,7 +912,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6988547000000835
+          "seconds": 2.0600578000003225
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.76,
+            "C": 0.24,
+            "D": 0.0
+          },
+          "confidence": 0.68,
+          "model": "jev-1.13.0",
+          "seconds": 1.4027814999999464
         }
       }
     },
@@ -621,7 +946,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.760931900000287
+          "seconds": 1.8383284999999887
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 4.753097300000263
         }
       }
     },
@@ -643,7 +980,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.988546800000222
+          "seconds": 1.9172277000006943
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3213190000005852
         }
       }
     },
@@ -665,7 +1014,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8497019000001274
+          "seconds": 1.772367999999915
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.8262599999998201
         }
       }
     },
@@ -687,7 +1048,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 2.093313699999726
+          "seconds": 1.9636476999994557
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.2608397000003606
         }
       }
     },
@@ -709,7 +1082,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8516137999999955
+          "seconds": 1.9138569999995525
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.2886427000003096
         }
       }
     },
@@ -731,7 +1116,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8433783000000403
+          "seconds": 1.8249634000003425
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4456970999999612
         }
       }
     },
@@ -753,7 +1150,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.904148300000088
+          "seconds": 1.955363099999886
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4799825000000055
         }
       }
     },
@@ -775,7 +1184,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.9449846000002253
+          "seconds": 1.953113300000041
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.6446907999998075
         }
       }
     },
@@ -797,7 +1218,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8716795000000275
+          "seconds": 1.9175443000003725
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4360750999994707
         }
       }
     },
@@ -819,7 +1252,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.857409799999914
+          "seconds": 1.945628399999805
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3208199000000604
         }
       }
     },
@@ -841,7 +1286,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.706990499999847
+          "seconds": 1.788061899999775
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.8478468000002977
         }
       }
     },
@@ -863,7 +1320,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.821902300000147
+          "seconds": 1.826478799999677
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.2863337999997384
         }
       }
     },
@@ -885,7 +1354,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.801016299999901
+          "seconds": 1.7960346999998364
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.2600572999999713
         }
       }
     },
@@ -907,7 +1388,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.9085813000001508
+          "seconds": 1.9619532000006075
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.888643299999785
         }
       }
     },
@@ -929,7 +1422,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7988774999998896
+          "seconds": 1.8903239999999641
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.300697499999842
         }
       }
     },
@@ -951,7 +1456,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8014830000001893
+          "seconds": 1.8480054000001473
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.5729741000004651
         }
       }
     },
@@ -973,7 +1490,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6255458000000544
+          "seconds": 2.3672940999995262
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4472382000003563
         }
       }
     },
@@ -995,7 +1524,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6449629999997342
+          "seconds": 2.380960600000435
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.570502900000065
         }
       }
     },
@@ -1017,7 +1558,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5659301999999116
+          "seconds": 2.158837400000266
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.332155999999486
         }
       }
     },
@@ -1039,7 +1592,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7071528999999828
+          "seconds": 2.2391969999998764
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.463147200000094
         }
       }
     },
@@ -1061,7 +1626,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5628959000000577
+          "seconds": 2.404555000000073
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3495662000004813
         }
       }
     },
@@ -1083,7 +1660,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.490808200000174
+          "seconds": 2.1319090000006327
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3714825000006385
         }
       }
     },
@@ -1105,7 +1694,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6185374000001502
+          "seconds": 2.1612337000005937
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3201452000002973
         }
       }
     },
@@ -1127,7 +1728,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.48133450000023
+          "seconds": 2.0006853999993837
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.429471000000376
         }
       }
     },
@@ -1149,7 +1762,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.48408900000004
+          "seconds": 1.96191859999999
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.5066643000000113
         }
       }
     },
@@ -1171,7 +1796,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5765778999998474
+          "seconds": 2.76992220000011
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.01,
+            "B": 0.99,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 0.99,
+          "model": "jev-1.13.0",
+          "seconds": 1.9226967000004151
         }
       }
     },
@@ -1193,7 +1830,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7219050999997307
+          "seconds": 2.0291833000001134
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.325937999999951
         }
       }
     },
@@ -1215,7 +1864,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6282946000001175
+          "seconds": 2.0217296999999235
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3097200000001976
         }
       }
     },
@@ -1237,7 +1898,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5303690000000643
+          "seconds": 1.4942160000000513
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.21194209999976
         }
       }
     },
@@ -1259,7 +1932,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5666827000000012
+          "seconds": 1.5523481999998694
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.2489721000001737
         }
       }
     },
@@ -1281,7 +1966,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5058242999998583
+          "seconds": 1.5365068000000974
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3459472999993523
         }
       }
     },
@@ -1303,7 +2000,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5918864000000212
+          "seconds": 1.526279799999429
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4652745000003051
         }
       }
     },
@@ -1325,7 +2034,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6496002999997472
+          "seconds": 1.5511866000006194
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.499649700000191
         }
       }
     },
@@ -1347,7 +2068,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7968831000002865
+          "seconds": 1.8322582999999213
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4146074999998746
         }
       }
     },
@@ -1369,7 +2102,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.5698514999999134
+          "seconds": 1.9542255999995177
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.5584562000003643
         }
       }
     },
@@ -1391,7 +2136,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.572059099999933
+          "seconds": 2.2211756999995487
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.6418198000001212
         }
       }
     },
@@ -1413,7 +2170,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6120316999999886
+          "seconds": 2.254015299999992
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.526670400000512
         }
       }
     },
@@ -1435,7 +2204,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.6162356999998337
+          "seconds": 2.234212700000171
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 2.182474799999909
         }
       }
     },
@@ -1457,7 +2238,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 2.1614369999997507
+          "seconds": 2.0267094000000725
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.336685999999645
         }
       }
     },
@@ -1479,7 +2272,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 2.1711834999996427
+          "seconds": 1.8656970999991245
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.01,
+            "B": 0.99,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 0.98,
+          "model": "jev-1.13.0",
+          "seconds": 1.5551066999996692
         }
       }
     },
@@ -1501,7 +2306,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.9133991000003334
+          "seconds": 2.239567000000534
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4884234000001015
         }
       }
     },
@@ -1523,7 +2340,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.9296337999999196
+          "seconds": 2.028761599999598
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.01,
+            "B": 0.02,
+            "C": 0.0,
+            "D": 0.97
+          },
+          "confidence": 0.96,
+          "model": "jev-1.13.0",
+          "seconds": 1.7105668000003789
         }
       }
     },
@@ -1545,7 +2374,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.876491999999871
+          "seconds": 2.2871273000000656
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.7685056000000259
         }
       }
     },
@@ -1567,7 +2408,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8298296000002665
+          "seconds": 2.3271217999999863
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4683562000000165
         }
       }
     },
@@ -1589,7 +2442,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7548891000001277
+          "seconds": 1.9790335999996387
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3517517999998745
         }
       }
     },
@@ -1611,7 +2476,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8895210999999108
+          "seconds": 2.027154899999914
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4027421000000686
         }
       }
     },
@@ -1633,7 +2510,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.819246099999873
+          "seconds": 2.0821587000000363
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.273070899999766
         }
       }
     },
@@ -1655,7 +2544,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8013848000000507
+          "seconds": 2.166746300000341
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3026466000001165
         }
       }
     },
@@ -1677,7 +2578,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8218943000001673
+          "seconds": 2.148305099999561
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.7453803999997035
         }
       }
     },
@@ -1699,7 +2612,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7643570999998701
+          "seconds": 1.9735375000000204
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3436751999997796
         }
       }
     },
@@ -1721,7 +2646,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8348666000001685
+          "seconds": 2.1240834999998697
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3254172999995717
         }
       }
     },
@@ -1743,7 +2680,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.879692999999861
+          "seconds": 2.131948199999897
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.7750560999993468
         }
       }
     },
@@ -1765,7 +2714,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8320833000002494
+          "seconds": 2.283531099999891
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3460716999998112
         }
       }
     },
@@ -1787,7 +2748,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8025397000001249
+          "seconds": 1.9426740000008067
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3548353999995015
         }
       }
     },
@@ -1809,7 +2782,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.9169260999997277
+          "seconds": 2.3231463000001895
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4470207000003938
         }
       }
     },
@@ -1831,7 +2816,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7996130999999878
+          "seconds": 2.1879556000003504
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4525274999996327
         }
       }
     },
@@ -1853,7 +2850,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8370381999998244
+          "seconds": 2.2294425000000047
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3278672999995251
         }
       }
     },
@@ -1875,7 +2884,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.7685953000000154
+          "seconds": 1.9951639999999315
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.7048908000006122
         }
       }
     },
@@ -1897,7 +2918,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8043822999998156
+          "seconds": 2.2003223000001526
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 2.264601599999878
         }
       }
     },
@@ -1919,7 +2952,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8412779999998747
+          "seconds": 2.057389499999772
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.9432216999994125
         }
       }
     },
@@ -1941,7 +2986,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.836456999999882
+          "seconds": 1.9420908000001873
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.5324866999999358
         }
       }
     },
@@ -1963,7 +3020,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8113330000001042
+          "seconds": 2.0140058999995745
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3679511000000275
         }
       }
     },
@@ -1985,7 +3054,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8693052000003263
+          "seconds": 1.830436300000656
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.325948800000333
         }
       }
     },
@@ -2007,7 +3088,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8186752999999953
+          "seconds": 2.2422875000002023
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3721745000002556
         }
       }
     },
@@ -2029,7 +3122,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8721595000001798
+          "seconds": 2.183028999999806
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3402016999998523
         }
       }
     },
@@ -2051,7 +3156,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8560883000000103
+          "seconds": 2.1579909000001862
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3100495999997293
         }
       }
     },
@@ -2073,7 +3190,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8105098000000908
+          "seconds": 2.036437300000216
+        },
+        "Jev-API": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 1.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3030970999998317
         }
       }
     },
@@ -2095,7 +3224,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8424856999999975
+          "seconds": 2.311050199999954
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3659088000003976
         }
       }
     },
@@ -2117,7 +3258,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.9193972999996731
+          "seconds": 2.298735999999735
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3203819999998814
         }
       }
     },
@@ -2139,7 +3292,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.8742133999999169
+          "seconds": 2.251226200000019
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3387682000002314
         }
       }
     },
@@ -2161,7 +3326,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.876637700000174
+          "seconds": 1.9094793000003847
+        },
+        "Jev-API": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0,
+            "B": 1.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 6.300464399999328
         }
       }
     },
@@ -2183,7 +3360,19 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 1.9117684000002555
+          "seconds": 2.197050200000376
+        },
+        "Jev-API": {
+          "selected": "A",
+          "probabilities": {
+            "A": 1.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 0.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.4405364000003829
         }
       }
     },
@@ -2205,12 +3394,24 @@
           },
           "confidence": null,
           "model": "Qwen3.5-0.8B-Jev",
-          "seconds": 2.082370500000252
+          "seconds": 2.197462600000108
+        },
+        "Jev-API": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "D": 1.0
+          },
+          "confidence": 1.0,
+          "model": "jev-1.13.0",
+          "seconds": 1.3555663999995886
         }
       }
     }
   ],
-  "executed_at": "2026-09-24T02:51:58.221561+00:00",
+  "executed_at": "2026-09-24T03:10:19.143877+00:00",
   "summary": {
     "reference_agreement": {
       "Qwen3.5-0.8B-Jev": {
@@ -2363,17 +3564,211 @@
         "actual_models": [
           "Qwen3.5-0.8B-Jev"
         ]
+      },
+      "Jev-API": {
+        "matches": 100,
+        "total": 100,
+        "rate": 1.0,
+        "groups": {
+          "subset": {
+            "girlfriend-hint": {
+              "matches": 50,
+              "total": 50,
+              "rate": 1.0
+            },
+            "marriage": {
+              "matches": 50,
+              "total": 50,
+              "rate": 1.0
+            }
+          },
+          "category": {
+            "事业与异地": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "信任与隐私": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "关系确认": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "冲突与修复": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "双方父母": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "外表与购物": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "婚房与产权": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "家务与分工": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "异性与醋意": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "彩礼与财务": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "情绪与身体": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "朋友与社交": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "消息与回复": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "生活照顾": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "生育与照护": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "约会与陪伴": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "节日与礼物": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "酒席与仪式": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "长期承诺": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "饮食与点餐": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            }
+          },
+          "phenomenon": {
+            "借题表达": {
+              "matches": 20,
+              "total": 20,
+              "rate": 1.0
+            },
+            "反话与讽刺": {
+              "matches": 20,
+              "total": 20,
+              "rate": 1.0
+            },
+            "回避与保留": {
+              "matches": 20,
+              "total": 20,
+              "rate": 1.0
+            },
+            "试探确认": {
+              "matches": 20,
+              "total": 20,
+              "rate": 1.0
+            },
+            "间接请求": {
+              "matches": 20,
+              "total": 20,
+              "rate": 1.0
+            }
+          }
+        },
+        "actual_models": [
+          "jev-1.13.0"
+        ]
       }
     },
-    "pairwise_agreement": [],
+    "pairwise_agreement": [
+      {
+        "models": [
+          "Qwen3.5-0.8B-Jev",
+          "Jev-API"
+        ],
+        "matches": 68,
+        "total": 100,
+        "rate": 0.68
+      }
+    ],
     "unanimous": {
-      "matches": 100,
+      "matches": 68,
       "total": 100,
-      "rate": 1.0,
+      "rate": 0.68,
       "all_correct": 68,
-      "all_wrong": 32
+      "all_wrong": 0
     },
-    "disagreement_ids": []
+    "disagreement_ids": [
+      "love-001",
+      "love-003",
+      "love-005",
+      "love-006",
+      "love-007",
+      "love-018",
+      "love-023",
+      "love-025",
+      "love-026",
+      "love-027",
+      "love-028",
+      "love-034",
+      "love-041",
+      "love-042",
+      "love-046",
+      "love-053",
+      "love-058",
+      "love-061",
+      "love-062",
+      "love-067",
+      "love-068",
+      "love-069",
+      "love-073",
+      "love-074",
+      "love-078",
+      "love-079",
+      "love-081",
+      "love-085",
+      "love-089",
+      "love-096",
+      "love-097",
+      "love-099"
+    ]
   },
   "contrast_pairs": {
     "by_model": {
@@ -2381,6 +3776,11 @@
         "matches": 3,
         "total": 10,
         "rate": 0.3
+      },
+      "Jev-API": {
+        "matches": 10,
+        "total": 10,
+        "rate": 1.0
       }
     },
     "pairs": [
@@ -2391,7 +3791,8 @@
         ],
         "shared_utterance": "那就先这么定吧。",
         "passed": {
-          "Qwen3.5-0.8B-Jev": false
+          "Qwen3.5-0.8B-Jev": false,
+          "Jev-API": true
         }
       },
       {
@@ -2401,7 +3802,8 @@
         ],
         "shared_utterance": "那支笔还在你手边吗？",
         "passed": {
-          "Qwen3.5-0.8B-Jev": false
+          "Qwen3.5-0.8B-Jev": false,
+          "Jev-API": true
         }
       },
       {
@@ -2411,7 +3813,8 @@
         ],
         "shared_utterance": "这回你倒是挺会算。",
         "passed": {
-          "Qwen3.5-0.8B-Jev": false
+          "Qwen3.5-0.8B-Jev": false,
+          "Jev-API": true
         }
       },
       {
@@ -2421,7 +3824,8 @@
         ],
         "shared_utterance": "给我留个位子？",
         "passed": {
-          "Qwen3.5-0.8B-Jev": true
+          "Qwen3.5-0.8B-Jev": true,
+          "Jev-API": true
         }
       },
       {
@@ -2431,7 +3835,8 @@
         ],
         "shared_utterance": "这个门铃装得值。",
         "passed": {
-          "Qwen3.5-0.8B-Jev": true
+          "Qwen3.5-0.8B-Jev": true,
+          "Jev-API": true
         }
       },
       {
@@ -2441,7 +3846,8 @@
         ],
         "shared_utterance": "别人倒是安排得挺明白。",
         "passed": {
-          "Qwen3.5-0.8B-Jev": false
+          "Qwen3.5-0.8B-Jev": false,
+          "Jev-API": true
         }
       },
       {
@@ -2451,7 +3857,8 @@
         ],
         "shared_utterance": "还是你了解我。",
         "passed": {
-          "Qwen3.5-0.8B-Jev": true
+          "Qwen3.5-0.8B-Jev": true,
+          "Jev-API": true
         }
       },
       {
@@ -2461,7 +3868,8 @@
         ],
         "shared_utterance": "你现在方便吗？",
         "passed": {
-          "Qwen3.5-0.8B-Jev": false
+          "Qwen3.5-0.8B-Jev": false,
+          "Jev-API": true
         }
       },
       {
@@ -2471,7 +3879,8 @@
         ],
         "shared_utterance": "她倒是挺会挑的。",
         "passed": {
-          "Qwen3.5-0.8B-Jev": false
+          "Qwen3.5-0.8B-Jev": false,
+          "Jev-API": true
         }
       },
       {
@@ -2481,7 +3890,8 @@
         ],
         "shared_utterance": "你觉得呢？",
         "passed": {
-          "Qwen3.5-0.8B-Jev": false
+          "Qwen3.5-0.8B-Jev": false,
+          "Jev-API": true
         }
       }
     ]

@@ -8,11 +8,13 @@
 
 | 模型 | 部署 | 参考一致率 | 婚恋议题 | 女友暗示 | 同末句对照（整对） |
 |---|---|---|---|---|---|
-| Qwen3.5-0.8B-Jev | 本地 ONNX · CPU | **68.0%** | 70.0% | 66.0% | 3 / 10 |
-| Jev-API | 官方托管 | — | — | — | — |
-| 内网模型 | 自托管 | — | — | — | — |
+| Jev-API（`jev-1.13.0`） | 官方托管 | **100.0%** | 100.0% | 100.0% | 10 / 10 |
+| Qwen3.5-0.8B-Jev | 本地 ONNX · CPU | 68.0% | 70.0% | 66.0% | 3 / 10 |
+| Qwen3-1.7B-Jev | 内网 · Jev-like | 未评测 | — | — | — |
 
-题集 v1.0.0；随机猜测约 25%。逐题结果见 [results/local.json](results/local.json)。官方与内网模型需自行配置密钥后评测，结果同样写入 `results/`。
+题集 v1.0.0，2026-09-24 同题运行；随机猜测约 25%。两模型有 68 题选择相同且全部正确；本地模型最弱的是间接请求（11/20）与反话与讽刺（12/20）。Jev 平均 confidence 0.995，约 1.6 秒/题。逐题结果见 [results/local-jev.json](results/local-jev.json)，也可在 [benchmark.ipynb](benchmark.ipynb) 第 2 节直接查看排行榜与报表。
+
+> 官方 Jev 在本题集上已达满分，本题集对它不再有区分度；目前更适合衡量本地 / 内网 Jev-like 模型与官方 Jev 的差距。
 
 ## 题集
 
@@ -53,14 +55,16 @@
 | 协议 | Choice：`criteria` 传入 A–D，返回 `choice`、`probabilities`、`confidence`；结果记录实际版本号 |
 | 须知 | 需要 `JEV_API_KEY`；全量评测 100 次请求，可能计费；超时 60 秒，不自动重试 |
 
-### 内网模型 · 自托管服务
+### 内网模型 · Jev-like 自托管服务
 
 | | |
 |---|---|
-| 服务 | 任何兼容 System One Choice 协议的自托管服务（作者环境为 `football-decision-v2`） |
-| 调用 | [typesafe-sdk](https://pypi.org/project/typesafe-sdk/) 0.6.0 的 `system_one` + `Choice`，请求结构与官方 API 相同 |
+| 参考模型 | [xuhaodev/Qwen3-1.7B-Jev](https://huggingface.co/xuhaodev/Qwen3-1.7B-Jev)（即 `football-decision-v2` 更名，权重不变），Apache-2.0 |
+| 原理 | Qwen3-1.7B + LoRA + 标量决策头，逐候选打分后归一化，不做自回归生成；接口遵循 Jev 的 Choice / Score / Noul 约定 |
+| 领域 | 中文足球决策数据训练；独立项目，与 TypeSafe 无关，**不是**官方 Jev，也未在伴侣对话语境训练 |
+| 调用 | 部署为兼容 System One 的服务后，经 [typesafe-sdk](https://pypi.org/project/typesafe-sdk/) 0.6.0 的 `system_one` + `Choice` 调用，请求结构与官方 API 相同 |
 | 传输 | HTTPS 不限主机；明文 HTTP 仅允许私有网段或本机 IP，且地址不得内嵌凭据 |
-| 须知 | 报表中的模型名取自 `INTRANET_MODEL`，并记录服务实际返回的版本；服务名称不代表其经过恋爱语境专门训练 |
+| 状态 | **尚未在本题集上评测**；报表中的模型名取自 `INTRANET_MODEL`，并记录服务实际返回的版本 |
 
 ## 快速开始
 
@@ -79,7 +83,11 @@ macOS / Linux 将 `.\.venv\Scripts\python.exe` 换成 `.venv/bin/python`。
 .\.venv\Scripts\python.exe -m jev_benchmark --models local jev intranet   # → results/local-jev-intranet.json
 ```
 
-也可打开 [benchmark.ipynb](benchmark.ipynb)，选择 `.venv` 解释器：演示 noul / choice / score 三种决策原语，运行评测，并渲染 HTML 报表（总榜、子集、语义类型、主题、对照题、模型间一致率、分歧题与逐题详情）。
+也可以在 [benchmark.ipynb](benchmark.ipynb) 中完成全部流程（VS Code 选择 `.venv` 解释器）：
+
+1. **运行评测**：修改 `MODELS`（如 `["local", "jev"]`）后运行，结束即显示报表。
+2. **查看结果**：不调用模型，汇总 `results/` 中与当前题集一致的结果为排行榜，并展开总榜、子集、语义类型、主题、对照题、模型间一致率、分歧题与逐题详情。克隆后可直接查看仓库自带的结果。
+3. **附录**：本地模型的 noul / choice / score 三种决策原语演示。
 
 ## 配置
 

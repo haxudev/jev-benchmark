@@ -12,7 +12,8 @@ from unittest.mock import patch
 from jev_benchmark import DATA_PATH, ROOT, Decision, ModelError
 from jev_benchmark.__main__ import main
 from jev_benchmark.evaluate import (
-    load_contestant, render_report, result_path, run_benchmark, summarize, summarize_contrast_pairs,
+    load_contestant, load_results, render_leaderboard, render_report, result_path, run_benchmark,
+    summarize, summarize_contrast_pairs,
 )
 
 
@@ -77,6 +78,23 @@ class EvaluateTests(unittest.TestCase):
         self.assertIn("单模型评测", html)
         self.assertIn("与参考不一致的题", html)
         self.assertNotIn("模型之间的一致率", html)
+
+    def test_load_results_and_leaderboard_keep_latest_per_model(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            old = self._run([FakeModel("Local", "A")], root / "a.json")
+            self._run([FakeModel("Local", "C"), FakeModel("Official", "B")], root / "b.json")
+            (root / "stale.json").write_text(json.dumps({**old, "dataset_sha256": "0" * 64}), encoding="utf-8")
+            (root / "x.partial.json").write_text("{}", encoding="utf-8")
+            saved = load_results(DATA_PATH, root)
+        self.assertEqual(list(saved), ["a.json", "b.json"])
+        html = render_leaderboard(saved, self.dataset)
+        self.assertEqual(html.count("<tr>"), 3)
+        self.assertNotIn("a.json", html)
+        self.assertLess(html.index("Official"), html.index("Local"))
+        self.assertIn("24.0%", html)
+        self.assertIn("女友暗示", html)
+        self.assertIn("没有", render_leaderboard({}, self.dataset))
 
     def test_failure_keeps_partial_and_previous_result(self):
         with TemporaryDirectory() as directory:
