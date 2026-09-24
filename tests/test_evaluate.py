@@ -4,6 +4,7 @@ import copy
 from contextlib import redirect_stdout
 import io
 import json
+from hashlib import sha256
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
@@ -95,6 +96,27 @@ class EvaluateTests(unittest.TestCase):
         self.assertIn("24.0%", html)
         self.assertIn("女友暗示", html)
         self.assertIn("没有", render_leaderboard({}, self.dataset))
+
+    def test_load_results_accepts_line_endings_but_rejects_changed_content(self):
+        lf = DATA_PATH.read_bytes().replace(b"\r\n", b"\n")
+        crlf = lf.replace(b"\n", b"\r\n")
+        changed = copy.deepcopy(self.dataset)
+        changed["cases"][0]["state"] += "新增上下文。"
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            results = root / "results"
+            results.mkdir()
+            for name, raw in (("lf", lf), ("crlf", crlf), ("changed", json.dumps(changed, ensure_ascii=False).encode())):
+                (results / f"{name}.json").write_text(json.dumps({
+                    "status": "complete", "dataset_sha256": sha256(raw).hexdigest(),
+                }), encoding="utf-8")
+            for raw in (lf, crlf):
+                with self.subTest(line_ending="CRLF" if b"\r\n" in raw else "LF"):
+                    dataset_path = root / "dataset.json"
+                    dataset_path.write_bytes(raw)
+                    saved = load_results(dataset_path, results)
+                    self.assertEqual(set(saved), {"lf.json", "crlf.json"})
+                    self.assertEqual(saved["crlf.json"]["dataset_sha256"], sha256(crlf).hexdigest())
 
     def test_failure_keeps_partial_and_previous_result(self):
         with TemporaryDirectory() as directory:

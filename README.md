@@ -9,10 +9,12 @@
 | 模型                      | 部署             | 参考一致率       | 婚恋议题 | 女友暗示 | 同末句对照（整对） |
 | ------------------------- | ---------------- | ---------------- | -------- | -------- | ------------------ |
 | Jev-API（`jev-1.13.0`） | 官方托管         | **100.0%** | 100.0%   | 100.0%   | 10 / 10            |
+| Qwen3-1.7B-Jev（v2）      | 内网 · Jev-like · GB10 | 78.0%       | 80.0%    | 76.0%    | 4 / 10             |
 | Qwen3.5-0.8B-Jev          | 本地 ONNX · CPU | 68.0%            | 70.0%    | 66.0%    | 3 / 10             |
-| Qwen3-1.7B-Jev            | 内网 · Jev-like | 未评测           | —       | —       | —                 |
 
-题集 v1.0.0，2026-09-24 同题运行；随机猜测约 25%。两模型有 68 题选择相同且全部正确；本地模型最弱的是间接请求（11/20）与反话与讽刺（12/20）。Jev 平均 confidence 0.995，约 1.6 秒/题。逐题结果见 [results/local-jev.json](results/local-jev.json)，也可在 [benchmark.ipynb](benchmark.ipynb) 第 2 节直接查看排行榜与报表。
+题集 v1.0.0，2026-09-24 同题评测；随机猜测约 25%。v2 指 `football-decision-v2` 模型（发布名 `Qwen3-1.7B-Jev`），本次新增 100 次真实请求；官方 Jev 与 0.8B 使用同日已保存的结果。v2 比 0.8B 高 **10 个百分点**，平均约 **186 ms/题**（已加载模型、本机 HTTP、顺序调用）。其回避与保留为 20/20，最弱的借题表达为 13/20；与 0.8B 选择一致 62/100，其中共同答对 56 题。
+
+详见 **[v2 测试报告](results/v2-report.md)**，包含模型溯源、分项成绩、全部 22 道不一致题和复现方法。逐题原始结果：[v2](results/intranet.json) · [0.8B / 官方 Jev](results/local-jev.json)。在 [benchmark.ipynb](benchmark.ipynb) 第 2 节重新运行查看结果单元格即可刷新三模型排行榜，设置 `REPORT = "intranet.json"` 查看 v2 报表。
 
 > 官方 Jev 在本题集上已达满分，本题集对它不再有区分度；目前更适合衡量本地 / 内网 Jev-like 模型与官方 Jev 的差距。
 
@@ -60,11 +62,12 @@
 |          |                                                                                                                                                            |
 | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 参考模型 | [xuhaodev/Qwen3-1.7B-Jev](https://huggingface.co/xuhaodev/Qwen3-1.7B-Jev)，Apache-2.0                                                                       |
+| 本次版本 | `football-decision-v2` epoch-2，发布后更名为 `Qwen3-1.7B-Jev`；adapter、决策头和校准文件哈希已与原 v2 release 核对一致，见 [v2 报告](results/v2-report.md) |
 | 原理     | Qwen3-1.7B + LoRA + 标量决策头，逐候选打分后归一化，不做自回归生成；接口遵循 Jev 的 Choice / Score / Noul 约定                                             |
 | 领域     | 中文足球决策数据训练；独立项目，与 TypeSafe 无关，**不是**官方 Jev，也未在伴侣对话语境训练                                                           |
 | 调用     | 部署为兼容 System One 的服务后，经[typesafe-sdk](https://pypi.org/project/typesafe-sdk/) 0.6.0 的 `system_one` + `Choice` 调用，请求结构与官方 API 相同 |
 | 传输     | HTTPS 不限主机；明文 HTTP 仅允许私有网段或本机 IP，且地址不得内嵌凭据                                                                                      |
-| 状态     | **尚未在本题集上评测**；报表中的模型名取自 `INTRANET_MODEL`，并记录服务实际返回的版本                                                              |
+| 状态     | **已完成 100 题：78.0%，对照整对 4/10**；请求与实际响应模型名均为 `Qwen3-1.7B-Jev`，详见 [原始结果](results/intranet.json) |
 
 ## 快速开始
 
@@ -82,6 +85,14 @@ macOS / Linux 将 `.\.venv\Scripts\python.exe` 换成 `.venv/bin/python`。
 ```powershell
 .\.venv\Scripts\python.exe -m jev_benchmark --models local jev intranet   # → results/local-jev-intranet.json
 ```
+
+仅运行 v2：在 `.env` 中填写 `INTRANET_BASE_URL`、`INTRANET_API_KEY`，并设置 `INTRANET_MODEL=Qwen3-1.7B-Jev`，然后运行：
+
+```bash
+.venv/bin/python -m jev_benchmark --models intranet   # 100 次请求 → results/intranet.json
+```
+
+服务需要预先部署 v2 权重；再次运行会在成功后替换同名结果。只测内网服务不需要下载本地 ONNX 权重。
 
 也可以在 [benchmark.ipynb](benchmark.ipynb) 中完成全部流程（VS Code 选择 `.venv` 解释器）：
 
@@ -107,7 +118,7 @@ macOS / Linux 将 `.\.venv\Scripts\python.exe` 换成 `.venv/bin/python`。
 - **同末句对照整对通过率**：一对中两题都与各自参考一致才算通过，分母为 10 对。
 - **模型间一致率**：两个模型选择相同的比例；可能一起答错，不等于正确率。
 
-结果 JSON 记录题集版本与 SHA-256、UTC 时间，以及每题各模型的选择、概率、confidence、实际版本和耗时。运行中每次调用后写入 `*.partial.json`；失败即报错并保留已完成部分，不补假结果；全部成功后原子替换为正式结果。题集变动后，旧结果因哈希不符而拒绝渲染。
+结果 JSON 记录题集版本与 SHA-256、UTC 时间，以及每题各模型的选择、概率、confidence、实际版本和耗时。运行中每次调用后写入 `*.partial.json`；失败即报错并保留已完成部分，不补假结果；全部成功后原子替换为正式结果。加载器保留原始字节哈希，兼容 Git 在 Windows / Linux 间的 CRLF / LF 换行转换；题集内容变动后，旧结果因哈希不符而不会被加载到报表。
 
 ## 目录结构
 

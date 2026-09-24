@@ -180,14 +180,17 @@ def run_benchmark(
 
 
 def load_results(dataset_path: Path = DATA_PATH, results_dir: Path = RESULTS_DIR) -> dict[str, dict]:
-    """按文件名返回与当前题集哈希一致的完整结果；跳过未完成或基于旧题集的文件。"""
-    digest = sha256(dataset_path.read_bytes()).hexdigest()
+    """返回当前题集的完整结果，兼容 Git 的 LF/CRLF 转换；跳过未完成或旧题集结果。"""
+    raw = dataset_path.read_bytes()
+    lf = raw.replace(b"\r\n", b"\n")
+    # 保留结果中的原始字节哈希，只接受当前文件的 LF/CRLF 等价形式。
+    digests = {sha256(data).hexdigest() for data in (raw, lf, lf.replace(b"\n", b"\r\n"))}
     reports = {}
     for path in sorted(results_dir.glob("*.json")):
         if path.name.endswith(".partial.json"):
             continue
         report = json.loads(path.read_text(encoding="utf-8"))
-        if report.get("status") == "complete" and report.get("dataset_sha256") == digest:
+        if report.get("status") == "complete" and report.get("dataset_sha256") in digests:
             reports[path.name] = report
     return reports
 
