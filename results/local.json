@@ -1,0 +1,2489 @@
+{
+  "benchmark": "jev-benchmark：言下之意 100 题",
+  "version": "1.0.0",
+  "dataset_sha256": "99553482cfdebca1e6610fcbd388e7d8443fa8f313c896984a3ef849a7b83ca4",
+  "question": "结合完整对话，最后发言者这句话最可能是在间接表达什么？区分话面内容与沟通意图，只使用上下文证据，不按性别推断，也不要把明确拒绝反解为同意。",
+  "models": [
+    "Qwen3.5-0.8B-Jev"
+  ],
+  "status": "complete",
+  "started_at": "2026-09-24T02:49:03.139230+00:00",
+  "results": [
+    {
+      "id": "love-001",
+      "title": "被转发过来的决定",
+      "category": "彩礼与财务",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.5378578901290894,
+            "B": 0.08248317986726761,
+            "C": 0.05848933383822441,
+            "D": 0.3211696147918701
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7442817999999534
+        }
+      }
+    },
+    {
+      "id": "love-002",
+      "title": "三杯咖啡的收据",
+      "category": "彩礼与财务",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9456593990325928,
+            "B": 0.03444564342498779,
+            "C": 0.01435907930135727,
+            "D": 0.005535918287932873
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7254070999997566
+        }
+      }
+    },
+    {
+      "id": "love-003",
+      "title": "折回来的预算纸",
+      "category": "彩礼与财务",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.3235032558441162,
+            "B": 0.3184877932071686,
+            "C": 0.19017773866653442,
+            "D": 0.16783127188682556
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5652122999999847
+        }
+      }
+    },
+    {
+      "id": "love-004",
+      "title": "顺着长辈说的那一句",
+      "category": "彩礼与财务",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.025922538712620735,
+            "B": 0.007086827419698238,
+            "C": 0.9138009548187256,
+            "D": 0.05318959802389145
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5932153999997354
+        }
+      }
+    },
+    {
+      "id": "love-005",
+      "title": "没有画勾的转账格",
+      "category": "彩礼与财务",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.13534070551395416,
+            "B": 0.36789414286613464,
+            "C": 0.4437650442123413,
+            "D": 0.053000181913375854
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5457649999998466
+        }
+      }
+    },
+    {
+      "id": "love-006",
+      "title": "自己做就免费了",
+      "category": "酒席与仪式",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.3090980052947998,
+            "B": 0.22614090144634247,
+            "C": 0.17889218032360077,
+            "D": 0.28586891293525696
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5597760000000562
+        }
+      }
+    },
+    {
+      "id": "love-007",
+      "title": "婚礼上的那把椅子",
+      "category": "酒席与仪式",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.46661049127578735,
+            "B": 0.5205416083335876,
+            "C": 0.012630566023290157,
+            "D": 0.00021732090681325644
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7997878000001037
+        }
+      }
+    },
+    {
+      "id": "love-008",
+      "title": "还有一通电话没拨",
+      "category": "酒席与仪式",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.15480783581733704,
+            "B": 0.11325983703136444,
+            "C": 0.414287269115448,
+            "D": 0.3176450729370117
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7057546999999431
+        }
+      }
+    },
+    {
+      "id": "love-009",
+      "title": "那页没有署名的誓词",
+      "category": "酒席与仪式",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.13478592038154602,
+            "B": 0.42834874987602234,
+            "C": 0.35511356592178345,
+            "D": 0.08175178617238998
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5459996999998111
+        }
+      }
+    },
+    {
+      "id": "love-010",
+      "title": "暂时没寄出的请柬",
+      "category": "酒席与仪式",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.8153275847434998,
+            "B": 0.1656438559293747,
+            "C": 0.01829659380018711,
+            "D": 0.0007319559226743877
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5695757999997113
+        }
+      }
+    },
+    {
+      "id": "love-011",
+      "title": "独自在家的漂亮样板间",
+      "category": "婚房与产权",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.03702446445822716,
+            "B": 0.0014811650617048144,
+            "C": 0.8831136226654053,
+            "D": 0.07838078588247299
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.61157779999985
+        }
+      }
+    },
+    {
+      "id": "love-012",
+      "title": "租来的小书桌",
+      "category": "婚房与产权",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.10178761929273605,
+            "B": 0.7404539585113525,
+            "C": 0.12471279501914978,
+            "D": 0.03304560109972954
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.612082499999815
+        }
+      }
+    },
+    {
+      "id": "love-013",
+      "title": "签字前递来的眼镜",
+      "category": "婚房与产权",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.06006437540054321,
+            "B": 0.030202260240912437,
+            "C": 0.013194390572607517,
+            "D": 0.896539032459259
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6105421000002025
+        }
+      }
+    },
+    {
+      "id": "love-014",
+      "title": "效果图中的第三把尺",
+      "category": "婚房与产权",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.5974774956703186,
+            "B": 0.23397554457187653,
+            "C": 0.04904394596815109,
+            "D": 0.11950302124023438
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6142331999999442
+        }
+      }
+    },
+    {
+      "id": "love-015",
+      "title": "可以擦掉的房号",
+      "category": "婚房与产权",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0683942586183548,
+            "B": 0.01433621533215046,
+            "C": 0.9151050448417664,
+            "D": 0.0021644446533173323
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5702566999998453
+        }
+      }
+    },
+    {
+      "id": "love-016",
+      "title": "自动出现的周末主人",
+      "category": "双方父母",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.09405738860368729,
+            "B": 0.011410457082092762,
+            "C": 0.029596474021673203,
+            "D": 0.8649356961250305
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5007912999999462
+        }
+      }
+    },
+    {
+      "id": "love-017",
+      "title": "门外的一袋橘子",
+      "category": "双方父母",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.03026564046740532,
+            "B": 0.8707788586616516,
+            "C": 0.09618400782346725,
+            "D": 0.002771498169749975
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5942798999999468
+        }
+      }
+    },
+    {
+      "id": "love-018",
+      "title": "被夹进年假的车票",
+      "category": "双方父母",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.08672605454921722,
+            "B": 0.5834766030311584,
+            "C": 0.17519144713878632,
+            "D": 0.154605895280838
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6459435000001577
+        }
+      }
+    },
+    {
+      "id": "love-019",
+      "title": "饭后留下的那句话",
+      "category": "双方父母",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.5704682469367981,
+            "B": 0.41736340522766113,
+            "C": 0.012026138603687286,
+            "D": 0.00014221468882169574
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6608502000003682
+        }
+      }
+    },
+    {
+      "id": "love-020",
+      "title": "还没有贴上的客房名字",
+      "category": "双方父母",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.22838464379310608,
+            "B": 0.5652574300765991,
+            "C": 0.04939164221286774,
+            "D": 0.15696632862091064
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5708975000002283
+        }
+      }
+    },
+    {
+      "id": "love-021",
+      "title": "漏记的夜班",
+      "category": "生育与照护",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.04264921694993973,
+            "B": 0.22000141441822052,
+            "C": 0.11062365025281906,
+            "D": 0.6267256736755371
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6045961000004354
+        }
+      }
+    },
+    {
+      "id": "love-022",
+      "title": "隔壁的晚饭",
+      "category": "生育与照护",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.7367812395095825,
+            "B": 0.21109133958816528,
+            "C": 0.0390479750931263,
+            "D": 0.013079432770609856
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.9299126999999316
+        }
+      }
+    },
+    {
+      "id": "love-023",
+      "title": "挂在门后的外套",
+      "category": "生育与照护",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.5657814741134644,
+            "B": 0.0998663678765297,
+            "C": 0.32744917273521423,
+            "D": 0.006903012748807669
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7107068000000254
+        }
+      }
+    },
+    {
+      "id": "love-024",
+      "title": "被删掉的第二个名字",
+      "category": "生育与照护",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.04251457750797272,
+            "B": 0.615061342716217,
+            "C": 0.0900033637881279,
+            "D": 0.25242066383361816
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.891398400000071
+        }
+      }
+    },
+    {
+      "id": "love-025",
+      "title": "停在借阅清单上的书",
+      "category": "生育与照护",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.3671841323375702,
+            "B": 0.12299127876758575,
+            "C": 0.05994115769863129,
+            "D": 0.4498834013938904
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7456653999997798
+        }
+      }
+    },
+    {
+      "id": "love-026",
+      "title": "两个人的直达路线",
+      "category": "事业与异地",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.4596978724002838,
+            "B": 0.022532176226377487,
+            "C": 0.06519902497529984,
+            "D": 0.4525708854198456
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5668789000001198
+        }
+      }
+    },
+    {
+      "id": "love-027",
+      "title": "路线表里的一门课程",
+      "category": "事业与异地",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.024941664189100266,
+            "B": 0.1678028255701065,
+            "C": 0.8005425333976746,
+            "D": 0.006712957285344601
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6988547000000835
+        }
+      }
+    },
+    {
+      "id": "love-028",
+      "title": "没有人听的彩排",
+      "category": "事业与异地",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.15740106999874115,
+            "B": 0.18116749823093414,
+            "C": 0.3229660093784332,
+            "D": 0.33846545219421387
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.760931900000287
+        }
+      }
+    },
+    {
+      "id": "love-029",
+      "title": "恭喜后面的空白",
+      "category": "事业与异地",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.23056869208812714,
+            "B": 0.03823203966021538,
+            "C": 0.0640266165137291,
+            "D": 0.6671726703643799
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.988546800000222
+        }
+      }
+    },
+    {
+      "id": "love-030",
+      "title": "没被关掉的招聘页面",
+      "category": "事业与异地",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.46228912472724915,
+            "B": 0.18103502690792084,
+            "C": 0.3079509735107422,
+            "D": 0.04872491583228111
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8497019000001274
+        }
+      }
+    },
+    {
+      "id": "love-031",
+      "title": "一声招呼后的全套工作",
+      "category": "家务与分工",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.06974219530820847,
+            "B": 0.25912368297576904,
+            "C": 0.6616955399513245,
+            "D": 0.00943857990205288
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 2.093313699999726
+        }
+      }
+    },
+    {
+      "id": "love-032",
+      "title": "办公室里的隐形经理",
+      "category": "家务与分工",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.18209972977638245,
+            "B": 0.019495420157909393,
+            "C": 0.007399627007544041,
+            "D": 0.7910051941871643
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8516137999999955
+        }
+      }
+    },
+    {
+      "id": "love-033",
+      "title": "还在门口的快递箱",
+      "category": "家务与分工",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.8186075687408447,
+            "B": 0.0947607010602951,
+            "C": 0.07042017579078674,
+            "D": 0.01621164381504059
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8433783000000403
+        }
+      }
+    },
+    {
+      "id": "love-034",
+      "title": "周日的空白格还在",
+      "category": "家务与分工",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0768200233578682,
+            "B": 0.37812137603759766,
+            "C": 0.46328404545783997,
+            "D": 0.08177448809146881
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.904148300000088
+        }
+      }
+    },
+    {
+      "id": "love-035",
+      "title": "试用装没有年付按钮",
+      "category": "家务与分工",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0877680629491806,
+            "B": 0.016491131857037544,
+            "C": 0.0365871787071228,
+            "D": 0.859153687953949
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.9449846000002253
+        }
+      }
+    },
+    {
+      "id": "love-036",
+      "title": "被提前配好的字幕",
+      "category": "信任与隐私",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.05045391991734505,
+            "B": 0.019451720640063286,
+            "C": 0.8943171501159668,
+            "D": 0.03577718883752823
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8716795000000275
+        }
+      }
+    },
+    {
+      "id": "love-037",
+      "title": "门铃里的回放清单",
+      "category": "信任与隐私",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.6959741115570068,
+            "B": 0.1287422627210617,
+            "C": 0.1328289806842804,
+            "D": 0.04245469346642494
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.857409799999914
+        }
+      }
+    },
+    {
+      "id": "love-038",
+      "title": "借手机时划到的相册",
+      "category": "信任与隐私",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.05178367346525192,
+            "B": 0.035590365529060364,
+            "C": 0.02297886461019516,
+            "D": 0.8896471261978149
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.706990499999847
+        }
+      }
+    },
+    {
+      "id": "love-039",
+      "title": "旅行合照上的小锁",
+      "category": "信任与隐私",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.3385479748249054,
+            "B": 0.6035270094871521,
+            "C": 0.04801630973815918,
+            "D": 0.009908726438879967
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.821902300000147
+        }
+      }
+    },
+    {
+      "id": "love-040",
+      "title": "咨询室之外的录音",
+      "category": "信任与隐私",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0540410615503788,
+            "B": 0.0540410615503788,
+            "C": 0.6380994319915771,
+            "D": 0.25381842255592346
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.801016299999901
+        }
+      }
+    },
+    {
+      "id": "love-041",
+      "title": "只在争吵时打开的奖状",
+      "category": "冲突与修复",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.6305798888206482,
+            "B": 0.22135436534881592,
+            "C": 0.12811008095741272,
+            "D": 0.019955700263381004
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.9085813000001508
+        }
+      }
+    },
+    {
+      "id": "love-042",
+      "title": "导航终于重算了",
+      "category": "冲突与修复",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.10288938879966736,
+            "B": 0.002828946802765131,
+            "C": 0.005452937446534634,
+            "D": 0.888828694820404
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7988774999998896
+        }
+      }
+    },
+    {
+      "id": "love-043",
+      "title": "第二杯茶放在桌边",
+      "category": "冲突与修复",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.08308670669794083,
+            "B": 0.009617985226213932,
+            "C": 0.23302245140075684,
+            "D": 0.6742728352546692
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8014830000001893
+        }
+      }
+    },
+    {
+      "id": "love-044",
+      "title": "道歉后还开着的比赛",
+      "category": "冲突与修复",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.06020054593682289,
+            "B": 0.006054528057575226,
+            "C": 0.927095353603363,
+            "D": 0.006649598013609648
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6255458000000544
+        }
+      }
+    },
+    {
+      "id": "love-045",
+      "title": "翻到下一页之前",
+      "category": "冲突与修复",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.029067737981677055,
+            "B": 0.8628612756729126,
+            "C": 0.10632536560297012,
+            "D": 0.0017456533387303352
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6449629999997342
+        }
+      }
+    },
+    {
+      "id": "love-046",
+      "title": "永远在加载的明年",
+      "category": "长期承诺",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.18159040808677673,
+            "B": 0.17327477037906647,
+            "C": 0.05895376577973366,
+            "D": 0.5861810445785522
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5659301999999116
+        }
+      }
+    },
+    {
+      "id": "love-047",
+      "title": "植物的两份浇水记录",
+      "category": "长期承诺",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.012423340231180191,
+            "B": 0.009232242591679096,
+            "C": 0.898590087890625,
+            "D": 0.07975439727306366
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7071528999999828
+        }
+      }
+    },
+    {
+      "id": "love-048",
+      "title": "五年地图的边上",
+      "category": "长期承诺",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.1819959580898285,
+            "B": 0.5433395504951477,
+            "C": 0.04460003226995468,
+            "D": 0.23006445169448853
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5628959000000577
+        }
+      }
+    },
+    {
+      "id": "love-049",
+      "title": "备用钥匙的另一面",
+      "category": "长期承诺",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.5987247824668884,
+            "B": 0.06930742412805557,
+            "C": 0.01646195724606514,
+            "D": 0.3155058026313782
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.490808200000174
+        }
+      }
+    },
+    {
+      "id": "love-050",
+      "title": "重见面时没有收回的箱子",
+      "category": "长期承诺",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.4559025168418884,
+            "B": 0.028248179703950882,
+            "C": 0.03054356575012207,
+            "D": 0.48530569672584534
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6185374000001502
+        }
+      }
+    },
+    {
+      "id": "love-051",
+      "title": "约会中途的三件顺路事",
+      "category": "约会与陪伴",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.05574358254671097,
+            "B": 0.004101641476154327,
+            "C": 0.026331404224038124,
+            "D": 0.9138233661651611
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.48133450000023
+        }
+      }
+    },
+    {
+      "id": "love-052",
+      "title": "同事发来的周末截图",
+      "category": "约会与陪伴",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.6849026679992676,
+            "B": 0.26405349373817444,
+            "C": 0.04961418733000755,
+            "D": 0.001429610070772469
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.48408900000004
+        }
+      }
+    },
+    {
+      "id": "love-053",
+      "title": "地铁口没讲完的趣事",
+      "category": "约会与陪伴",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.7112707495689392,
+            "B": 0.048402585089206696,
+            "C": 0.11079461872577667,
+            "D": 0.12953202426433563
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5765778999998474
+        }
+      }
+    },
+    {
+      "id": "love-054",
+      "title": "只剩一个人的预约",
+      "category": "约会与陪伴",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0846056193113327,
+            "B": 0.09891398251056671,
+            "C": 0.7902707457542419,
+            "D": 0.026209594681859016
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7219050999997307
+        }
+      }
+    },
+    {
+      "id": "love-055",
+      "title": "九点以后的那部电影",
+      "category": "约会与陪伴",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.1368291825056076,
+            "B": 0.5245199203491211,
+            "C": 0.04442193731665611,
+            "D": 0.29422900080680847
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6282946000001175
+        }
+      }
+    },
+    {
+      "id": "love-056",
+      "title": "拆出来的同款礼盒",
+      "category": "节日与礼物",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.1826651692390442,
+            "B": 0.16120146214962006,
+            "C": 0.028453748673200607,
+            "D": 0.6276796460151672
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5303690000000643
+        }
+      }
+    },
+    {
+      "id": "love-057",
+      "title": "朋友卡片背面的日期",
+      "category": "节日与礼物",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.8571562767028809,
+            "B": 0.1294112354516983,
+            "C": 0.006244776304811239,
+            "D": 0.007187692914158106
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5666827000000012
+        }
+      }
+    },
+    {
+      "id": "love-058",
+      "title": "写完才算寄出的明信片",
+      "category": "节日与礼物",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.37235015630722046,
+            "B": 0.2441931962966919,
+            "C": 0.3665773868560791,
+            "D": 0.016879243776202202
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5058242999998583
+        }
+      }
+    },
+    {
+      "id": "love-059",
+      "title": "被问到才出现的惊喜",
+      "category": "节日与礼物",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.041413985192775726,
+            "B": 0.5898501873016357,
+            "C": 0.3577622175216675,
+            "D": 0.010973612777888775
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5918864000000212
+        }
+      }
+    },
+    {
+      "id": "love-060",
+      "title": "暂时合上的手链扣",
+      "category": "节日与礼物",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.8388438820838928,
+            "B": 0.11352516710758209,
+            "C": 0.04308929666876793,
+            "D": 0.0045415787026286125
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6496002999997472
+        }
+      }
+    },
+    {
+      "id": "love-061",
+      "title": "群里的第二十个表情",
+      "category": "消息与回复",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.5271555781364441,
+            "B": 0.17383745312690735,
+            "C": 0.2866095006465912,
+            "D": 0.01239750999957323
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7968831000002865
+        }
+      }
+    },
+    {
+      "id": "love-062",
+      "title": "收藏夹里的天气预报",
+      "category": "消息与回复",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.5538058280944824,
+            "B": 0.35202038288116455,
+            "C": 0.08762480318546295,
+            "D": 0.00654901098459959
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.5698514999999134
+        }
+      }
+    },
+    {
+      "id": "love-063",
+      "title": "刷过去的一段话",
+      "category": "消息与回复",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.8202243447303772,
+            "B": 0.15654253959655762,
+            "C": 0.022552091628313065,
+            "D": 0.0006810142076574266
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.572059099999933
+        }
+      }
+    },
+    {
+      "id": "love-064",
+      "title": "被误读的两个嗯字",
+      "category": "消息与回复",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.826591432094574,
+            "B": 0.1577577292919159,
+            "C": 0.014446260407567024,
+            "D": 0.001204495201818645
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6120316999999886
+        }
+      }
+    },
+    {
+      "id": "love-065",
+      "title": "还在输入框里的答复",
+      "category": "消息与回复",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.04144801199436188,
+            "B": 0.18868236243724823,
+            "C": 0.746253252029419,
+            "D": 0.0236163679510355
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.6162356999998337
+        }
+      }
+    },
+    {
+      "id": "love-066",
+      "title": "菜单上消失的清汤",
+      "category": "饮食与点餐",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.19668588042259216,
+            "B": 0.15804153680801392,
+            "C": 0.1508042961359024,
+            "D": 0.49446824193000793
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 2.1614369999997507
+        }
+      }
+    },
+    {
+      "id": "love-067",
+      "title": "同事买的那份午饭",
+      "category": "饮食与点餐",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9007611274719238,
+            "B": 0.09346762299537659,
+            "C": 0.005273082293570042,
+            "D": 0.0004981969250366092
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 2.1711834999996427
+        }
+      }
+    },
+    {
+      "id": "love-068",
+      "title": "没点主食的晚餐",
+      "category": "饮食与点餐",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.5196566581726074,
+            "B": 0.16870780289173126,
+            "C": 0.3054903745651245,
+            "D": 0.006145181600004435
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.9133991000003334
+        }
+      }
+    },
+    {
+      "id": "love-069",
+      "title": "留在盘边的最后一口",
+      "category": "饮食与点餐",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.11870727688074112,
+            "B": 0.43421319127082825,
+            "C": 0.05785330384969711,
+            "D": 0.38922619819641113
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.9296337999999196
+        }
+      }
+    },
+    {
+      "id": "love-070",
+      "title": "还没划掉的两家店",
+      "category": "饮食与点餐",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.7302989959716797,
+            "B": 0.20279672741889954,
+            "C": 0.053735777735710144,
+            "D": 0.013168520294129848
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.876491999999871
+        }
+      }
+    },
+    {
+      "id": "love-071",
+      "title": "没有看过的第三套衣服",
+      "category": "外表与购物",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.110907644033432,
+            "B": 0.03330051153898239,
+            "C": 0.7579162120819092,
+            "D": 0.09787564724683762
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8298296000002665
+        }
+      }
+    },
+    {
+      "id": "love-072",
+      "title": "妹妹一眼看出的变化",
+      "category": "外表与购物",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.04325025901198387,
+            "B": 0.9103947281837463,
+            "C": 0.041269686073064804,
+            "D": 0.005085423588752747
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7548891000001277
+        }
+      }
+    },
+    {
+      "id": "love-073",
+      "title": "快关门的试衣间",
+      "category": "外表与购物",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.17863255739212036,
+            "B": 0.7065054774284363,
+            "C": 0.03803306445479393,
+            "D": 0.07682890444993973
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8895210999999108
+        }
+      }
+    },
+    {
+      "id": "love-074",
+      "title": "合照里被放大的腰线",
+      "category": "外表与购物",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.31311753392219543,
+            "B": 0.008744750171899796,
+            "C": 0.6733084321022034,
+            "D": 0.00482930988073349
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.819246099999873
+        }
+      }
+    },
+    {
+      "id": "love-075",
+      "title": "折扣结束前的试穿",
+      "category": "外表与购物",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.329535573720932,
+            "B": 0.05908247455954552,
+            "C": 0.5184322595596313,
+            "D": 0.092949777841568
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8013848000000507
+        }
+      }
+    },
+    {
+      "id": "love-076",
+      "title": "没事以后又多一项",
+      "category": "情绪与身体",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.14016346633434296,
+            "B": 0.06620854139328003,
+            "C": 0.023979144170880318,
+            "D": 0.7696489095687866
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8218943000001673
+        }
+      }
+    },
+    {
+      "id": "love-077",
+      "title": "室友送来的热水",
+      "category": "情绪与身体",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.06881891191005707,
+            "B": 0.4702919125556946,
+            "C": 0.38988566398620605,
+            "D": 0.07100345939397812
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7643570999998701
+        }
+      }
+    },
+    {
+      "id": "love-078",
+      "title": "够不到的热敷袋",
+      "category": "情绪与身体",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.11538819968700409,
+            "B": 0.6958799362182617,
+            "C": 0.1413765847682953,
+            "D": 0.04735522344708443
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8348666000001685
+        }
+      }
+    },
+    {
+      "id": "love-079",
+      "title": "笑着讲完的坏消息",
+      "category": "情绪与身体",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.4275423288345337,
+            "B": 0.5238358378410339,
+            "C": 0.04796891659498215,
+            "D": 0.0006529063102789223
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.879692999999861
+        }
+      }
+    },
+    {
+      "id": "love-080",
+      "title": "大家都在等的一句没关系",
+      "category": "情绪与身体",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.052300140261650085,
+            "B": 0.0016294608358293772,
+            "C": 0.0044293333776295185,
+            "D": 0.9416410326957703
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8320833000002494
+        }
+      }
+    },
+    {
+      "id": "love-081",
+      "title": "饭桌边的临时摄影师",
+      "category": "朋友与社交",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.017876552417874336,
+            "B": 0.6604126691818237,
+            "C": 0.3071204423904419,
+            "D": 0.01459041703492403
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8025397000001249
+        }
+      }
+    },
+    {
+      "id": "love-082",
+      "title": "没有追问的那碗面",
+      "category": "朋友与社交",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.07007385790348053,
+            "B": 0.004410221241414547,
+            "C": 0.002473909640684724,
+            "D": 0.9230420589447021
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.9169260999997277
+        }
+      }
+    },
+    {
+      "id": "love-083",
+      "title": "到了散场还没回来的外套",
+      "category": "朋友与社交",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.754668116569519,
+            "B": 0.05911017209291458,
+            "C": 0.015180748887360096,
+            "D": 0.17104096710681915
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7996130999999878
+        }
+      }
+    },
+    {
+      "id": "love-084",
+      "title": "介绍到朋友就停住",
+      "category": "朋友与社交",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.19898535311222076,
+            "B": 0.4484204351902008,
+            "C": 0.04439963400363922,
+            "D": 0.3081945478916168
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8370381999998244
+        }
+      }
+    },
+    {
+      "id": "love-085",
+      "title": "点头之后还没报名的露营",
+      "category": "朋友与社交",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.6290138959884644,
+            "B": 0.034936364740133286,
+            "C": 0.004582654219120741,
+            "D": 0.33146706223487854
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.7685953000000154
+        }
+      }
+    },
+    {
+      "id": "love-086",
+      "title": "第三遍讲到的那位同事",
+      "category": "异性与醋意",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.03405042365193367,
+            "B": 0.16500364243984222,
+            "C": 0.7871883511543274,
+            "D": 0.0137576162815094
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8043822999998156
+        }
+      }
+    },
+    {
+      "id": "love-087",
+      "title": "只在约会时响的求助",
+      "category": "异性与醋意",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.8539648056030273,
+            "B": 0.03994046524167061,
+            "C": 0.008773756213486195,
+            "D": 0.09732101857662201
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8412779999998747
+        }
+      }
+    },
+    {
+      "id": "love-088",
+      "title": "合照站位旁的空隙",
+      "category": "异性与醋意",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.40134891867637634,
+            "B": 0.01877133920788765,
+            "C": 0.004973909817636013,
+            "D": 0.5749058127403259
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.836456999999882
+        }
+      }
+    },
+    {
+      "id": "love-089",
+      "title": "看完头像后的那句好看",
+      "category": "异性与醋意",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.6013269424438477,
+            "B": 0.37630078196525574,
+            "C": 0.021229438483715057,
+            "D": 0.0011428369907662272
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8113330000001042
+        }
+      }
+    },
+    {
+      "id": "love-090",
+      "title": "没有转发的活动邀请",
+      "category": "异性与醋意",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.031517963856458664,
+            "B": 0.0015691870357841253,
+            "C": 0.9652939438819885,
+            "D": 0.0016189984744414687
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8693052000003263
+        }
+      }
+    },
+    {
+      "id": "love-091",
+      "title": "空锅里的留饭",
+      "category": "生活照顾",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0828326940536499,
+            "B": 0.5074117183685303,
+            "C": 0.298291951417923,
+            "D": 0.11146356910467148
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8186752999999953
+        }
+      }
+    },
+    {
+      "id": "love-092",
+      "title": "便利店阿姨的备用伞",
+      "category": "生活照顾",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.6939799189567566,
+            "B": 0.12638312578201294,
+            "C": 0.15008367598056793,
+            "D": 0.029553230851888657
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8721595000001798
+        }
+      }
+    },
+    {
+      "id": "love-093",
+      "title": "关灯前的晾衣架",
+      "category": "生活照顾",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.20671986043453217,
+            "B": 0.22703735530376434,
+            "C": 0.22005213797092438,
+            "D": 0.3461906313896179
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8560883000000103
+        }
+      }
+    },
+    {
+      "id": "love-094",
+      "title": "修好的灯有没有听见",
+      "category": "生活照顾",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.2880946695804596,
+            "B": 0.05852998048067093,
+            "C": 0.6195008754730225,
+            "D": 0.03387455269694328
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8105098000000908
+        }
+      }
+    },
+    {
+      "id": "love-095",
+      "title": "并没有答应代取的号码",
+      "category": "生活照顾",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.39702150225639343,
+            "B": 0.44290947914123535,
+            "C": 0.08065979927778244,
+            "D": 0.07940929383039474
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8424856999999975
+        }
+      }
+    },
+    {
+      "id": "love-096",
+      "title": "未来说到下一场球赛",
+      "category": "关系确认",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.19248387217521667,
+            "B": 0.3710223436355591,
+            "C": 0.059628717601299286,
+            "D": 0.37686511874198914
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.9193972999996731
+        }
+      }
+    },
+    {
+      "id": "love-097",
+      "title": "婚礼座位卡上的称呼",
+      "category": "关系确认",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.2765815258026123,
+            "B": 0.3037653863430023,
+            "C": 0.02961055003106594,
+            "D": 0.3900424838066101
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.8742133999999169
+        }
+      }
+    },
+    {
+      "id": "love-098",
+      "title": "周末名单上的加一",
+      "category": "关系确认",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.057197608053684235,
+            "B": 0.5178248286247253,
+            "C": 0.0745997428894043,
+            "D": 0.3503778278827667
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.876637700000174
+        }
+      }
+    },
+    {
+      "id": "love-099",
+      "title": "留在输入框的想你",
+      "category": "关系确认",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.39870670437812805,
+            "B": 0.5200115442276001,
+            "C": 0.07851000130176544,
+            "D": 0.0027717421762645245
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 1.9117684000002555
+        }
+      }
+    },
+    {
+      "id": "love-100",
+      "title": "没删掉也没发出的合影",
+      "category": "关系确认",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Qwen3.5-0.8B-Jev": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.1421959400177002,
+            "B": 0.007079519331455231,
+            "C": 0.10567105561494827,
+            "D": 0.7450534701347351
+          },
+          "confidence": null,
+          "model": "Qwen3.5-0.8B-Jev",
+          "seconds": 2.082370500000252
+        }
+      }
+    }
+  ],
+  "executed_at": "2026-09-24T02:51:58.221561+00:00",
+  "summary": {
+    "reference_agreement": {
+      "Qwen3.5-0.8B-Jev": {
+        "matches": 68,
+        "total": 100,
+        "rate": 0.68,
+        "groups": {
+          "subset": {
+            "girlfriend-hint": {
+              "matches": 33,
+              "total": 50,
+              "rate": 0.66
+            },
+            "marriage": {
+              "matches": 35,
+              "total": 50,
+              "rate": 0.7
+            }
+          },
+          "category": {
+            "事业与异地": {
+              "matches": 2,
+              "total": 5,
+              "rate": 0.4
+            },
+            "信任与隐私": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "关系确认": {
+              "matches": 2,
+              "total": 5,
+              "rate": 0.4
+            },
+            "冲突与修复": {
+              "matches": 3,
+              "total": 5,
+              "rate": 0.6
+            },
+            "双方父母": {
+              "matches": 4,
+              "total": 5,
+              "rate": 0.8
+            },
+            "外表与购物": {
+              "matches": 3,
+              "total": 5,
+              "rate": 0.6
+            },
+            "婚房与产权": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "家务与分工": {
+              "matches": 4,
+              "total": 5,
+              "rate": 0.8
+            },
+            "异性与醋意": {
+              "matches": 4,
+              "total": 5,
+              "rate": 0.8
+            },
+            "彩礼与财务": {
+              "matches": 2,
+              "total": 5,
+              "rate": 0.4
+            },
+            "情绪与身体": {
+              "matches": 3,
+              "total": 5,
+              "rate": 0.6
+            },
+            "朋友与社交": {
+              "matches": 3,
+              "total": 5,
+              "rate": 0.6
+            },
+            "消息与回复": {
+              "matches": 3,
+              "total": 5,
+              "rate": 0.6
+            },
+            "生活照顾": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "生育与照护": {
+              "matches": 3,
+              "total": 5,
+              "rate": 0.6
+            },
+            "约会与陪伴": {
+              "matches": 4,
+              "total": 5,
+              "rate": 0.8
+            },
+            "节日与礼物": {
+              "matches": 4,
+              "total": 5,
+              "rate": 0.8
+            },
+            "酒席与仪式": {
+              "matches": 3,
+              "total": 5,
+              "rate": 0.6
+            },
+            "长期承诺": {
+              "matches": 4,
+              "total": 5,
+              "rate": 0.8
+            },
+            "饮食与点餐": {
+              "matches": 2,
+              "total": 5,
+              "rate": 0.4
+            }
+          },
+          "phenomenon": {
+            "借题表达": {
+              "matches": 14,
+              "total": 20,
+              "rate": 0.7
+            },
+            "反话与讽刺": {
+              "matches": 12,
+              "total": 20,
+              "rate": 0.6
+            },
+            "回避与保留": {
+              "matches": 17,
+              "total": 20,
+              "rate": 0.85
+            },
+            "试探确认": {
+              "matches": 14,
+              "total": 20,
+              "rate": 0.7
+            },
+            "间接请求": {
+              "matches": 11,
+              "total": 20,
+              "rate": 0.55
+            }
+          }
+        },
+        "actual_models": [
+          "Qwen3.5-0.8B-Jev"
+        ]
+      }
+    },
+    "pairwise_agreement": [],
+    "unanimous": {
+      "matches": 100,
+      "total": 100,
+      "rate": 1.0,
+      "all_correct": 68,
+      "all_wrong": 32
+    },
+    "disagreement_ids": []
+  },
+  "contrast_pairs": {
+    "by_model": {
+      "Qwen3.5-0.8B-Jev": {
+        "matches": 3,
+        "total": 10,
+        "rate": 0.3
+      }
+    },
+    "pairs": [
+      {
+        "ids": [
+          "love-001",
+          "love-015"
+        ],
+        "shared_utterance": "那就先这么定吧。",
+        "passed": {
+          "Qwen3.5-0.8B-Jev": false
+        }
+      },
+      {
+        "ids": [
+          "love-003",
+          "love-034"
+        ],
+        "shared_utterance": "那支笔还在你手边吗？",
+        "passed": {
+          "Qwen3.5-0.8B-Jev": false
+        }
+      },
+      {
+        "ids": [
+          "love-006",
+          "love-027"
+        ],
+        "shared_utterance": "这回你倒是挺会算。",
+        "passed": {
+          "Qwen3.5-0.8B-Jev": false
+        }
+      },
+      {
+        "ids": [
+          "love-014",
+          "love-048"
+        ],
+        "shared_utterance": "给我留个位子？",
+        "passed": {
+          "Qwen3.5-0.8B-Jev": true
+        }
+      },
+      {
+        "ids": [
+          "love-017",
+          "love-037"
+        ],
+        "shared_utterance": "这个门铃装得值。",
+        "passed": {
+          "Qwen3.5-0.8B-Jev": true
+        }
+      },
+      {
+        "ids": [
+          "love-052",
+          "love-097"
+        ],
+        "shared_utterance": "别人倒是安排得挺明白。",
+        "passed": {
+          "Qwen3.5-0.8B-Jev": false
+        }
+      },
+      {
+        "ids": [
+          "love-056",
+          "love-082"
+        ],
+        "shared_utterance": "还是你了解我。",
+        "passed": {
+          "Qwen3.5-0.8B-Jev": true
+        }
+      },
+      {
+        "ids": [
+          "love-063",
+          "love-078"
+        ],
+        "shared_utterance": "你现在方便吗？",
+        "passed": {
+          "Qwen3.5-0.8B-Jev": false
+        }
+      },
+      {
+        "ids": [
+          "love-067",
+          "love-087"
+        ],
+        "shared_utterance": "她倒是挺会挑的。",
+        "passed": {
+          "Qwen3.5-0.8B-Jev": false
+        }
+      },
+      {
+        "ids": [
+          "love-069",
+          "love-089"
+        ],
+        "shared_utterance": "你觉得呢？",
+        "passed": {
+          "Qwen3.5-0.8B-Jev": false
+        }
+      }
+    ]
+  }
+}

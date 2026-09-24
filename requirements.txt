@@ -1,0 +1,8 @@
+numpy>=1.26,<3
+onnxruntime==1.26.0
+onnxruntime-genai==0.14.0
+huggingface_hub[hf_xet]>=0.30,<2
+httpx>=0.28,<1
+python-dotenv>=1,<2
+typesafe-sdk==0.6.0
+ipykernel>=6.29,<8
