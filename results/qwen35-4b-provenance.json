@@ -1,0 +1,30 @@
+{
+  "base_model": "Qwen/Qwen3.5-4B",
+  "base_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "benchmark": {
+    "repo": "https://github.com/haxudev/jev-benchmark",
+    "revision": "d6308af55b0331f56558203606ec8f1057ca61a6",
+    "used_for_training_or_selection": false
+  },
+  "changes": "Portable base paths and flat module imports; weights/calibration unchanged",
+  "source_release_manifest_sha256": "793403af2f5f6e6d9b178a2c1ec31e4b2851d2622b6347d651bac668b0c3c4f5",
+  "training": {
+    "epochs": 2,
+    "optimizer_steps": 750,
+    "questions": 6000,
+    "selected_epoch": 2,
+    "trainable_parameters": 32467456
+  },
+  "unchanged_files": {
+    "adapter/adapter_model.safetensors": "dead8ab08b563bcb1595b744ef38b0fcb92cede64b43f18b792526960fe10c64",
+    "calibration.json": "e1fdf5135b8e1fefa559ee68d759f6733431e235650b2cf2e4879cb493ffc313",
+    "head.safetensors": "65332da94c9c4ee314a58db2c1dbf33ef7a73719b92399a4cecdb9d15a75b7dd"
+  },
+  "model_url": "https://huggingface.co/xuhaodev/Qwen3.5-4B-Jev",
+  "model_revision": "f5864f83a4b09a242b5d7b8061c9c76eec4f3062",
+  "model_revision_url": "https://huggingface.co/xuhaodev/Qwen3.5-4B-Jev/tree/f5864f83a4b09a242b5d7b8061c9c76eec4f3062",
+  "raw_result_sha256": "15768bcd49ef16bde5305050c710e00298720d938c97069a36542d27d26f8f02",
+  "result_file": "qwen35-4b.json",
+  "started_at": "2026-10-01T21:39:53.685352+00:00",
+  "executed_at": "2026-10-01T21:40:57.352016+00:00"
+}

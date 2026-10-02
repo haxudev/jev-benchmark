@@ -9,12 +9,17 @@
 | 模型                      | 部署             | 参考一致率       | 婚恋议题 | 女友暗示 | 同末句对照（整对） |
 | ------------------------- | ---------------- | ---------------- | -------- | -------- | ------------------ |
 | Jev-API（`jev-1.13.0`） | 官方托管         | **100.0%** | 100.0%   | 100.0%   | 10 / 10            |
+| [Qwen3.5-4B-Jev](https://huggingface.co/xuhaodev/Qwen3.5-4B-Jev) | 本地 · NF4 4-bit · GB10 | **99.0%** | **100.0%** | **98.0%** | **10 / 10** |
 | Qwen3-1.7B-Jev（v2）      | 内网 · Jev-like · GB10 | 78.0%       | 80.0%    | 76.0%    | 4 / 10             |
 | Qwen3.5-0.8B-Jev          | 本地 ONNX · CPU | 68.0%            | 70.0%    | 66.0%    | 3 / 10             |
 
-题集 v1.0.0，2026-09-24 同题评测；随机猜测约 25%。v2 指 `football-decision-v2` 模型（发布名 `Qwen3-1.7B-Jev`），本次新增 100 次真实请求；官方 Jev 与 0.8B 使用同日已保存的结果。v2 比 0.8B 高 **10 个百分点**，平均约 **186 ms/题**（已加载模型、本机 HTTP、顺序调用）。其回避与保留为 20/20，最弱的借题表达为 13/20；与 0.8B 选择一致 62/100，其中共同答对 56 题。
+题集 v1.0.0；随机猜测约25%。**2026-10-02新增 Qwen3.5-4B-Jev：99/100，同末句对照10/10**，平均约635 ms/题（已加载模型、本机HTTP、顺序调用）。测试前锁定最终模型，题集未参与该轮训练、校准或checkpoint选择；完成一次100题测试后未调整模型。
 
-详见 **[v2 测试报告](results/v2-report.md)**，包含模型溯源、分项成绩、全部 22 道不一致题和复现方法。逐题原始结果：[v2](results/intranet.json) · [0.8B / 官方 Jev](results/local-jev.json)。在 [benchmark.ipynb](benchmark.ipynb) 第 2 节重新运行查看结果单元格即可刷新三模型排行榜，设置 `REPORT = "intranet.json"` 查看 v2 报表。
+**[4B测试报告](results/qwen35-4b-report.md)** · **[逐题原始结果](results/qwen35-4b.json)** · **[Hugging Face模型](https://huggingface.co/xuhaodev/Qwen3.5-4B-Jev/tree/f5864f83a4b09a242b5d7b8061c9c76eec4f3062)**。
+
+其余成绩来自2026-09-24已保存结果。v2指 `football-decision-v2`，发布名 `Qwen3-1.7B-Jev`，成绩78%、整对4/10；4B比它高21个百分点。不同底座、训练与推理路径的比较不能单独归因于微调。
+
+历史资料：[v2测试报告](results/v2-report.md) · [v2原始结果](results/intranet.json) · [0.8B / 官方Jev](results/local-jev.json)。在 [benchmark.ipynb](benchmark.ipynb) 第2节重新运行查看结果单元格即可刷新四模型排行榜，设置 `REPORT = "qwen35-4b.json"` 查看4B报表，无需重新请求模型。
 
 > 官方 Jev 在本题集上已达满分，本题集对它不再有区分度；目前更适合衡量本地 / 内网 Jev-like 模型与官方 Jev 的差距。
 
@@ -37,7 +42,22 @@
 
 ## 参评模型
 
-三类模型走同一个 Choice 接口：相同的 `state`、`question` 和 `options`，统一校验返回的选择与概率分布。
+### Qwen3.5-4B-Jev · NF4 4-bit
+
+| 项目 | 配置 |
+| --- | --- |
+| 模型 | [xuhaodev/Qwen3.5-4B-Jev](https://huggingface.co/xuhaodev/Qwen3.5-4B-Jev) |
+| 固定发布版本 | [`f5864f83`](https://huggingface.co/xuhaodev/Qwen3.5-4B-Jev/tree/f5864f83a4b09a242b5d7b8061c9c76eec4f3062) |
+| 基座 | [Qwen/Qwen3.5-4B](https://huggingface.co/Qwen/Qwen3.5-4B/tree/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a) |
+| 微调 | NF4 QLoRA rank16＋FP32标量决策头；6,000题、2轮、750次更新 |
+| 推理 | state＋问题＋完整criteria＋当前候选，prefill-only打分；独立温度校准，无文本生成 |
+| API模型名 | `qwen35-4b-jev-v1`；发布仓库名为 `Qwen3.5-4B-Jev` |
+| 协议 / 上下文 | Choice / Score / Noul；每候选4K输入预算，本评测仅测试Choice |
+| 成绩 | **99/100，婚恋50/50，女友暗示49/50，整对10/10** |
+
+发布包包含adapter、决策头、processor、校准和独立Python加载器，需另下载固定revision的官方基座。加载方法见 [模型卡](https://huggingface.co/xuhaodev/Qwen3.5-4B-Jev#quick-start)；这是独立Jev-like模型。
+
+所有参评模型走同一个 Choice 接口：相同的 `state`、`question` 和 `options`，统一校验返回的选择与概率分布。
 
 ### 本地模型 · Qwen3.5-0.8B-Jev
 
