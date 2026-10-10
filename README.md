@@ -23,6 +23,45 @@
 
 > 官方 Jev 在本题集上已达满分，本题集对它不再有区分度；目前更适合衡量本地 / 内网 Jev-like 模型与官方 Jev 的差距。
 
+## 外部评测 · Qwen3.5-4B-Jev
+
+2026-10-02 完成 **1,431 道主评测题 + 90 道选项反序对照**；1,521 次内网原生调用全部返回有效结果，实际模型名均为 `qwen35-4b-jev-v1`。不生成文本、不重试、不重新校准，也未调用官方付费 Jev。
+
+| 任务 | 主评测题量 | 成绩 | p50 / p95 |
+| --- | ---: | --- | --- |
+| JevBench easy 公开题 | 48 | 48/48，100% | 444 / 491 ms |
+| JevBench original 公开题 | 72 | 68/72，94.4% | 357 / 590 ms |
+| JevBench hard 公开题 | 111 | 61/111，55.0% | 802 / 5,037 ms |
+| AG News 新闻分类 | 200 | 165/200，82.5% | 395 / 428 ms |
+| BoolQ 阅读真假判断 | 200 | 166/200，83.0% | 225 / 342 ms |
+| ANLI 对抗自然语言推断 | 200 | 96/200，48.0% | 420 / 440 ms |
+| SST-5 五级情感 | 200 | 85/200，42.5%；等级 MAE 0.679 | 421 / 439 ms |
+| STS-B 语义相似度 | 200 | Spearman 0.878；0–5 分 MAE 0.600 | 545 / 602 ms |
+| Belebele 简体中文阅读 | 200 | 169/200，84.5% | 548 / 602 ms |
+
+全体请求平均 **540 ms**、p50 **422 ms**、p95 **653 ms**；这是已加载模型的顺序内网 HTTP 耗时，包含对照题，不是 GPU 纯推理耗时或并发吞吐量。90 组反序对照均保持相同选择，但一致不代表正确。
+
+主要风险是跨任务概率过度自信：ANLI 的 top-label ECE 为 0.437，`p_max >= 0.9` 的 133 题仍错 70 题（52.6%）；SST-5 的 ECE 为 0.446。不能直接把内部校准或婚恋题 99% 推广为通用决策可靠性。
+
+**[完整外部报告](results/qwen35-4b-external-report.md)** · **[机器可读汇总](results/qwen35-4b-external-summary.json)**。
+
+评测范围是固定 revision 的 JevBench 231 道已发布题及六个公开数据集的确定性切片，**不是完整 JevBench v1.5 榜单，也不是 37 项学术评测的完整复现**。ANLI 三个测试轮次分别取 67/67/66 题；其余任务各取 200 题。题目和参考答案不参与本轮模型调整，但底座预训练和历史训练数据重叠未被全面排除。服务模型名逐条核验，部署权重哈希未远程独立核验。
+
+在 `.env` 中确认内网模型配置后，可运行：
+
+```powershell
+.\.venv\Scripts\python.exe -m jev_benchmark.external_data --output data/external-new.json --per-dataset 200
+.\.venv\Scripts\python.exe -m jev_benchmark.external data/external-new.json --output results/external-new
+```
+
+本次原始题目、请求尝试标记和响应保留在本地且被 Git 忽略；离线重算不调用模型：
+
+```powershell
+.\.venv\Scripts\python.exe -m jev_benchmark.external data/external-20261002.json --output results/external-20261002 --report-only --export-prefix results/qwen35-4b-external
+```
+
+上游数据遵循各自许可；SST-5、STS-B 镜像未声明明确许可，不能将其题目当作本仓库 CC BY 4.0 数据再分发。新运行须使用不存在的输出目录，不覆盖旧响应；中断不自动补跑。汇总包含 Brier、NLL、ECE、按场景分组的 bootstrap 区间和描述性风险—覆盖率；连续 STS-B 分数不伪造分类准确率或参考概率分布。
+
 ## 题集
 
 [data/implicit_intent.json](data/implicit_intent.json)

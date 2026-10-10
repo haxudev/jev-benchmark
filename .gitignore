@@ -5,4 +5,7 @@ __pycache__/
 .env
 .env.*
 !.env.example
+sample.md
 results/*.partial.json
+data/external-*.json
+results/external-*/
