@@ -11,7 +11,8 @@ import httpx
 
 from jev_benchmark import ModelError
 from jev_benchmark.external import NativeClient, TARGET_MODEL, digest, distribution, run_external, summarize_external
-from jev_benchmark.external_data import convert_row, reverse_options, sample_rows
+from jev_benchmark.external_data import convert_row, reverse_options, sample_rows, validate_reference
+from jev_benchmark.compare import compare_external, external_report
 
 
 class NativeClientTests(unittest.TestCase):
@@ -43,7 +44,7 @@ class NativeClientTests(unittest.TestCase):
             })
             return httpx.Response(200, json=raw)
 
-        with NativeClient(httpx.MockTransport(handler)) as client:
+        with NativeClient(httpx.MockTransport(handler), env_path=Path("nonexistent-test-env")) as client:
             receipt = client.request("context", questions)
         self.assertEqual(len(calls), 1)
         self.assertEqual(receipt["response"], raw)
@@ -56,7 +57,7 @@ class NativeClientTests(unittest.TestCase):
             calls.append(request)
             return httpx.Response(422, json={"detail": "unit-test-secret"})
 
-        with NativeClient(httpx.MockTransport(handler)) as client:
+        with NativeClient(httpx.MockTransport(handler), env_path=Path("nonexistent-test-env")) as client:
             receipt = client.request("context", {"q": {"type": "noul", "instructions": "True?"}})
         self.assertEqual(len(calls), 1)
         self.assertEqual(receipt["error"], "http_422")
@@ -65,7 +66,7 @@ class NativeClientTests(unittest.TestCase):
     def test_wrong_model_fails_before_network(self):
         with patch.dict(os.environ, {"INTRANET_MODEL": "jev-latest"}):
             with self.assertRaises(ModelError):
-                NativeClient()
+                NativeClient(env_path=Path("nonexistent-test-env"))
 
 
 class EvaluationTests(unittest.TestCase):
@@ -99,6 +100,8 @@ class EvaluationTests(unittest.TestCase):
         self.assertAlmostEqual(metrics["ece_10_equal_width"], 0.2)
         self.assertEqual(metrics["errors"], {"unattempted": 1})
         native = unittest.mock.MagicMock()
+        native.model = TARGET_MODEL
+        native.accepts_model = lambda actual: actual == TARGET_MODEL
         native.__enter__.return_value.request.return_value = receipt
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "run"
@@ -159,6 +162,253 @@ class EvaluationTests(unittest.TestCase):
         self.assertEqual(summary["suites"]["fixture"]["accuracy"], 0)
         self.assertEqual(summary["suites"]["fixture"]["valid"], 0)
         self.assertIsNone(summary["systems"]["reported_input_tokens"])
+
+    def test_requested_alias_and_actual_model_are_separate(self):
+        item = self.item()
+        receipt = self.receipt({"type": "choice", "choice": "a", "probabilities": {"a": 0.8, "b": 0.2}})
+        receipt["response"]["model"] = "microsoft-decision-1"
+        receipt["request_sha256"] = digest({
+            "model": "Decision-1", "state": item["state"], "questions": {"decision": item["question"]},
+        })
+        summary = summarize_external({"items": [item]}, [receipt], "Decision-1", actual_model="microsoft-decision-1")
+        self.assertEqual(summary["model"], "microsoft-decision-1")
+        self.assertEqual(summary["requested_model"], "Decision-1")
+        self.assertEqual(summary["systems"]["valid_responses"], 1)
+        self.assertIn("hosted API", summary["systems"]["cost_basis"])
+        with self.assertRaisesRegex(ValueError, "frozen request"):
+            summarize_external({"items": [item]}, [receipt])
+
+    def test_invalid_reversal_keeps_full_pair_denominator(self):
+        item = self.item()
+        reversed_item = reverse_options(item)
+        receipt = self.receipt({"type": "choice", "choice": "a", "probabilities": {"a": 0.8, "b": 0.2}})
+        summary = summarize_external({"items": [item, reversed_item]}, [receipt])
+        values = summary["option_reversal"]["fixture"]
+        self.assertEqual(values["total_pairs"], 1)
+        self.assertEqual(values["valid_pairs"], 0)
+        self.assertEqual(values["same_choice_rate"], 0)
+
+    def test_reference_manifest_and_external_comparison_integrity(self):
+        item = self.item()
+        manifest = {"items": [item]}
+        receipt = self.receipt({"type": "choice", "choice": "a", "probabilities": {"a": 0.8, "b": 0.2}})
+        summary = summarize_external(manifest, [receipt])
+        summary["completed_at"] = "2026-10-02T00:00:00Z"
+        validate_reference(manifest, summary)
+        with self.assertRaises(ValueError):
+            validate_reference({"items": [{**item, "state": "changed"}]}, summary)
+        comparison = compare_external({"fixture.json": summary})
+        self.assertEqual(comparison["models"][TARGET_MODEL]["valid_responses"], 1)
+        self.assertIn("N/A", external_report(comparison))
+        changed = {**summary, "model": "Decision-1", "manifest_sha256": "wrong"}
+        with self.assertRaises(ValueError):
+            compare_external({"fixture.json": summary, "changed.json": changed})
+
+    def test_invalid_result_cannot_be_reported_as_complete(self):
+        item = self.item()
+        native = unittest.mock.MagicMock()
+        native.model = TARGET_MODEL
+        native.accepts_model = lambda actual: actual == TARGET_MODEL
+        native.__enter__.return_value.request.return_value = {
+            "seconds": 0.2, "response": {"model": TARGET_MODEL, "answers": {}},
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            summary = run_external({"items": [item]}, Path(directory) / "run", client=native)
+        self.assertEqual(summary["status"], "failed")
+        self.assertEqual(summary["systems"]["valid_responses"], 0)
+
+    def test_microsoft_transport_and_offline_recompute(self):
+        item = self.item()
+        calls = []
+
+        def handler(request):
+            calls.append(request)
+            self.assertEqual(json.loads(request.content)["model"], "Decision-1")
+            return httpx.Response(200, json={"model": "microsoft-decision-1", "answers": {"decision": {
+                "type": "choice", "choice": "a", "probabilities": {"a": 0.8, "b": 0.2},
+            }}})
+
+        with patch.dict(os.environ, {
+            "MICROSOFT_ENDPOINT": "https://example.com/providers/microsoft/v1/systemone",
+            "MICROSOFT_API_KEY": "fixture-secret", "MICROSOFT_MODEL": "Decision-1",
+        }), tempfile.TemporaryDirectory() as directory:
+            native = NativeClient(
+                httpx.MockTransport(handler), model_key="microsoft", env_path=Path("nonexistent-test-env"),
+            )
+            output = Path(directory) / "run"
+            summary = run_external({"items": [item]}, output, client=native, model_key="microsoft")
+            receipts = [json.loads(line) for line in (output / "responses.jsonl").read_text().splitlines()]
+            recomputed = summarize_external(
+                {"items": [item]}, receipts, summary["requested_model"], actual_model=summary["model"],
+            )
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(summary["status"], "complete")
+        self.assertEqual(summary["suites"], recomputed["suites"])
+        self.assertNotIn("fixture-secret", repr(summary))
+
+    def test_incomplete_comparison_does_not_display_zero_benchmark_scores(self):
+        item = self.item()
+        summary = summarize_external({"items": [item]}, [])
+        summary["completed_at"] = "2026-10-12T00:00:00Z"
+        summary["status"] = "failed"
+        self.assertEqual(summary["suites"]["fixture"]["accuracy"], 0)
+        self.assertEqual(summary["suites"]["fixture"]["status"], "unattempted")
+        comparison = compare_external({"failed.json": summary})
+        self.assertEqual(comparison["refresh_status"], "partial")
+        report = external_report(comparison)
+        row = next(line for line in report.splitlines() if line.startswith("| fixture |"))
+        self.assertIn("unattempted | N/A |", row)
+
+    def test_systemic_http_error_stops_without_retry_or_new_requests(self):
+        items = [self.item(), {**self.item(), "id": "next"}]
+        native = unittest.mock.MagicMock()
+        native.model = TARGET_MODEL
+        native.accepts_model = lambda actual: actual == TARGET_MODEL
+        native.__enter__.return_value.request.return_value = {
+            "seconds": 0.1, "http_status": 429, "error": "http_429",
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            summary = run_external({"items": items}, Path(directory) / "run", client=native)
+        self.assertEqual(native.__enter__.return_value.request.call_count, 1)
+        self.assertEqual(summary["recorded_requests"], 1)
+        self.assertEqual(summary["status"], "failed")
+        self.assertEqual(summary["suites"]["fixture"]["errors"], {"http_429": 1, "unattempted": 1})
+
+    def test_explicit_continuation_never_resends_a_failed_attempt(self):
+        items = [{**self.item(), "id": f"item-{index}", "state": f"state-{index}"} for index in range(3)]
+        manifest = {"items": items}
+        native = unittest.mock.MagicMock()
+        native.model = TARGET_MODEL
+        native.accepts_model = lambda actual: actual == TARGET_MODEL
+        calls = []
+
+        def request(state, questions):
+            calls.append(state)
+            receipt = {"seconds": 0.1, "request_sha256": digest({
+                "model": TARGET_MODEL, "state": state, "questions": questions,
+            })}
+            if state == "state-0":
+                return {**receipt, "http_status": 429, "error": "http_429"}
+            return {**receipt, "response": {"model": TARGET_MODEL, "answers": {"decision": {
+                "type": "choice", "choice": "a", "probabilities": {"a": 0.8, "b": 0.2},
+            }}}}
+
+        native.__enter__.return_value.request.side_effect = request
+        with tempfile.TemporaryDirectory() as directory:
+            source, output = Path(directory) / "source", Path(directory) / "continued"
+            run_external(manifest, source, client=native)
+            original = (source / "responses.jsonl").read_bytes()
+            summary = run_external(manifest, output, client=native, continue_from=source)
+            self.assertEqual((source / "responses.jsonl").read_bytes(), original)
+            self.assertEqual(len(list((output / "attempts").glob("*.json"))), 3)
+            receipts = [json.loads(line) for line in (output / "responses.jsonl").read_text().splitlines()]
+        self.assertEqual(calls, ["state-0", "state-1", "state-2"])
+        self.assertEqual(receipts[0]["error"], "http_429")
+        self.assertEqual(summary["recorded_requests"], 3)
+        self.assertEqual(summary["systems"]["valid_responses"], 2)
+        self.assertTrue(summary["execution_complete"])
+        self.assertEqual(summary["continuation"]["retained_errors"], 1)
+        self.assertEqual(summary["continuation"]["new_requests"], 2)
+        summary["completed_at"] = "2026-10-12T00:00:00Z"
+        report = external_report(compare_external({"continued.json": summary}))
+        self.assertIn("| failed | 0.6667 |", report)
+
+    def test_continuation_rejects_an_attempt_without_a_response_before_network(self):
+        items = [{**self.item(), "id": f"item-{index}"} for index in range(2)]
+        native = unittest.mock.MagicMock()
+        native.model = TARGET_MODEL
+        native.accepts_model = lambda actual: actual == TARGET_MODEL
+        native.__enter__.return_value.request.return_value = {
+            "seconds": 0.1, "http_status": 429, "error": "http_429",
+            "request_sha256": digest({
+                "model": TARGET_MODEL, "state": items[0]["state"], "questions": {"decision": items[0]["question"]},
+            }),
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source"
+            run_external({"items": items}, source, client=native)
+            native.__enter__.return_value.request.reset_mock()
+            (source / "attempts" / "00001.json").write_text("{}")
+            output = Path(directory) / "continued"
+            with self.assertRaisesRegex(ValueError, "lacks a response"):
+                run_external({"items": items}, output, client=native, continue_from=source)
+            self.assertFalse(output.exists())
+            native.__enter__.return_value.request.assert_not_called()
+
+    def test_request_pacing_does_not_change_receipt_latency(self):
+        items = [{**self.item(), "id": f"item-{index}"} for index in range(2)]
+        native = unittest.mock.MagicMock()
+        native.model = TARGET_MODEL
+        native.accepts_model = lambda actual: actual == TARGET_MODEL
+        native.__enter__.return_value.request.return_value = {
+            "seconds": 0.1, "response": {"model": TARGET_MODEL, "answers": {"decision": {
+                "type": "choice", "choice": "a", "probabilities": {"a": 0.8, "b": 0.2},
+            }}},
+        }
+        with tempfile.TemporaryDirectory() as directory, patch(
+            "jev_benchmark.external.perf_counter", side_effect=[0.0, 0.2, 1.0],
+        ), patch("jev_benchmark.external.sleep") as wait:
+            summary = run_external({"items": items}, Path(directory) / "paced", client=native, min_interval=1.0)
+        self.assertAlmostEqual(wait.call_args.args[0], 0.8)
+        self.assertAlmostEqual(summary["systems"]["mean_seconds"], 0.1)
+
+    def test_isolated_network_errors_move_to_next_item_without_retry(self):
+        items = [{**self.item(), "id": f"item-{index}", "state": f"state-{index}"} for index in range(4)]
+        native = unittest.mock.MagicMock()
+        native.model = TARGET_MODEL
+        native.accepts_model = lambda actual: actual == TARGET_MODEL
+        calls = []
+
+        def request(state, questions):
+            calls.append(state)
+            if state in ("state-0", "state-2"):
+                return {"seconds": 0.1, "error": "connection_error_no_retry"}
+            return {"seconds": 0.1, "response": {"model": TARGET_MODEL, "answers": {"decision": {
+                "type": "choice", "choice": "a", "probabilities": {"a": 0.8, "b": 0.2},
+            }}}}
+
+        native.__enter__.return_value.request.side_effect = request
+        with tempfile.TemporaryDirectory() as directory, patch("jev_benchmark.external.sleep"):
+            summary = run_external(
+                {"items": items}, Path(directory) / "run", client=native, continue_on_network_errors=True,
+            )
+        self.assertEqual(calls, ["state-0", "state-1", "state-2", "state-3"])
+        self.assertEqual(summary["recorded_requests"], 4)
+        self.assertEqual(summary["systems"]["valid_responses"], 2)
+        self.assertTrue(summary["execution_complete"])
+        self.assertEqual(summary["suites"]["fixture"]["errors"], {"connection_error_no_retry": 2})
+
+    def test_consecutive_network_errors_stop_systemic_failure(self):
+        items = [{**self.item(), "id": f"item-{index}"} for index in range(4)]
+        native = unittest.mock.MagicMock()
+        native.model = TARGET_MODEL
+        native.accepts_model = lambda actual: actual == TARGET_MODEL
+        native.__enter__.return_value.request.return_value = {"seconds": 0.1, "error": "connection_error_no_retry"}
+        with tempfile.TemporaryDirectory() as directory, patch("jev_benchmark.external.sleep"):
+            summary = run_external(
+                {"items": items}, Path(directory) / "run", client=native, continue_on_network_errors=True,
+            )
+        self.assertEqual(native.__enter__.return_value.request.call_count, 3)
+        self.assertFalse(summary["execution_complete"])
+        self.assertEqual(summary["recorded_requests"], 3)
+
+    def test_completed_source_cannot_trigger_more_paid_requests(self):
+        native = unittest.mock.MagicMock()
+        native.model = TARGET_MODEL
+        native.accepts_model = lambda actual: actual == TARGET_MODEL
+        native.__enter__.return_value.request.return_value = {
+            "seconds": 0.1, "response": {"model": TARGET_MODEL, "answers": {"decision": {
+                "type": "choice", "choice": "a", "probabilities": {"a": 0.8, "b": 0.2},
+            }}},
+        }
+        manifest = {"items": [self.item()]}
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "complete"
+            run_external(manifest, source, client=native)
+            with patch("jev_benchmark.external.NativeClient") as factory:
+                with self.assertRaisesRegex(ValueError, "incomplete run"):
+                    run_external(manifest, Path(directory) / "must-not-run", continue_from=source)
+                factory.assert_not_called()
 
 
 if __name__ == "__main__":

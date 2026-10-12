@@ -105,18 +105,38 @@ def reverse_options(item: dict) -> dict:
     return reversed_item
 
 
-def prepare(output: Path, count: int = 200) -> dict:
+def validate_reference(manifest: dict, reference: dict) -> None:
+    primary = [item for item in manifest["items"] if not item.get("permutation_of")]
+    if (
+        digest(manifest) != reference["manifest_sha256"]
+        or len(primary) != reference["primary_decisions"]
+        or len(manifest["items"]) != reference["total_requests"]
+        or {suite: sum(item["suite"] == suite for item in primary)
+            for suite in {item["suite"] for item in primary}}
+        != {suite: values["n"] for suite, values in reference["suites"].items()}
+    ):
+        raise ValueError("Manifest differs from the historical reference; do not run a purported same-data comparison.")
+
+
+def prepare(
+    output: Path, count: int = 200, *, jevbench_source_dir: Path | None = None,
+    reference_summary: Path | None = None,
+) -> dict:
     if output.exists():
         raise FileExistsError(output)
     items = []
     sources = []
     for cohort in ("easy", "original", "hard"):
         url = f"https://raw.githubusercontent.com/fstandhartinger/jevbench/{JEVBENCH_REVISION}/datasets/public/{cohort}.jsonl"
-        response = httpx.get(url, timeout=120, follow_redirects=True)
-        response.raise_for_status()
-        rows = [json.loads(line) for line in response.text.splitlines() if line.strip()]
+        if jevbench_source_dir is None:
+            response = httpx.get(url, timeout=120, follow_redirects=True)
+            response.raise_for_status()
+            raw = response.content
+        else:
+            raw = (jevbench_source_dir / f"{cohort}.jsonl").read_bytes()
+        rows = [json.loads(line) for line in raw.decode("utf-8").splitlines() if line.strip()]
         source = {"repo": "fstandhartinger/jevbench", "revision": JEVBENCH_REVISION,
-                  "file": f"datasets/public/{cohort}.jsonl", "sha256": sha256(response.content).hexdigest(),
+                  "file": f"datasets/public/{cohort}.jsonl", "sha256": sha256(raw).hexdigest(),
                   "source_rows": len(rows), "license": "MIT"}
         sources.append(source)
         for row in rows:
@@ -129,7 +149,7 @@ def prepare(output: Path, count: int = 200) -> dict:
                         label_basis=row["provenance"].get("label_basis", "source reference"))
             items.append(item)
         print(f"Prepared JevBench {cohort}: {len(rows)}", flush=True)
-    api = HfApi()
+    api = HfApi(token=False)
     for suite, (repo, revision, files) in SOURCES.items():
         info = api.dataset_info(repo, revision=revision)
         license_name = info.card_data.get("license") if info.card_data else None
@@ -137,7 +157,7 @@ def prepare(output: Path, count: int = 200) -> dict:
             license_name = "unspecified; local evaluation only, do not redistribute source text"
             print(f"License unspecified: {repo}; artifacts remain local.", flush=True)
         for file_index, filename in enumerate(files):
-            path = Path(hf_hub_download(repo, filename, repo_type="dataset", revision=revision))
+            path = Path(hf_hub_download(repo, filename, repo_type="dataset", revision=revision, token=False))
             if filename.endswith(".parquet"):
                 import pyarrow.parquet as parquet
                 rows = parquet.read_table(path).to_pylist()
@@ -169,6 +189,8 @@ def prepare(output: Path, count: int = 200) -> dict:
                     "probabilities": "native scalar-head probabilities; no response-token scoring or normalization",
                     "latency": "serial warm HTTP client; protocol probe excluded",
                 }, "items": items}
+    if reference_summary is not None:
+        validate_reference(manifest, json.loads(reference_summary.read_text(encoding="utf-8")))
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x", encoding="utf-8") as handle:
         json.dump(manifest, handle, ensure_ascii=False, indent=2, allow_nan=False)
@@ -182,5 +204,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--per-dataset", type=int, default=200)
+    parser.add_argument("--jevbench-source-dir", type=Path, help="Local pinned JevBench JSONL sources; verify the resulting manifest hash.")
+    parser.add_argument("--reference-summary", type=Path, help="Require exact historical manifest hash and task counts.")
     arguments = parser.parse_args()
-    prepare(arguments.output, arguments.per_dataset)
+    prepare(
+        arguments.output, arguments.per_dataset, jevbench_source_dir=arguments.jevbench_source_dir,
+        reference_summary=arguments.reference_summary,
+    )

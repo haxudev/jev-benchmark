@@ -17,7 +17,9 @@ NO_ENV = Path("nonexistent-test-env")
 
 class JevAPITests(unittest.TestCase):
     def setUp(self) -> None:
-        self.env = patch.dict(os.environ, {"JEV_API_KEY": "test-secret", "JEV_ENDPOINT": DEFAULT_ENDPOINT})
+        self.env = patch.dict(os.environ, {
+            "JEV_API_KEY": "test-secret", "JEV_ENDPOINT": DEFAULT_ENDPOINT, "JEV_MODEL": "jev-latest",
+        })
         self.env.start()
         self.addCleanup(self.env.stop)
         self.client = JevClient(NO_ENV)
@@ -71,6 +73,12 @@ class JevAPITests(unittest.TestCase):
             with self.subTest(updates=updates), patch.dict(os.environ, updates):
                 with self.assertRaises(ModelError):
                     JevClient(NO_ENV)
+
+    def test_explicit_revision_does_not_accept_a_different_version(self):
+        with patch.dict(os.environ, {"JEV_MODEL": "jev-1.13.0"}):
+            client = JevClient(NO_ENV)
+        self.assertTrue(client.accepts_model("jev-1.13.0"))
+        self.assertFalse(client.accepts_model("jev-1.14.0"))
 
     @patch("jev_benchmark.jev_api.httpx.post")
     def test_safe_errors(self, post) -> None:
