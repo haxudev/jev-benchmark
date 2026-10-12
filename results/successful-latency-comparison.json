@@ -1,0 +1,78 @@
+{
+  "unit": "seconds",
+  "scope": "valid_successful_responses_only",
+  "internal": {
+    "Jev-API": {
+      "n": 100,
+      "mean_seconds": 0.8444635610000841,
+      "p50_seconds": 0.7864515500041307,
+      "p90_seconds": 0.9189503800014797,
+      "p95_seconds": 1.1285541650009692,
+      "p99_seconds": 1.8796214809965754,
+      "sum_request_seconds": 84.44635610000842,
+      "scope": "valid_successful_responses_only",
+      "percentile_method": "linear interpolation at (n-1)*quantile"
+    },
+    "Microsoft Decision": {
+      "n": 100,
+      "mean_seconds": 1.7599367489996076,
+      "p50_seconds": 1.6080671999989136,
+      "p90_seconds": 2.194174940000812,
+      "p95_seconds": 2.3032700199972167,
+      "p99_seconds": 6.28846509099909,
+      "sum_request_seconds": 175.99367489996075,
+      "scope": "valid_successful_responses_only",
+      "percentile_method": "linear interpolation at (n-1)*quantile"
+    },
+    "qwen35-4b-jev-v1": {
+      "n": 100,
+      "mean_seconds": 0.6354256438792799,
+      "p50_seconds": 0.6339029610098805,
+      "p90_seconds": 0.6462263690831606,
+      "p95_seconds": 0.6502617382036988,
+      "p99_seconds": 0.6661213605012745,
+      "sum_request_seconds": 63.542564387927996,
+      "scope": "valid_successful_responses_only",
+      "percentile_method": "linear interpolation at (n-1)*quantile"
+    }
+  },
+  "external": {
+    "jev-1.13.0": {
+      "n": 1521,
+      "mean_seconds": 0.2673516890203393,
+      "p50_seconds": 0.25353309999627527,
+      "p90_seconds": 0.28653209999902174,
+      "p95_seconds": 0.30775350000476465,
+      "p99_seconds": 0.575151679998089,
+      "sum_request_seconds": 406.641918999936,
+      "scope": "valid_successful_responses_only",
+      "percentile_method": "linear interpolation at (n-1)*quantile"
+    },
+    "microsoft-decision-1": {
+      "n": 1521,
+      "mean_seconds": 1.2740675506246086,
+      "p50_seconds": 1.308482799999183,
+      "p90_seconds": 1.7300849000021117,
+      "p95_seconds": 1.8999522999947658,
+      "p99_seconds": 2.4064149800004078,
+      "sum_request_seconds": 1937.85674450003,
+      "scope": "valid_successful_responses_only",
+      "percentile_method": "linear interpolation at (n-1)*quantile"
+    },
+    "qwen35-4b-jev-v1": {
+      "n": 1521,
+      "mean_seconds": 0.5397951357660246,
+      "p50_seconds": 0.4221778999999515,
+      "p90_seconds": null,
+      "p95_seconds": 0.6525077999976929,
+      "p99_seconds": null,
+      "scope": "valid_successful_responses_only",
+      "percentile_method": "historical summary; unrecorded quantiles unavailable"
+    }
+  },
+  "notes": [
+    "Wrong predictions remain successful requests.",
+    "HTTP failures, timeouts, invalid responses and inter-request waits are excluded.",
+    "Qwen external p90/p99 are unavailable without its historical raw timings."
+  ]
+}

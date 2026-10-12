@@ -44,6 +44,30 @@ Jev、Microsoft 为2026-10-12测试结果，Qwen 使用2026-10-02已有结果。
 
 **[完整对比报告](results/three-models-20261012-complete-external-report.md)** · **[机器可读汇总](results/three-models-20261012-complete-external-summary.json)** · [Jev报告](results/jev-20261012-continued-external-report.md) · [Microsoft报告](results/microsoft-20261012-recovered-external-report.md) · [Qwen报告](results/qwen35-4b-external-report.md)
 
+## 耗时对比 · 仅成功请求
+
+单位为 **ms**。仅统计返回有效结构化结果的成功请求，包含答案正确或错误的情况；HTTP错误、超时、无效响应、请求间隔及中断等待均不计入。
+
+### 内部100题
+
+| 模型 | 成功样本数 | 均值 | p50 | p90 | p95 | p99 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| TypeSafe Jev | 100 | 844.5 | 786.5 | 919.0 | 1,128.6 | 1,879.6 |
+| Microsoft Decision-1 | 100 | 1,759.9 | 1,608.1 | 2,194.2 | 2,303.3 | 6,288.5 |
+| Qwen3.5-4B-Jev | 100 | 635.4 | 633.9 | 646.2 | 650.3 | 666.1 |
+
+### 外部1,431＋90题
+
+| 模型 | 成功样本数 | 均值 | p50 | p90 | p95 | p99 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| TypeSafe Jev | 1,521 | 267.4 | 253.5 | 286.5 | 307.8 | 575.2 |
+| Microsoft Decision-1 | 1,521 | 1,274.1 | 1,308.5 | 1,730.1 | 1,900.0 | 2,406.4 |
+| Qwen3.5-4B-Jev | 1,521 | 539.8 | 422.2 | 未记录 | 652.5 | 未记录 |
+
+Qwen 外部历史记录仅保存均值、p50、p95，缺少逐题耗时，无法准确重算 p90、p99。部署、测试日期和连接方式不同，这些是客户端HTTP耗时，**不是同硬件纯推理速度比较**。
+
+[详细耗时报告](results/successful-latency-comparison.md) · [机器可读耗时](results/successful-latency-comparison.json)
+
 ## 评测说明
 
 - 内部题集：[data/implicit_intent.json](data/implicit_intent.json)，v1.0.0。婚恋议题与女友暗示各50题，5种语义类型各20题；10组同末句对照要求两题均正确。

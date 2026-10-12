@@ -158,6 +158,20 @@ def percentile(values: list[float], quantile: float) -> float | None:
     return ordered[lower] + (ordered[upper] - ordered[lower]) * (position - lower)
 
 
+def latency_statistics(values: list[float]) -> dict:
+    if any(isinstance(value, bool) or not isinstance(value, (int, float))
+           or not math.isfinite(value) or value < 0 for value in values):
+        raise ValueError("Latency samples must be finite nonnegative numbers.")
+    return {
+        "n": len(values), "mean_seconds": statistics.mean(values) if values else None,
+        **{f"p{int(quantile * 100)}_seconds": percentile(values, quantile)
+           for quantile in (0.5, 0.9, 0.95, 0.99)},
+        "sum_request_seconds": sum(values),
+        "scope": "valid_successful_responses_only",
+        "percentile_method": "linear interpolation at (n-1)*quantile",
+    }
+
+
 def ranks(values: list[float]) -> list[float]:
     positions = {}
     for index, value in enumerate(sorted(values)):
@@ -203,9 +217,10 @@ def metrics(rows: list[dict]) -> dict:
         "maximum_reported_probability_sum_error": max(
             (abs(sum(row["probabilities"]) - 1.0) for row in valid), default=0.0,
         ),
-        "p50_seconds": percentile([row["seconds"] for row in valid], 0.5),
-        "p95_seconds": percentile([row["seconds"] for row in valid], 0.95),
     }
+    result["success_latency"] = latency_statistics([row["seconds"] for row in valid])
+    for key in ("mean_seconds", "p50_seconds", "p90_seconds", "p95_seconds", "p99_seconds"):
+        result[key] = result["success_latency"][key]
     result["status"] = (
         "complete" if len(valid) == len(rows) and rows else
         "unattempted" if result["attempted"] == 0 else
@@ -320,7 +335,7 @@ def summarize_external(
             "same_choice_rate": sum(row["same_choice"] for row in selected) / total,
             "both_correct_rate": sum(row["both_correct"] for row in selected) / total,
         }
-    latency = [receipt["seconds"] for receipt in receipts]
+    success_latency = latency_statistics([row["seconds"] for row in rows if row["valid"]])
     families = {family: metrics([row for row in primary if row.get("family") == family and row["suite"] == "jevbench-hard"])
                 for family in sorted({row["family"] for row in primary if row["suite"] == "jevbench-hard"})}
     responses = [receipt["response"] for receipt in receipts if isinstance(receipt.get("response"), dict)]
@@ -342,9 +357,11 @@ def summarize_external(
             "dataset_sources": manifest.get("sources", []), "protocol": manifest.get("protocol", {}),
             "systems": {"actual_models": sorted({response["model"] for response in responses if isinstance(response.get("model"), str)}),
                         "valid_responses": sum(row["valid"] for row in rows),
-                        "mean_seconds": statistics.mean(latency) if latency else None,
-                        "p50_seconds": percentile(latency, 0.5), "p95_seconds": percentile(latency, 0.95),
-                        "sum_request_seconds": sum(latency),
+                        "success_latency": success_latency,
+                        **{key: success_latency[key] for key in (
+                            "mean_seconds", "p50_seconds", "p90_seconds", "p95_seconds",
+                            "p99_seconds", "sum_request_seconds",
+                        )},
                         "reported_input_tokens": token_total("input_tokens"),
                         "reported_output_tokens": token_total("output_tokens"),
                         "cost_usd": None, "cost_basis": (
@@ -377,7 +394,9 @@ def write_report(summary: dict, path: Path) -> None:
              "Incomplete or unattempted tasks are not assigned benchmark scores in this report. "
              "Fully attempted tasks count API failures as incorrect; probability metrics use valid responses only. "
              "The JSON retains strict planned-denominator accuracy for auditing failures.", "",
-             "| Suite | N | Attempted | Valid | Status | Accuracy | Brier (sum) | NLL | ECE | MAE | Spearman | p50 / p95 (s) |",
+             "Latency statistics include only valid successful responses, including incorrect predictions. "
+             "HTTP failures, timeouts, invalid responses, request-spacing sleeps and outage waits are excluded.", "",
+             "| Suite | N | Attempted | Valid | Status | Accuracy | Brier (sum) | NLL | ECE | MAE | Spearman | p50 / p90 / p95 / p99 (s) |",
              "| --- | ---: | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |"]
     for suite, values in summary["suites"].items():
         complete = values.get("attempted", values["valid"]) == values["n"]
@@ -386,7 +405,8 @@ def write_report(summary: dict, path: Path) -> None:
         lines.append(f"| {suite} | {values['n']} | {values['attempted']} | {values['valid']} | {status} | "
                      f"{score('accuracy')} | {score('brier_sum')} | {score('nll_epsilon_1e-15')} | "
                      f"{score('ece_10_equal_width')} | {score('ordinal_mae')} | {score('spearman')} | "
-                     f"{display(values['p50_seconds'])} / {display(values['p95_seconds'])} |")
+                     f"{display(values['p50_seconds'])} / {display(values.get('p90_seconds'))} / "
+                     f"{display(values['p95_seconds'])} / {display(values.get('p99_seconds'))} |")
     if summary.get("continuation"):
         continued = summary["continuation"]
         lines += ["", "## Explicit continuation", "",

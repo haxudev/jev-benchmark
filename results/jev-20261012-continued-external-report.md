@@ -4,7 +4,7 @@ Model: `jev-1.13.0`. Manifest SHA-256: `fbb21679cd930b0397a3adcc20d408e422cb8165
 
 Requested model: `jev-1.13.0`. Run ended UTC: 2026-10-12T11:44:14.470632+00:00.
 
-Requests recorded: 1521/1521.
+Logical items recorded: 1521/1521. Physical HTTP attempts: 1521.
 
 **Run status: complete**. Valid responses: 1521/1521.
 
@@ -16,17 +16,19 @@ Probability reporting: Jev 1.13 hundredths: feasible rounding bounds, native Sco
 
 Incomplete or unattempted tasks are not assigned benchmark scores in this report. Fully attempted tasks count API failures as incorrect; probability metrics use valid responses only. The JSON retains strict planned-denominator accuracy for auditing failures.
 
-| Suite | N | Attempted | Valid | Status | Accuracy | Brier (sum) | NLL | ECE | MAE | Spearman | p50 / p95 (s) |
+Latency statistics include only valid successful responses, including incorrect predictions. HTTP failures, timeouts, invalid responses, request-spacing sleeps and outage waits are excluded.
+
+| Suite | N | Attempted | Valid | Status | Accuracy | Brier (sum) | NLL | ECE | MAE | Spearman | p50 / p90 / p95 / p99 (s) |
 | --- | ---: | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| ag_news | 200 | 200 | 200 | complete | 0.8700 | 0.2083 | 1.9139 | 0.0876 | N/A | N/A | 0.2506 / 0.2930 |
-| anli | 200 | 200 | 200 | complete | 0.7150 | 0.4234 | 1.4919 | 0.1340 | N/A | N/A | 0.2589 / 0.3277 |
-| belebele-zho_Hans | 200 | 200 | 200 | complete | 0.9400 | 0.0926 | 0.4903 | 0.0338 | N/A | N/A | 0.2517 / 0.3056 |
-| boolq | 200 | 200 | 200 | complete | 0.9000 | 0.1572 | 0.2665 | 0.0250 | N/A | N/A | 0.2549 / 0.3041 |
-| jevbench-easy | 48 | 48 | 48 | complete | 1.0000 | 0.0002 | 0.0044 | 0.0044 | N/A | N/A | 0.2529 / 0.5869 |
-| jevbench-hard | 111 | 111 | 111 | complete | 0.7207 | 0.3517 | 0.5967 | 0.0847 | 0.3767 | 0.7715 | 0.2487 / 0.2962 |
-| jevbench-original | 72 | 72 | 72 | complete | 0.9861 | 0.0269 | 0.0562 | 0.0453 | 0.0033 | 0.9852 | 0.2514 / 0.3688 |
-| sst5 | 200 | 200 | 200 | complete | 0.5200 | 0.7219 | 3.0408 | 0.2502 | 0.5978 | 0.7996 | 0.2569 / 0.3022 |
-| stsb | 200 | 200 | 200 | complete | N/A | N/A | N/A | N/A | 0.5055 | 0.9015 | 0.2533 / 0.3226 |
+| ag_news | 200 | 200 | 200 | complete | 0.8700 | 0.2083 | 1.9139 | 0.0876 | N/A | N/A | 0.2506 / 0.2830 / 0.2930 / 0.3963 |
+| anli | 200 | 200 | 200 | complete | 0.7150 | 0.4234 | 1.4919 | 0.1340 | N/A | N/A | 0.2589 / 0.2911 / 0.3277 / 0.5771 |
+| belebele-zho_Hans | 200 | 200 | 200 | complete | 0.9400 | 0.0926 | 0.4903 | 0.0338 | N/A | N/A | 0.2517 / 0.2854 / 0.3056 / 0.5627 |
+| boolq | 200 | 200 | 200 | complete | 0.9000 | 0.1572 | 0.2665 | 0.0250 | N/A | N/A | 0.2549 / 0.2889 / 0.3041 / 0.5684 |
+| jevbench-easy | 48 | 48 | 48 | complete | 1.0000 | 0.0002 | 0.0044 | 0.0044 | N/A | N/A | 0.2529 / 0.5361 / 0.5869 / 0.7016 |
+| jevbench-hard | 111 | 111 | 111 | complete | 0.7207 | 0.3517 | 0.5967 | 0.0847 | 0.3767 | 0.7715 | 0.2487 / 0.2820 / 0.2962 / 0.3433 |
+| jevbench-original | 72 | 72 | 72 | complete | 0.9861 | 0.0269 | 0.0562 | 0.0453 | 0.0033 | 0.9852 | 0.2514 / 0.2850 / 0.3688 / 0.7660 |
+| sst5 | 200 | 200 | 200 | complete | 0.5200 | 0.7219 | 3.0408 | 0.2502 | 0.5978 | 0.7996 | 0.2569 / 0.2840 / 0.3022 / 0.5607 |
+| stsb | 200 | 200 | 200 | complete | N/A | N/A | N/A | N/A | 0.5055 | 0.9015 | 0.2533 / 0.2858 / 0.3226 / 0.5660 |
 
 ## Explicit continuation
 
@@ -86,9 +88,22 @@ Descriptive p_max >= 0.9 slice; these are not fitted deployment thresholds. Inco
     "jev-1.13.0"
   ],
   "valid_responses": 1521,
+  "success_latency": {
+    "n": 1521,
+    "mean_seconds": 0.2673516890203393,
+    "p50_seconds": 0.25353309999627527,
+    "p90_seconds": 0.28653209999902174,
+    "p95_seconds": 0.30775350000476465,
+    "p99_seconds": 0.575151679998089,
+    "sum_request_seconds": 406.641918999936,
+    "scope": "valid_successful_responses_only",
+    "percentile_method": "linear interpolation at (n-1)*quantile"
+  },
   "mean_seconds": 0.2673516890203393,
   "p50_seconds": 0.25353309999627527,
+  "p90_seconds": 0.28653209999902174,
   "p95_seconds": 0.30775350000476465,
+  "p99_seconds": 0.575151679998089,
   "sum_request_seconds": 406.641918999936,
   "reported_input_tokens": 787303,
   "reported_output_tokens": 52530,

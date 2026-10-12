@@ -18,6 +18,17 @@ Probability metrics use the reported vectors without renormalization. Jev 1.13 r
 
 **microsoft-decision-1 explicit missing-answer recovery:** 1505 initial valid items + 16 additional attempts. 16 original failed attempts remain in the audit history; valid wrong predictions were not repeated. These are recovered-coverage metrics, not first-pass-only results.
 
+## Successful-request latency (ms)
+
+Only valid successful responses are included; valid incorrect predictions still count. Failed requests, invalid responses and all-attempt audit timing are excluded. Missing historical p90/p99 values are not inferred from p50/p95.
+
+| 模型 | 成功样本数 | 均值 | p50 | p90 | p95 | p99 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| jev-1.13.0 | 1521 | 267.4 | 253.5 | 286.5 | 307.8 | 575.2 |
+| microsoft-decision-1 | 1521 | 1274.1 | 1308.5 | 1730.1 | 1900.0 | 2406.4 |
+| qwen35-4b-jev-v1 | 1521 | 539.8 | 422.2 | 未记录 | 652.5 | 未记录 |
+
+
 ## Task metrics
 
 | Task | Model | N | Attempted | Valid | Status | Accuracy | Brier (sum) | NLL | ECE | MAE | Spearman | p50 / p95 (s) |

@@ -16,17 +16,19 @@ Probability reporting: native reported values; no normalization. Jev hundredths 
 
 Incomplete or unattempted tasks are not assigned benchmark scores in this report. Fully attempted tasks count API failures as incorrect; probability metrics use valid responses only. The JSON retains strict planned-denominator accuracy for auditing failures.
 
-| Suite | N | Attempted | Valid | Status | Accuracy | Brier (sum) | NLL | ECE | MAE | Spearman | p50 / p95 (s) |
+Latency statistics include only valid successful responses, including incorrect predictions. HTTP failures, timeouts, invalid responses, request-spacing sleeps and outage waits are excluded.
+
+| Suite | N | Attempted | Valid | Status | Accuracy | Brier (sum) | NLL | ECE | MAE | Spearman | p50 / p90 / p95 / p99 (s) |
 | --- | ---: | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| ag_news | 200 | 200 | 200 | complete | 0.8950 | 0.1825 | 0.3653 | 0.0579 | N/A | N/A | 1.0039 / 1.6088 |
-| anli | 200 | 200 | 200 | complete | 0.6350 | 0.5021 | 0.8749 | 0.1604 | N/A | N/A | 1.3907 / 1.9369 |
-| belebele-zho_Hans | 200 | 200 | 200 | complete | 0.9700 | 0.0364 | 0.0933 | 0.0454 | N/A | N/A | 1.3807 / 1.9352 |
-| boolq | 200 | 200 | 200 | complete | 0.8650 | 0.1906 | 0.3145 | 0.0727 | N/A | N/A | 1.3246 / 1.9285 |
-| jevbench-easy | 48 | 48 | 48 | complete | 1.0000 | 0.0000 | 0.0025 | 0.0025 | N/A | N/A | 0.5105 / 1.0765 |
-| jevbench-hard | 111 | 111 | 111 | complete | 0.8198 | 0.2609 | 0.4769 | 0.0408 | 0.4366 | 0.6172 | 0.5486 / 1.0813 |
-| jevbench-original | 72 | 72 | 72 | complete | 1.0000 | 0.0014 | 0.0118 | 0.0114 | 0.0014 | 0.9608 | 0.5187 / 1.0992 |
-| sst5 | 200 | 200 | 200 | complete | 0.5300 | 0.5946 | 1.0570 | 0.1057 | 0.5520 | 0.8383 | 1.3883 / 1.8997 |
-| stsb | 200 | 200 | 200 | complete | N/A | N/A | N/A | N/A | 0.4472 | 0.9296 | 1.3801 / 1.8915 |
+| ag_news | 200 | 200 | 200 | complete | 0.8950 | 0.1825 | 0.3653 | 0.0579 | N/A | N/A | 1.0039 / 1.5363 / 1.6088 / 1.7454 |
+| anli | 200 | 200 | 200 | complete | 0.6350 | 0.5021 | 0.8749 | 0.1604 | N/A | N/A | 1.3907 / 1.8794 / 1.9369 / 2.4172 |
+| belebele-zho_Hans | 200 | 200 | 200 | complete | 0.9700 | 0.0364 | 0.0933 | 0.0454 | N/A | N/A | 1.3807 / 1.8432 / 1.9352 / 2.1770 |
+| boolq | 200 | 200 | 200 | complete | 0.8650 | 0.1906 | 0.3145 | 0.0727 | N/A | N/A | 1.3246 / 1.7326 / 1.9285 / 2.4731 |
+| jevbench-easy | 48 | 48 | 48 | complete | 1.0000 | 0.0000 | 0.0025 | 0.0025 | N/A | N/A | 0.5105 / 0.7794 / 1.0765 / 1.2103 |
+| jevbench-hard | 111 | 111 | 111 | complete | 0.8198 | 0.2609 | 0.4769 | 0.0408 | 0.4366 | 0.6172 | 0.5486 / 0.7368 / 1.0813 / 1.2669 |
+| jevbench-original | 72 | 72 | 72 | complete | 1.0000 | 0.0014 | 0.0118 | 0.0114 | 0.0014 | 0.9608 | 0.5187 / 1.0511 / 1.0992 / 5.6990 |
+| sst5 | 200 | 200 | 200 | complete | 0.5300 | 0.5946 | 1.0570 | 0.1057 | 0.5520 | 0.8383 | 1.3883 / 1.7998 / 1.8997 / 2.1597 |
+| stsb | 200 | 200 | 200 | complete | N/A | N/A | N/A | N/A | 0.4472 | 0.9296 | 1.3801 / 1.8143 / 1.8915 / 2.1149 |
 
 ## User-directed missing-answer recovery
 
@@ -87,9 +89,22 @@ Descriptive p_max >= 0.9 slice; these are not fitted deployment thresholds. Inco
     "microsoft-decision-1"
   ],
   "valid_responses": 1521,
+  "success_latency": {
+    "n": 1521,
+    "mean_seconds": 1.2740675506246086,
+    "p50_seconds": 1.308482799999183,
+    "p90_seconds": 1.7300849000021117,
+    "p95_seconds": 1.8999522999947658,
+    "p99_seconds": 2.4064149800004078,
+    "sum_request_seconds": 1937.85674450003,
+    "scope": "valid_successful_responses_only",
+    "percentile_method": "linear interpolation at (n-1)*quantile"
+  },
   "mean_seconds": 1.2740675506246086,
   "p50_seconds": 1.308482799999183,
+  "p90_seconds": 1.7300849000021117,
   "p95_seconds": 1.8999522999947658,
+  "p99_seconds": 2.4064149800004078,
   "sum_request_seconds": 1937.85674450003,
   "reported_input_tokens": 327004,
   "reported_output_tokens": 1521,

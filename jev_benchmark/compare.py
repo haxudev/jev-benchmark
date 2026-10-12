@@ -6,8 +6,52 @@ import json
 from pathlib import Path
 
 from .evaluate import merge_results
+from .external import latency_statistics
 
 COMPARISON_MODELS = ("Jev-API", "Microsoft Decision", "qwen35-4b-jev-v1")
+
+
+def internal_latency(report: dict) -> dict[str, dict]:
+    if report.get("status") != "complete":
+        raise ValueError("Internal latency comparison requires a complete result.")
+    return {
+        model: latency_statistics([row["decisions"][model]["seconds"] for row in report["results"]])
+        for model in report["models"]
+    }
+
+
+def external_success_latency(summary: dict) -> dict:
+    systems = summary["systems"]
+    if "success_latency" in systems:
+        result = deepcopy(systems["success_latency"])
+        if result["n"] != systems["valid_responses"] or result["scope"] != "valid_successful_responses_only":
+            raise ValueError("Successful latency count or scope differs from valid responses.")
+        return result
+    # Old summaries cannot recover missing quantiles or remove failed durations without samples.
+    all_successful = systems["valid_responses"] == summary["recorded_requests"]
+    return {
+        "n": systems["valid_responses"],
+        **{key: systems.get(key) if all_successful else None for key in (
+            "mean_seconds", "p50_seconds", "p90_seconds", "p95_seconds", "p99_seconds",
+        )},
+        "scope": "valid_successful_responses_only" if all_successful else "unavailable_legacy_mixed_attempts",
+        "percentile_method": "historical summary; unrecorded quantiles unavailable",
+    }
+
+
+def latency_table(values: dict[str, dict]) -> str:
+    def milliseconds(value):
+        return "未记录" if value is None else f"{value * 1000:.1f}"
+
+    lines = ["| 模型 | 成功样本数 | 均值 | p50 | p90 | p95 | p99 |",
+             "| --- | ---: | ---: | ---: | ---: | ---: | ---: |"]
+    for model, stats in values.items():
+        lines.append(f"| {model} | {stats['n']} | " + " | ".join(
+            milliseconds(stats.get(key)) for key in (
+                "mean_seconds", "p50_seconds", "p90_seconds", "p95_seconds", "p99_seconds",
+            )
+        ) + " |")
+    return "\n".join(lines) + "\n"
 
 
 def compare_external(summaries: dict[str, dict], unavailable: dict[str, dict] | None = None) -> dict:
@@ -56,7 +100,7 @@ def compare_external(summaries: dict[str, dict], unavailable: dict[str, dict] | 
             "network_error_policy": summary.get("network_error_policy", "not recorded"),
             "probability_reporting": summary.get("probability_reporting", "not recorded"),
             "user_directed_repair": deepcopy(summary.get("user_directed_repair")),
-            "physical_request_latency": deepcopy(summary.get("physical_request_latency")),
+            "success_latency": external_success_latency(summary),
         }
     return {
         "kind": "offline_comparison", "manifest_sha256": baseline["manifest_sha256"],
@@ -105,6 +149,11 @@ def external_report(comparison: dict) -> str:
                       f"{values['failed_physical_requests']} original failed attempts remain in the audit history; "
                       "valid wrong predictions were not repeated. These are recovered-coverage metrics, not first-pass-only results."]
     lines += [
+        "", "## Successful-request latency (ms)", "",
+        "Only valid successful responses are included; valid incorrect predictions still count. "
+        "Failed requests, invalid responses and all-attempt audit timing are excluded. "
+        "Missing historical p90/p99 values are not inferred from p50/p95.", "",
+        latency_table({model: values["success_latency"] for model, values in models.items()}),
         "", "## Task metrics", "",
         "| Task | Model | N | Attempted | Valid | Status | Accuracy | Brier (sum) | NLL | ECE | MAE | Spearman | p50 / p95 (s) |",
         "| --- | --- | ---: | ---: | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
@@ -168,6 +217,7 @@ def main():
                 row["decisions"] = {name: row["decisions"][name] for name in selected}
             reports[path.name] = report
         merged = merge_results(reports)
+        merged["success_latency"] = internal_latency(merged)
         for name, source in merged["sources"].items():
             source["origin"] = "historical" if name in args.historical_model else "new"
             if name in unavailable:

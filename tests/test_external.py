@@ -11,9 +11,9 @@ from unittest.mock import patch
 import httpx
 
 from jev_benchmark import ModelError
-from jev_benchmark.external import NativeClient, TARGET_MODEL, digest, distribution, repair_invalid_items, run_external, summarize_external
+from jev_benchmark.external import NativeClient, TARGET_MODEL, digest, distribution, latency_statistics, repair_invalid_items, run_external, summarize_external
 from jev_benchmark.external_data import convert_row, reverse_options, sample_rows, validate_reference
-from jev_benchmark.compare import compare_external, external_report
+from jev_benchmark.compare import compare_external, external_report, external_success_latency, internal_latency
 
 
 class NativeClientTests(unittest.TestCase):
@@ -71,6 +71,62 @@ class NativeClientTests(unittest.TestCase):
 
 
 class EvaluationTests(unittest.TestCase):
+    def test_success_latency_excludes_failures_and_includes_wrong_answers(self):
+        items = [{**self.item(), "id": str(index)} for index in range(4)]
+        answers = []
+        for index, selected in enumerate(("a", "b")):
+            answers.append({
+                "id": str(index), "seconds": float(index + 1),
+                "response": {"model": TARGET_MODEL, "answers": {"decision": {
+                    "type": "choice", "choice": selected,
+                    "probabilities": {"a": 0.8 if selected == "a" else 0.2, "b": 0.2 if selected == "a" else 0.8},
+                }}},
+            })
+        answers += [
+            {"id": "2", "seconds": 120.0, "error": "timeout_no_retry"},
+            {"id": "3", "seconds": 90.0, "response": {"model": TARGET_MODEL, "answers": {}}},
+        ]
+        summary = summarize_external({"items": items}, answers)
+        stats = summary["systems"]["success_latency"]
+        self.assertEqual(stats["n"], 2)
+        self.assertEqual(summary["systems"]["valid_responses"], 2)
+        self.assertAlmostEqual(stats["mean_seconds"], 1.5)
+        self.assertAlmostEqual(stats["p90_seconds"], 1.9)
+        self.assertAlmostEqual(stats["p95_seconds"], 1.95)
+        self.assertAlmostEqual(stats["p99_seconds"], 1.99)
+        self.assertEqual(summary["suites"]["fixture"]["accuracy"], 0.25)
+        self.assertAlmostEqual(summary["suites"]["fixture"]["p90_seconds"], 1.9)
+
+    def test_no_success_samples_have_no_latency_statistics(self):
+        summary = summarize_external({"items": [self.item()]}, [{
+            "id": "fixture", "seconds": 120.0, "error": "timeout_no_retry",
+        }])
+        stats = summary["systems"]["success_latency"]
+        self.assertEqual(stats["n"], 0)
+        self.assertIsNone(stats["mean_seconds"])
+        self.assertIsNone(stats["p90_seconds"])
+        self.assertIsNone(stats["p95_seconds"])
+        for value in (-1.0, float("nan"), float("inf"), True):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                latency_statistics([value])
+
+    def test_historical_quantiles_are_not_invented_or_mixed_with_failures(self):
+        legacy = {"recorded_requests": 100, "systems": {
+            "valid_responses": 100, "mean_seconds": 1.0, "p50_seconds": 0.8, "p95_seconds": 2.0,
+        }}
+        stats = external_success_latency(legacy)
+        self.assertEqual(stats["p95_seconds"], 2.0)
+        self.assertIsNone(stats["p90_seconds"])
+        self.assertIsNone(stats["p99_seconds"])
+        legacy["systems"]["valid_responses"] = 99
+        self.assertIsNone(external_success_latency(legacy)["mean_seconds"])
+        internal = {"status": "complete", "models": ["Model"], "results": [
+            {"reference": "a", "decisions": {"Model": {"selected": "b", "seconds": 1.0}}},
+            {"reference": "b", "decisions": {"Model": {"selected": "a", "seconds": 3.0}}},
+        ]}
+        self.assertEqual(internal_latency(internal)["Model"]["n"], 2)
+        self.assertEqual(internal_latency(internal)["Model"]["mean_seconds"], 2.0)
+
     def item(self, kind="choice"):
         criteria = {"a": "First", "b": "Second"} if kind == "choice" else ["Low", "High"]
         question = {"type": kind, "instructions": "Judge"}

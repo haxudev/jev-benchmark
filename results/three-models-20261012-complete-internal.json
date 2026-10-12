@@ -5276,5 +5276,40 @@
       }
     ]
   },
-  "refresh_status": "complete"
+  "refresh_status": "complete",
+  "success_latency": {
+    "Jev-API": {
+      "n": 100,
+      "mean_seconds": 0.8444635610000841,
+      "p50_seconds": 0.7864515500041307,
+      "p90_seconds": 0.9189503800014797,
+      "p95_seconds": 1.1285541650009692,
+      "p99_seconds": 1.8796214809965754,
+      "sum_request_seconds": 84.44635610000842,
+      "scope": "valid_successful_responses_only",
+      "percentile_method": "linear interpolation at (n-1)*quantile"
+    },
+    "Microsoft Decision": {
+      "n": 100,
+      "mean_seconds": 1.7599367489996076,
+      "p50_seconds": 1.6080671999989136,
+      "p90_seconds": 2.194174940000812,
+      "p95_seconds": 2.3032700199972167,
+      "p99_seconds": 6.28846509099909,
+      "sum_request_seconds": 175.99367489996075,
+      "scope": "valid_successful_responses_only",
+      "percentile_method": "linear interpolation at (n-1)*quantile"
+    },
+    "qwen35-4b-jev-v1": {
+      "n": 100,
+      "mean_seconds": 0.6354256438792799,
+      "p50_seconds": 0.6339029610098805,
+      "p90_seconds": 0.6462263690831606,
+      "p95_seconds": 0.6502617382036988,
+      "p99_seconds": 0.6661213605012745,
+      "sum_request_seconds": 63.542564387927996,
+      "scope": "valid_successful_responses_only",
+      "percentile_method": "linear interpolation at (n-1)*quantile"
+    }
+  }
 }
