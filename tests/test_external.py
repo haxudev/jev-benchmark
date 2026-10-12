@@ -2,6 +2,7 @@
 
 import json
 import os
+import random
 from pathlib import Path
 import tempfile
 import unittest
@@ -409,6 +410,51 @@ class EvaluationTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "incomplete run"):
                     run_external(manifest, Path(directory) / "must-not-run", continue_from=source)
                 factory.assert_not_called()
+
+    def test_jev_hundredths_preserve_native_score_without_normalization(self):
+        item = {**self.item("score"), "labels": ["0", "1", "2", "3"],
+                "gold": [1.0, 0.0, 0.0, 0.0], "target_score": 0.0}
+        receipt = {"id": "fixture", "seconds": 0.2, "response": {"model": "jev-1.13.0", "answers": {
+            "decision": {"type": "score", "score": 0.02,
+                         "probabilities": {"0": 0.99, "1": 0.01, "2": 0.0, "3": 0.0}},
+        }}}
+        self.assertEqual(distribution(item, receipt, "jev-1.13.0"), [0.99, 0.01, 0.0, 0.0])
+        summary = summarize_external({"items": [item]}, [receipt], "jev-1.13.0")
+        self.assertEqual(summary["systems"]["valid_responses"], 1)
+        self.assertAlmostEqual(summary["suites"]["fixture"]["ordinal_mae"], 0.02)
+        receipt["response"]["answers"]["decision"]["score"] = 0.05
+        with self.assertRaisesRegex(ValueError, "invalid_score"):
+            distribution(item, receipt, "jev-1.13.0")
+
+    def test_rounded_probability_sum_requires_a_feasible_normalized_vector(self):
+        item = {**self.item(), "labels": ["a", "b", "c"], "gold": [1.0, 0.0, 0.0]}
+        receipt = {"seconds": 0.2, "response": {"model": "jev-1.13.0", "answers": {"decision": {
+            "type": "choice", "choice": "a", "probabilities": {"a": 0.33, "b": 0.33, "c": 0.33},
+        }}}}
+        self.assertEqual(distribution(item, receipt, "jev-1.13.0"), [0.33, 0.33, 0.33])
+        receipt["response"]["answers"]["decision"]["probabilities"] = {"a": 0.30, "b": 0.30, "c": 0.38}
+        with self.assertRaisesRegex(ValueError, "invalid_probability_sum"):
+            distribution(item, receipt, "jev-1.13.0")
+        receipt["response"]["model"] = TARGET_MODEL
+        receipt["response"]["answers"]["decision"]["probabilities"] = {"a": 0.33, "b": 0.33, "c": 0.33}
+        with self.assertRaisesRegex(ValueError, "invalid_probability_sum"):
+            distribution(item, receipt)
+
+    def test_jev_rounding_bounds_accept_real_normalized_witnesses(self):
+        rng = random.Random(42)
+        for count in range(2, 11):
+            labels = [str(index) for index in range(count)]
+            for _ in range(30):
+                values = [rng.random() for _ in labels]
+                probabilities = [value / sum(values) for value in values]
+                reported = [round(value, 2) for value in probabilities]
+                score = round(sum(index * value for index, value in enumerate(probabilities)), 2)
+                item = {"question": {"type": "score"}, "labels": labels}
+                receipt = {"response": {"model": "jev-1.13.0", "answers": {"decision": {
+                    "type": "score", "score": score, "probabilities": dict(zip(labels, reported)),
+                }}}}
+                with self.subTest(levels=count, score=score):
+                    self.assertEqual(distribution(item, receipt, "jev-1.13.0"), reported)
 
 
 if __name__ == "__main__":

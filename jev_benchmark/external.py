@@ -14,7 +14,7 @@ from urllib.parse import urlsplit
 
 import httpx
 
-from . import ENV_PATH, ModelError
+from . import ENV_PATH, ModelError, rounded_probability_bounds, valid_probability_sum
 from .intranet import is_safe_base_url
 from .jev_api import JevClient, read_config
 from .microsoft import MicrosoftClient
@@ -90,6 +90,20 @@ class NativeClient:
         return receipt
 
 
+def rounded_score_interval(bounds: tuple[list[float], list[float]]) -> tuple[float, float]:
+    lower, upper = bounds
+    result = []
+    for indices in (range(len(lower)), range(len(lower) - 1, -1, -1)):
+        remaining = max(0.0, 1 - sum(lower))
+        score = sum(index * value for index, value in enumerate(lower))
+        for index in indices:
+            added = min(remaining, upper[index] - lower[index])
+            score += index * added
+            remaining -= added
+        result.append(score)
+    return result[0], result[1]
+
+
 def distribution(item: dict, receipt: dict, model: str = TARGET_MODEL) -> list[float]:
     response = receipt.get("response")
     if not isinstance(response, dict) or response.get("model") != model:
@@ -112,7 +126,7 @@ def distribution(item: dict, receipt: dict, model: str = TARGET_MODEL) -> list[f
     if any(isinstance(value, bool) or not isinstance(value, (int, float))
            or not math.isfinite(value) or not 0 <= value <= 1 for value in probabilities):
         raise ValueError("invalid_probability_value")
-    if not math.isclose(sum(probabilities), 1, abs_tol=0.001, rel_tol=0):
+    if not valid_probability_sum(probabilities, model):
         raise ValueError("invalid_probability_sum")
     if kind == "choice":
         selected = answer.get("choice")
@@ -122,8 +136,15 @@ def distribution(item: dict, receipt: dict, model: str = TARGET_MODEL) -> list[f
         score = answer.get("score")
         expected = sum(index * value for index, value in enumerate(probabilities))
         if (isinstance(score, bool) or not isinstance(score, (int, float))
-                or not math.isfinite(score) or not math.isclose(score, expected, abs_tol=1e-5)):
+                or not math.isfinite(score) or not 0 <= score <= len(labels) - 1):
             raise ValueError("invalid_score")
+        if not math.isclose(score, expected, abs_tol=1e-5):
+            bounds = rounded_probability_bounds(probabilities, model)
+            if bounds is None or not math.isclose(score * 100, round(score * 100), abs_tol=1e-8, rel_tol=0):
+                raise ValueError("invalid_score")
+            low, high = rounded_score_interval(bounds)
+            if not low - 0.005 - 1e-12 <= score <= high + 0.005 + 1e-12:
+                raise ValueError("invalid_score")
     return probabilities
 
 
@@ -176,6 +197,12 @@ def metrics(rows: list[dict]) -> dict:
         "accuracy": sum(row["correct"] for row in labeled) / len(labeled) if labeled else None,
         "accuracy_ci95_cluster_bootstrap": cluster_interval(rows),
         "probability_metric_n": len(calibrated),
+        "reported_probability_sum_deviation_n": sum(
+            not math.isclose(sum(row["probabilities"]), 1.0, abs_tol=0.001, rel_tol=0) for row in valid
+        ),
+        "maximum_reported_probability_sum_error": max(
+            (abs(sum(row["probabilities"]) - 1.0) for row in valid), default=0.0,
+        ),
         "p50_seconds": percentile([row["seconds"] for row in valid], 0.5),
         "p95_seconds": percentile([row["seconds"] for row in valid], 0.95),
     }
@@ -260,9 +287,12 @@ def summarize_external(
                 selected = max(range(len(probabilities)), key=probabilities.__getitem__)
                 if item["question"]["type"] == "choice":
                     selected = item["labels"].index(receipt["response"]["answers"]["decision"]["choice"])
+                expected_score = sum(index * value for index, value in enumerate(probabilities))
+                if item["question"]["type"] == "score":
+                    expected_score = receipt["response"]["answers"]["decision"]["score"]
                 row.update(valid=True, probabilities=probabilities, selected_index=selected,
                            correct=selected == item.get("gold_index"),
-                           expected_score=sum(index * value for index, value in enumerate(probabilities)))
+                           expected_score=expected_score)
             except (ValueError, TypeError, AttributeError, KeyError) as error:
                 row["error"] = str(error) if isinstance(error, ValueError) else "invalid_response"
         rows.append(row)
@@ -304,6 +334,10 @@ def summarize_external(
             "total_requests": len(rows), "recorded_requests": len(receipts),
             "manifest_sha256": digest(manifest), "model": actual_model or model, "requested_model": model,
             "primary_decisions": len(primary), "hard_families": families,
+            "probability_reporting": (
+                "Jev 1.13 hundredths: feasible rounding bounds, native Score retained, no normalization"
+                if (actual_model or model) == "jev-1.13.0" else "native reported values; no normalization"
+            ),
             "dataset_sources": manifest.get("sources", []), "protocol": manifest.get("protocol", {}),
             "systems": {"actual_models": sorted({response["model"] for response in responses if isinstance(response.get("model"), str)}),
                         "valid_responses": sum(row["valid"] for row in rows),
@@ -335,6 +369,9 @@ def write_report(summary: dict, path: Path) -> None:
              f"Network error policy: `{summary.get('network_error_policy', 'not recorded')}`. "
              f"Keepalive for this segment's new requests: {summary.get('new_requests_http_keepalive', 'not recorded')}. "
              "Retained responses keep their original transport conditions.", "",
+             f"Probability reporting: {summary.get('probability_reporting', 'not recorded')}. "
+             "Jev hundredths are not renormalized; rounded zero probabilities can inflate floored NLL, "
+             "and its native reported Score is retained for MAE and Spearman.", "",
              "Incomplete or unattempted tasks are not assigned benchmark scores in this report. "
              "Fully attempted tasks count API failures as incorrect; probability metrics use valid responses only. "
              "The JSON retains strict planned-denominator accuracy for auditing failures.", "",
@@ -572,6 +609,7 @@ def main():
             "model_key", "status", "execution_complete", "minimum_request_interval_seconds",
             "new_requests_http_keepalive", "continuation",
             "network_error_policy",
+            "probability_reporting",
         ):
             if field in previous:
                 summary[field] = previous[field]

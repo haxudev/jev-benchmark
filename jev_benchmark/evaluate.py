@@ -13,7 +13,7 @@ from pathlib import Path
 from time import perf_counter
 from typing import Protocol
 
-from . import DATA_PATH, RESULTS_DIR, Decision, ModelError
+from . import DATA_PATH, RESULTS_DIR, Decision, ModelError, valid_probability_sum
 
 CONTESTANTS = ("jev", "microsoft", "intranet", "local")
 GROUP_FIELDS = ("subset", "category", "phenomenon")
@@ -56,7 +56,7 @@ def _check_decision(decision: Decision, options: dict[str, str], name: str) -> N
     if (
         decision.selected not in options or set(p) != set(options)
         or not all(math.isfinite(v) and 0 <= v <= 1 for v in p.values())
-        or not math.isclose(sum(p.values()), 1, abs_tol=1e-3)
+        or not valid_probability_sum(list(p.values()), decision.model)
     ):
         raise ModelError(f"{name} 返回的选择或概率分布无效。")
 

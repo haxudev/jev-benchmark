@@ -8,7 +8,7 @@ from urllib.parse import urlsplit
 import httpx
 from dotenv import dotenv_values
 
-from . import ENV_PATH, Decision, ModelError
+from . import ENV_PATH, Decision, ModelError, valid_probability_sum
 
 DEFAULT_ENDPOINT = "https://api.typesafe.ai/v1/systemone"
 
@@ -41,11 +41,11 @@ def parse_choice(data: object, options: dict[str, str], source: str) -> Decision
     if not isinstance(raw, dict) or set(raw) != set(options):
         raise ModelError(f"{source} 概率分布与请求的候选项不一致。")
     probabilities = {letter: _probability(raw[letter], source) for letter in options}
-    if not math.isclose(sum(probabilities.values()), 1.0, abs_tol=0.001):
-        raise ModelError(f"{source} 候选概率之和不为 1；未擅自归一化。")
     model = data.get("model")
     if not isinstance(model, str) or not model.strip():
         raise ModelError(f"{source} 响应缺少实际模型版本。")
+    if not valid_probability_sum(list(probabilities.values()), model):
+        raise ModelError(f"{source} 候选概率之和超出报告精度允许范围；未擅自归一化。")
     return Decision(selected, probabilities, _probability(answer.get("confidence"), source), model)
 
 

@@ -49,6 +49,7 @@ def compare_external(summaries: dict[str, dict], unavailable: dict[str, dict] | 
             "minimum_request_interval_seconds": summary.get("minimum_request_interval_seconds", 0),
             "new_requests_http_keepalive": summary.get("new_requests_http_keepalive"),
             "network_error_policy": summary.get("network_error_policy", "not recorded"),
+            "probability_reporting": summary.get("probability_reporting", "not recorded"),
         }
     return {
         "kind": "offline_comparison", "manifest_sha256": baseline["manifest_sha256"],
@@ -75,6 +76,9 @@ def external_report(comparison: dict) -> str:
         f"**Refresh status: {comparison['refresh_status']}**. "
         "Only fully attempted tasks receive benchmark scores below; API failures count as incorrect, "
         "and diagnostic JSON retains incomplete-run metrics.", "",
+        "Probability metrics use the reported vectors without renormalization. Jev 1.13 reports hundredths; "
+        "its zero-rounding can inflate epsilon-floored NLL relative to full-precision providers. "
+        "Ordinal metrics use each API's native Score.", "",
         "| Model | UTC completed | Recorded | Valid | All items attempted | Status | Source |",
         "| --- | --- | ---: | ---: | --- | --- | --- |",
     ]

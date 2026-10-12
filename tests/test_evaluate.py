@@ -216,6 +216,16 @@ class EntryPointTests(unittest.TestCase):
 
 
 class ComparisonTests(unittest.TestCase):
+    def test_runner_retains_jev_rounded_probabilities(self):
+        class Rounded(FakeModel):
+            def choose(self, state, question, options):
+                return Decision("A", {"A": 0.33, "B": 0.33, "C": 0.33, "D": 0.0}, 0.0, "jev-1.13.0")
+
+        with TemporaryDirectory() as directory:
+            report = run_benchmark(DATA_PATH, [Rounded("Jev-API", "A")], Path(directory) / "r.json")
+        self.assertEqual(report["status"], "complete")
+        self.assertAlmostEqual(sum(report["results"][0]["decisions"]["Jev-API"]["probabilities"].values()), 0.99)
+
     def test_merge_preserves_dates_and_rejects_different_data(self):
         with TemporaryDirectory() as directory:
             path = Path(directory)
