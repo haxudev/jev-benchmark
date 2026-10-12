@@ -1,6 +1,7 @@
 """运行评测、统计成绩并渲染 HTML 报表。"""
 
 from collections.abc import Callable, Sequence
+from copy import deepcopy
 from dataclasses import asdict
 from datetime import datetime, timezone
 from hashlib import sha256
@@ -12,9 +13,9 @@ from pathlib import Path
 from time import perf_counter
 from typing import Protocol
 
-from . import DATA_PATH, RESULTS_DIR, Decision, ModelError
+from . import DATA_PATH, RESULTS_DIR, Decision, ModelError, valid_probability_sum
 
-CONTESTANTS = ("local", "jev", "intranet")
+CONTESTANTS = ("jev", "microsoft", "intranet", "local")
 GROUP_FIELDS = ("subset", "category", "phenomenon")
 
 
@@ -33,6 +34,9 @@ def load_contestant(key: str) -> Contestant:
     if key == "jev":
         from .jev_api import JevClient
         return JevClient()
+    if key == "microsoft":
+        from .microsoft import MicrosoftClient
+        return MicrosoftClient()
     if key == "intranet":
         from .intranet import IntranetClient
         return IntranetClient()
@@ -52,7 +56,7 @@ def _check_decision(decision: Decision, options: dict[str, str], name: str) -> N
     if (
         decision.selected not in options or set(p) != set(options)
         or not all(math.isfinite(v) and 0 <= v <= 1 for v in p.values())
-        or not math.isclose(sum(p.values()), 1, abs_tol=1e-3)
+        or not valid_probability_sum(list(p.values()), decision.model)
     ):
         raise ModelError(f"{name} 返回的选择或概率分布无效。")
 
@@ -151,6 +155,7 @@ def run_benchmark(
         json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8"
     )
     save()
+    actual_models = {}
     for case in cases:
         row = {key: case[key] for key in ("id", "title", "category", "phenomenon", "subset", "reference")}
         row["decisions"] = {}
@@ -160,6 +165,9 @@ def run_benchmark(
             try:
                 decision = contestant.choose(case["state"], dataset["question"], case["options"])
                 _check_decision(decision, case["options"], contestant.name)
+                if contestant.name in actual_models and decision.model != actual_models[contestant.name]:
+                    raise ModelError(f"{contestant.name} 的实际模型版本在评测中发生变化。")
+                actual_models[contestant.name] = decision.model
             except (ModelError, ValueError):
                 report.update(status="failed", failed_case=case["id"], failed_model=contestant.name)
                 save()
@@ -195,6 +203,59 @@ def load_results(dataset_path: Path = DATA_PATH, results_dir: Path = RESULTS_DIR
     return reports
 
 
+def merge_results(reports: dict[str, dict], dataset_path: Path = DATA_PATH) -> dict:
+    """离线对齐完整同题结果，保留各模型的原始来源和执行日期。"""
+    raw = dataset_path.read_bytes()
+    dataset = json.loads(raw)
+    lf = raw.replace(b"\r\n", b"\n")
+    digests = {sha256(value).hexdigest() for value in (raw, lf, lf.replace(b"\n", b"\r\n"))}
+    cases = {case["id"]: case for case in dataset["cases"]}
+    rows = [
+        {**{field: case[field] for field in ("id", "title", "category", "phenomenon", "subset", "reference")},
+         "decisions": {}}
+        for case in dataset["cases"]
+    ]
+    names, sources = [], {}
+    for filename, report in reports.items():
+        if (
+            report.get("status") != "complete" or report.get("dataset_sha256") not in digests
+            or report.get("version") != dataset["version"] or report.get("question") != dataset["question"]
+            or [row["id"] for row in report["results"]] != list(cases)
+        ):
+            raise ValueError(f"Cannot merge incomplete or mismatched dataset: {filename}.")
+        if not report["models"] or any(name in names for name in report["models"]):
+            raise ValueError("Comparison requires unique model names.")
+        summarize(report["results"], report["models"])
+        for name in report["models"]:
+            sources[name] = {
+                "result_file": filename, "executed_at": report["executed_at"],
+                "started_at": report["started_at"], "dataset_sha256": report["dataset_sha256"],
+            }
+            if name in report.get("sources", {}):
+                sources[name] = deepcopy(report["sources"][name])
+        names.extend(report["models"])
+        for merged, original in zip(rows, report["results"]):
+            if any(original.get(field) != value for field, value in merged.items() if field != "decisions"):
+                raise ValueError(f"Case metadata differs in {filename}.")
+            for name, decision in original["decisions"].items():
+                _check_decision(Decision(**{key: decision[key] for key in (
+                    "selected", "probabilities", "confidence", "model",
+                )}), cases[original["id"]]["options"], name)
+            merged["decisions"].update(deepcopy(original["decisions"]))
+    if not names:
+        raise ValueError("Comparison requires complete results.")
+    return {
+        "benchmark": dataset["name"], "version": dataset["version"],
+        "dataset_sha256": sha256(raw).hexdigest(), "question": dataset["question"],
+        "models": names, "status": "complete", "kind": "offline_comparison",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "started_at": min(source["started_at"] for source in sources.values()),
+        "executed_at": max(source["executed_at"] for source in sources.values()),
+        "sources": sources, "results": rows, "summary": summarize(rows, names),
+        "contrast_pairs": summarize_contrast_pairs(rows, dataset, names),
+    }
+
+
 _STYLE = (
     "<style>.jev-benchmark{font:14px/1.65 system-ui;max-width:1400px}"
     ".jev-benchmark table{border-collapse:collapse;width:100%;margin:12px 0}"
@@ -223,7 +284,9 @@ def _rate_cell(value) -> str:
     return f"<b>{value['rate']:.1%}</b> <small>({value['matches']}/{value['total']})</small>"
 
 
-def render_leaderboard(reports: dict[str, dict], dataset: dict) -> str:
+def render_leaderboard(
+    reports: dict[str, dict], dataset: dict, model_names: Sequence[str] | None = None,
+) -> str:
     """每个模型一行，取最近一次完整结果，按参考一致率排序。"""
     subsets = dataset.get("subsets", {})
     latest = {}
@@ -231,8 +294,11 @@ def render_leaderboard(reports: dict[str, dict], dataset: dict) -> str:
         stats = summarize(report["results"], report["models"])["reference_agreement"]
         contrast = summarize_contrast_pairs(report["results"], dataset, report["models"])["by_model"]
         for name in report["models"]:
-            if name not in latest or report["executed_at"] > latest[name]["executed_at"]:
-                latest[name] = {"file": file, "executed_at": report["executed_at"],
+            if model_names is not None and name not in model_names:
+                continue
+            source_date = report.get("sources", {}).get(name, {}).get("executed_at", report["executed_at"])
+            if name not in latest or source_date > latest[name]["executed_at"]:
+                latest[name] = {"file": file, "executed_at": source_date,
                                 "stats": stats[name], "contrast": contrast[name]}
     if not latest:
         return "<div class='jev-benchmark'><p>results/ 中没有与当前题集一致的完整结果。</p></div>"
@@ -298,6 +364,13 @@ def render_report(report: dict, dataset: dict) -> str:
         ]),
         "<h3>2. 语义类型与主题</h3>",
     ]
+    if report.get("sources"):
+        html.insert(4, "<p>离线合并对比，以下为各模型原始执行日期；并非同批新运行。</p>" + table(
+            ["模型", "原始结果", "UTC 执行日期", "来源", "本轮刷新"],
+            [[e(name), e(source["result_file"]), e(source["executed_at"]), e(source.get("origin", "saved")),
+              e(source.get("refresh_reason", "历史复用" if source.get("origin") == "historical" else "完成"))]
+             for name, source in report["sources"].items()],
+        ))
     for field, label in (("phenomenon", "语义类型"), ("category", "主题")):
         groups = stats["reference_agreement"][names[0]]["groups"][field]
         html.append(table([label, *names], [

@@ -8,7 +8,7 @@ from urllib.parse import urlsplit
 import httpx
 from dotenv import dotenv_values
 
-from . import ENV_PATH, Decision, ModelError
+from . import ENV_PATH, Decision, ModelError, valid_probability_sum
 
 DEFAULT_ENDPOINT = "https://api.typesafe.ai/v1/systemone"
 
@@ -41,26 +41,32 @@ def parse_choice(data: object, options: dict[str, str], source: str) -> Decision
     if not isinstance(raw, dict) or set(raw) != set(options):
         raise ModelError(f"{source} 概率分布与请求的候选项不一致。")
     probabilities = {letter: _probability(raw[letter], source) for letter in options}
-    if not math.isclose(sum(probabilities.values()), 1.0, abs_tol=0.001):
-        raise ModelError(f"{source} 候选概率之和不为 1；未擅自归一化。")
     model = data.get("model")
     if not isinstance(model, str) or not model.strip():
         raise ModelError(f"{source} 响应缺少实际模型版本。")
+    if not valid_probability_sum(list(probabilities.values()), model):
+        raise ModelError(f"{source} 候选概率之和超出报告精度允许范围；未擅自归一化。")
     return Decision(selected, probabilities, _probability(answer.get("confidence"), source), model)
 
 
 class JevClient:
     key = "jev"
     name = "Jev-API"
+    config_prefix = "JEV"
+    default_endpoint = DEFAULT_ENDPOINT
+    model = "jev-latest"
 
     def __init__(self, env_path: Path = ENV_PATH) -> None:
-        config = read_config(("JEV_API_KEY", "JEV_ENDPOINT"), env_path)
-        self._key = config["JEV_API_KEY"]
-        self._endpoint = config["JEV_ENDPOINT"] or DEFAULT_ENDPOINT
+        prefix = self.config_prefix
+        config = read_config((f"{prefix}_API_KEY", f"{prefix}_ENDPOINT", f"{prefix}_MODEL"), env_path)
+        self._key = config[f"{prefix}_API_KEY"]
+        self._endpoint = config[f"{prefix}_ENDPOINT"] or self.default_endpoint
+        self.model = config[f"{prefix}_MODEL"] or self.model
         if not self._key:
-            raise ModelError("请在 .env 或环境变量中设置 JEV_API_KEY。")
+            raise ModelError(f"请在 .env 或环境变量中设置 {prefix}_API_KEY。")
         try:
             url = urlsplit(self._endpoint)
+            url.port
             valid = (
                 url.scheme == "https" and bool(url.hostname)
                 and not (url.username or url.password or url.query or url.fragment)
@@ -68,18 +74,26 @@ class JevClient:
         except ValueError:
             valid = False
         if not valid:
-            raise ModelError("JEV_ENDPOINT 必须是无内嵌凭据、查询参数或片段的 HTTPS 地址。")
+            raise ModelError(f"{prefix}_ENDPOINT 必须是无内嵌凭据、查询参数或片段的 HTTPS 地址。")
+
+    def accepts_model(self, actual: object) -> bool:
+        if self.model != "jev-latest":
+            return actual == self.model
+        return isinstance(actual, str) and (actual == "jev" or actual.startswith("jev-"))
 
     def choose(self, state: str, question: str, options: dict[str, str]) -> Decision:
         if not state.strip() or not question.strip() or not options:
             raise ValueError("对话、问题和候选项不能为空。")
-        payload = {
-            "model": "jev-latest",
-            "state": state,
-            "questions": {
-                "interpretation": {"type": "choice", "instructions": question, "criteria": options},
-            },
-        }
+        data = self.request(state, {
+            "interpretation": {"type": "choice", "instructions": question, "criteria": options},
+        })
+        decision = parse_choice(data, options, self.name)
+        if not self.accepts_model(decision.model):
+            raise ModelError(f"{self.name} 返回的实际模型身份不符。")
+        return decision
+
+    def request(self, state: object, questions: dict) -> dict:
+        payload = {"model": self.model, "state": state, "questions": questions}
         try:
             response = httpx.post(
                 self._endpoint,
@@ -89,13 +103,15 @@ class JevClient:
                 follow_redirects=False,
             )
         except httpx.TimeoutException:
-            raise ModelError("Jev-API 请求超时（60 秒），未自动重试。") from None
+            raise ModelError(f"{self.name} 请求超时（60 秒），未自动重试。") from None
         except httpx.RequestError:
-            raise ModelError("Jev-API 连接失败，请检查网络和 JEV_ENDPOINT。") from None
+            raise ModelError(f"{self.name} 连接失败，请检查网络和 {self.config_prefix}_ENDPOINT。") from None
         if not response.is_success:
-            raise ModelError(f"Jev-API 请求失败（HTTP {response.status_code}），请检查密钥、额度及服务状态。")
+            raise ModelError(f"{self.name} 请求失败（HTTP {response.status_code}），请检查密钥、额度及服务状态。")
         try:
             data = response.json()
         except ValueError:
-            raise ModelError("Jev-API 返回了无效 JSON。") from None
-        return parse_choice(data, options, self.name)
+            raise ModelError(f"{self.name} 返回了无效 JSON。") from None
+        if not isinstance(data, dict):
+            raise ModelError(f"{self.name} 响应不是 JSON 对象。")
+        return data

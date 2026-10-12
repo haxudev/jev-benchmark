@@ -13,7 +13,7 @@ from unittest.mock import patch
 from jev_benchmark import DATA_PATH, ROOT, Decision, ModelError
 from jev_benchmark.__main__ import main
 from jev_benchmark.evaluate import (
-    load_contestant, load_results, render_leaderboard, render_report, result_path, run_benchmark,
+    load_contestant, load_results, merge_results, render_leaderboard, render_report, result_path, run_benchmark,
     summarize, summarize_contrast_pairs,
 )
 
@@ -183,21 +183,95 @@ class EvaluateTests(unittest.TestCase):
 
 
 class EntryPointTests(unittest.TestCase):
-    def test_cli_defaults_to_local_only(self):
+    def test_cli_requires_explicit_selection_without_network(self):
+        with patch("jev_benchmark.__main__.load_contestant") as load, redirect_stdout(io.StringIO()), patch(
+            "sys.stderr", io.StringIO(),
+        ):
+            with self.assertRaises(SystemExit) as caught:
+                main([])
+        self.assertEqual(caught.exception.code, 2)
+        load.assert_not_called()
+
+    def test_cli_explicit_model(self):
         with TemporaryDirectory() as directory, redirect_stdout(io.StringIO()) as output, patch(
             "jev_benchmark.__main__.load_contestant", side_effect=lambda key: FakeModel("Local", "A"),
         ) as load, patch("jev_benchmark.__main__.result_path", return_value=Path(directory) / "local.json"):
-            main([])
-        load.assert_called_once_with("local")
+            main(["--models", "microsoft"])
+        load.assert_called_once_with("microsoft")
         self.assertIn("26.0%", output.getvalue())
         self.assertEqual(result_path(["local", "jev"]).name, "local-jev.json")
 
-    def test_notebook_compiles_and_defaults_to_local_only(self):
+    def test_notebook_compiles_and_defaults_to_offline(self):
         notebook = json.loads((ROOT / "benchmark.ipynb").read_text(encoding="utf-8"))
         code = ["".join(cell["source"]) for cell in notebook["cells"] if cell["cell_type"] == "code"]
         for source in code:
             compile(source, "notebook", "exec")
-        self.assertEqual(sum('MODELS = ["local"]' in source for source in code), 1)
+        self.assertEqual(sum('RUN_LIVE = False' in source for source in code), 1)
+        self.assertEqual(sum('MODELS = ["jev", "microsoft"]' in source for source in code), 1)
+        self.assertFalse(any("LocalModel" in source for source in code))
+        with patch("jev_benchmark.evaluate.load_contestant") as load, patch("IPython.display.display"):
+            scope = {}
+            exec(code[0], scope)
+        load.assert_not_called()
+
+
+class ComparisonTests(unittest.TestCase):
+    def test_runner_retains_jev_rounded_probabilities(self):
+        class Rounded(FakeModel):
+            def choose(self, state, question, options):
+                return Decision("A", {"A": 0.33, "B": 0.33, "C": 0.33, "D": 0.0}, 0.0, "jev-1.13.0")
+
+        with TemporaryDirectory() as directory:
+            report = run_benchmark(DATA_PATH, [Rounded("Jev-API", "A")], Path(directory) / "r.json")
+        self.assertEqual(report["status"], "complete")
+        self.assertAlmostEqual(sum(report["results"][0]["decisions"]["Jev-API"]["probabilities"].values()), 0.99)
+
+    def test_merge_preserves_dates_and_rejects_different_data(self):
+        with TemporaryDirectory() as directory:
+            path = Path(directory)
+            left = run_benchmark(DATA_PATH, [FakeModel("Left", "A")], path / "left.json")
+            right = run_benchmark(DATA_PATH, [FakeModel("Right", "B")], path / "right.json")
+            reports = {"left.json": left, "right.json": right}
+            merged = merge_results(reports)
+            self.assertEqual(merged["models"], ["Left", "Right"])
+            self.assertEqual(merged["sources"]["Left"]["executed_at"], left["executed_at"])
+            self.assertEqual(len(merged["results"]), 100)
+            self.assertEqual(merged["summary"]["pairwise_agreement"][0]["matches"], 0)
+            self.assertIn("离线合并", render_report(merged, json.loads(DATA_PATH.read_text(encoding="utf-8"))))
+            self.assertEqual(len(left["results"][0]["decisions"]), 1)
+            wrong = copy.deepcopy(right)
+            wrong["dataset_sha256"] = "0" * 64
+            with self.assertRaises(ValueError):
+                merge_results({"left.json": left, "right.json": wrong})
+            wrong = copy.deepcopy(right)
+            wrong["results"][0]["reference"] = "A"
+            with self.assertRaises(ValueError):
+                merge_results({"left.json": left, "right.json": wrong})
+
+    def test_leaderboard_excludes_unselected_models(self):
+        with TemporaryDirectory() as directory:
+            report = run_benchmark(
+                DATA_PATH, [FakeModel("Jev-API", "A"), FakeModel("Legacy", "B")], Path(directory) / "r.json",
+            )
+        html = render_leaderboard(
+            {"r.json": report}, json.loads(DATA_PATH.read_text(encoding="utf-8")), ["Jev-API"],
+        )
+        self.assertIn("Jev-API", html)
+        self.assertNotIn("Legacy", html)
+
+    def test_model_version_changes_preserve_failed_checkpoint(self):
+        class Changed(FakeModel):
+            def choose(self, state, question, options):
+                result = super().choose(state, question, options)
+                return Decision(result.selected, result.probabilities, result.confidence, str(len(self.calls)))
+
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "changed.json"
+            with self.assertRaises(ModelError):
+                run_benchmark(DATA_PATH, [Changed("Model", "A")], path)
+            report = json.loads(path.with_name("changed.partial.json").read_text(encoding="utf-8"))
+            self.assertEqual(report["failed_case"], "love-002")
+            self.assertFalse(path.exists())
 
 
 if __name__ == "__main__":

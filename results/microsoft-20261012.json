@@ -1,0 +1,2489 @@
+{
+  "benchmark": "jev-benchmark：言下之意 100 题",
+  "version": "1.0.0",
+  "dataset_sha256": "99553482cfdebca1e6610fcbd388e7d8443fa8f313c896984a3ef849a7b83ca4",
+  "question": "结合完整对话，最后发言者这句话最可能是在间接表达什么？区分话面内容与沟通意图，只使用上下文证据，不按性别推断，也不要把明确拒绝反解为同意。",
+  "models": [
+    "Microsoft Decision"
+  ],
+  "status": "complete",
+  "started_at": "2026-10-12T09:10:08.138707+00:00",
+  "results": [
+    {
+      "id": "love-001",
+      "title": "被转发过来的决定",
+      "category": "彩礼与财务",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.08419516892128859,
+            "B": 0.008874105516158998,
+            "C": 0.0017474149831256472,
+            "D": 0.9051833105794268
+          },
+          "confidence": 0.8735777474392358,
+          "model": "microsoft-decision-1",
+          "seconds": 6.407462199997099
+        }
+      }
+    },
+    {
+      "id": "love-002",
+      "title": "三杯咖啡的收据",
+      "category": "彩礼与财务",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9987217646215434,
+            "B": 0.000552377274929904,
+            "C": 0.00043019185426625795,
+            "D": 0.00029566624926040744
+          },
+          "confidence": 0.9982956861620579,
+          "model": "microsoft-decision-1",
+          "seconds": 2.191734100000758
+        }
+      }
+    },
+    {
+      "id": "love-003",
+      "title": "折回来的预算纸",
+      "category": "彩礼与财务",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.025924731126473425,
+            "B": 0.9728183766281604,
+            "C": 0.0008870957283838766,
+            "D": 0.0003697965169822803
+          },
+          "confidence": 0.9637578355042139,
+          "model": "microsoft-decision-1",
+          "seconds": 2.0534827999945264
+        }
+      }
+    },
+    {
+      "id": "love-004",
+      "title": "顺着长辈说的那一句",
+      "category": "彩礼与财务",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0007085929556316189,
+            "B": 0.0004870083414324187,
+            "C": 0.997773402036033,
+            "D": 0.0010309966669029417
+          },
+          "confidence": 0.9970312027147107,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5864014999970095
+        }
+      }
+    },
+    {
+      "id": "love-005",
+      "title": "没有画勾的转账格",
+      "category": "彩礼与财务",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0046015854398548175,
+            "B": 0.9936659860814506,
+            "C": 0.0010267524961314882,
+            "D": 0.000705675982563041
+          },
+          "confidence": 0.9915546481086008,
+          "model": "microsoft-decision-1",
+          "seconds": 1.4634838000056334
+        }
+      }
+    },
+    {
+      "id": "love-006",
+      "title": "自己做就免费了",
+      "category": "酒席与仪式",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.000910359853463149,
+            "B": 0.00037949444714887925,
+            "C": 0.00037949444714887925,
+            "D": 0.9983306512522392
+          },
+          "confidence": 0.9977742016696522,
+          "model": "microsoft-decision-1",
+          "seconds": 1.4755551000052947
+        }
+      }
+    },
+    {
+      "id": "love-007",
+      "title": "婚礼上的那把椅子",
+      "category": "酒席与仪式",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9984819830451047,
+            "B": 0.0008035115374902472,
+            "C": 0.000334953442353168,
+            "D": 0.0003795519750519007
+          },
+          "confidence": 0.997975977393473,
+          "model": "microsoft-decision-1",
+          "seconds": 1.6139346999989357
+        }
+      }
+    },
+    {
+      "id": "love-008",
+      "title": "还有一通电话没拨",
+      "category": "酒席与仪式",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0008030484266212751,
+            "B": 0.0004870734919797943,
+            "C": 0.9979068296547776,
+            "D": 0.0008030484266212751
+          },
+          "confidence": 0.9972091062063702,
+          "model": "microsoft-decision-1",
+          "seconds": 6.287263099999109
+        }
+      }
+    },
+    {
+      "id": "love-009",
+      "title": "那页没有署名的誓词",
+      "category": "酒席与仪式",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0013243093991623473,
+            "B": 0.998137763323632,
+            "C": 0.0003348378532046346,
+            "D": 0.00020308942400096893
+          },
+          "confidence": 0.9975170177648427,
+          "model": "microsoft-decision-1",
+          "seconds": 1.67144659999758
+        }
+      }
+    },
+    {
+      "id": "love-010",
+      "title": "暂时没寄出的请柬",
+      "category": "酒席与仪式",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9991865050003811,
+            "B": 0.00037981977993509913,
+            "C": 0.00023037234169594293,
+            "D": 0.00020330287798782967
+          },
+          "confidence": 0.9989153400005081,
+          "model": "microsoft-decision-1",
+          "seconds": 1.6588364999988698
+        }
+      }
+    },
+    {
+      "id": "love-011",
+      "title": "独自在家的漂亮样板间",
+      "category": "婚房与产权",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0013210225204868574,
+            "B": 0.0005506841159309451,
+            "C": 0.9956602983800057,
+            "D": 0.0024679949835764966
+          },
+          "confidence": 0.9942137311733409,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5597799999959534
+        }
+      }
+    },
+    {
+      "id": "love-012",
+      "title": "租来的小书桌",
+      "category": "婚房与产权",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0014996165154522703,
+            "B": 0.9974574049679016,
+            "C": 0.0007083686838376816,
+            "D": 0.0003346098328084591
+          },
+          "confidence": 0.9966098732905354,
+          "model": "microsoft-decision-1",
+          "seconds": 1.4654843999960576
+        }
+      }
+    },
+    {
+      "id": "love-013",
+      "title": "签字前递来的眼镜",
+      "category": "婚房与产权",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.003164039572608011,
+            "B": 0.0021746104759238554,
+            "C": 0.000549827633765355,
+            "D": 0.9941115223177028
+          },
+          "confidence": 0.9921486964236038,
+          "model": "microsoft-decision-1",
+          "seconds": 2.570872500000405
+        }
+      }
+    },
+    {
+      "id": "love-014",
+      "title": "效果图中的第三把尺",
+      "category": "婚房与产权",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9958533987558801,
+            "B": 0.003591608775643949,
+            "C": 0.0002948172014063164,
+            "D": 0.00026017526706973305
+          },
+          "confidence": 0.9944711983411735,
+          "model": "microsoft-decision-1",
+          "seconds": 1.6854968999978155
+        }
+      }
+    },
+    {
+      "id": "love-015",
+      "title": "可以擦掉的房号",
+      "category": "婚房与产权",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0007087234466106029,
+            "B": 0.0007087234466106029,
+            "C": 0.9979571068603558,
+            "D": 0.000625446246422936
+          },
+          "confidence": 0.9972761424804744,
+          "model": "microsoft-decision-1",
+          "seconds": 1.7640371000015875
+        }
+      }
+    },
+    {
+      "id": "love-016",
+      "title": "自动出现的周末主人",
+      "category": "双方父母",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0008036629190807295,
+            "B": 0.0002956512065390764,
+            "C": 0.00023025339116863834,
+            "D": 0.9986704324832116
+          },
+          "confidence": 0.9982272433109488,
+          "model": "microsoft-decision-1",
+          "seconds": 1.841421500001161
+        }
+      }
+    },
+    {
+      "id": "love-017",
+      "title": "门外的一袋橘子",
+      "category": "双方父母",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.001031395650227932,
+            "B": 0.998159225420498,
+            "C": 0.00042994967384164416,
+            "D": 0.000379429255432508
+          },
+          "confidence": 0.9975456338939973,
+          "model": "microsoft-decision-1",
+          "seconds": 1.670939499999804
+        }
+      }
+    },
+    {
+      "id": "love-018",
+      "title": "被夹进年假的车票",
+      "category": "双方父母",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.012221264069607997,
+            "B": 0.5196613096997634,
+            "C": 0.4585994962030954,
+            "D": 0.009517930027533133
+          },
+          "confidence": 0.3595484129330179,
+          "model": "microsoft-decision-1",
+          "seconds": 2.301426799996989
+        }
+      }
+    },
+    {
+      "id": "love-019",
+      "title": "饭后留下的那句话",
+      "category": "双方父母",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9987472708367512,
+            "B": 0.0004302030088514853,
+            "C": 0.00033504228041256434,
+            "D": 0.0004874838739847548
+          },
+          "confidence": 0.9983296944490015,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5332840999981272
+        }
+      }
+    },
+    {
+      "id": "love-020",
+      "title": "还没有贴上的客房名字",
+      "category": "双方父母",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0011687774016864267,
+            "B": 0.9982044132023274,
+            "C": 0.0004872189082216031,
+            "D": 0.00013959048776452664
+          },
+          "confidence": 0.9976058842697699,
+          "model": "microsoft-decision-1",
+          "seconds": 1.9390425000019604
+        }
+      }
+    },
+    {
+      "id": "love-021",
+      "title": "漏记的夜班",
+      "category": "生育与照护",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0019248444475051558,
+            "B": 0.0005514771674199296,
+            "C": 0.00042949084983264136,
+            "D": 0.9970941875352424
+          },
+          "confidence": 0.9961255833803232,
+          "model": "microsoft-decision-1",
+          "seconds": 2.3382912000015494
+        }
+      }
+    },
+    {
+      "id": "love-022",
+      "title": "隔壁的晚饭",
+      "category": "生育与照护",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9987298759459857,
+            "B": 0.0005523817668988809,
+            "C": 0.0004874751983324684,
+            "D": 0.0002302670887829286
+          },
+          "confidence": 0.9983065012613143,
+          "model": "microsoft-decision-1",
+          "seconds": 1.9087531999975909
+        }
+      }
+    },
+    {
+      "id": "love-023",
+      "title": "挂在门后的外套",
+      "category": "生育与照护",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0016981429505127745,
+            "B": 0.0004865261010762263,
+            "C": 0.9967853551843501,
+            "D": 0.0010299757640608708
+          },
+          "confidence": 0.9957138069124668,
+          "model": "microsoft-decision-1",
+          "seconds": 2.2692121999934898
+        }
+      }
+    },
+    {
+      "id": "love-024",
+      "title": "被删掉的第二个名字",
+      "category": "生育与照护",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0007092017429464908,
+            "B": 0.9986304016701213,
+            "C": 0.0004301526010186845,
+            "D": 0.00023024398591350623
+          },
+          "confidence": 0.998173868893495,
+          "model": "microsoft-decision-1",
+          "seconds": 2.1761237000027904
+        }
+      }
+    },
+    {
+      "id": "love-025",
+      "title": "停在借阅清单上的书",
+      "category": "生育与照护",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9993874078689242,
+            "B": 0.00029586349602151346,
+            "C": 0.00015836431752709788,
+            "D": 0.00015836431752709788
+          },
+          "confidence": 0.999183210491899,
+          "model": "microsoft-decision-1",
+          "seconds": 2.1688933999976143
+        }
+      }
+    },
+    {
+      "id": "love-026",
+      "title": "两个人的直达路线",
+      "category": "事业与异地",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0019239862294072963,
+            "B": 0.0008020367854243635,
+            "C": 0.0006246268765405666,
+            "D": 0.9966493501086279
+          },
+          "confidence": 0.9955324668115039,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5104903999963426
+        }
+      }
+    },
+    {
+      "id": "love-027",
+      "title": "路线表里的一门课程",
+      "category": "事业与异地",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.004539822997700264,
+            "B": 0.9803286907019142,
+            "C": 0.013983639288621917,
+            "D": 0.0011478470117636272
+          },
+          "confidence": 0.9737715876025522,
+          "model": "microsoft-decision-1",
+          "seconds": 1.706554900003539
+        }
+      }
+    },
+    {
+      "id": "love-028",
+      "title": "没有人听的彩排",
+      "category": "事业与异地",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.000803388902570203,
+            "B": 0.0003794940464174737,
+            "C": 0.9983298370499306,
+            "D": 0.00048728000108171375
+          },
+          "confidence": 0.9977731160665742,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5060207999995328
+        }
+      }
+    },
+    {
+      "id": "love-029",
+      "title": "恭喜后面的空白",
+      "category": "事业与异地",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0021811347936829878,
+            "B": 0.00042949090607027126,
+            "C": 0.00029518435432541567,
+            "D": 0.9970941899459212
+          },
+          "confidence": 0.9961255865945616,
+          "model": "microsoft-decision-1",
+          "seconds": 1.7849561999973957
+        }
+      }
+    },
+    {
+      "id": "love-030",
+      "title": "没被关掉的招聘页面",
+      "category": "事业与异地",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9995064321952575,
+            "B": 0.0002304461798390801,
+            "C": 0.00012334895141741015,
+            "D": 0.00013977267348605341
+          },
+          "confidence": 0.9993419095936766,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5256280000030529
+        }
+      }
+    },
+    {
+      "id": "love-031",
+      "title": "一声招呼后的全套工作",
+      "category": "家务与分工",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0019207929297542926,
+            "B": 0.0009073183347573493,
+            "C": 0.9949953451984755,
+            "D": 0.002176543537012774
+          },
+          "confidence": 0.9933271269313008,
+          "model": "microsoft-decision-1",
+          "seconds": 1.7002226999975392
+        }
+      }
+    },
+    {
+      "id": "love-032",
+      "title": "办公室里的隐形经理",
+      "category": "家务与分工",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.00169883168033595,
+            "B": 0.0006249652492063316,
+            "C": 0.00048672342547430677,
+            "D": 0.9971894796449834
+          },
+          "confidence": 0.9962526395266446,
+          "model": "microsoft-decision-1",
+          "seconds": 1.6324882999979309
+        }
+      }
+    },
+    {
+      "id": "love-033",
+      "title": "还在门口的快递箱",
+      "category": "家务与分工",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9973710831804884,
+            "B": 0.0011678016012802456,
+            "C": 0.0009094848015490959,
+            "D": 0.0005516304166821866
+          },
+          "confidence": 0.9964947775739845,
+          "model": "microsoft-decision-1",
+          "seconds": 2.021075299999211
+        }
+      }
+    },
+    {
+      "id": "love-034",
+      "title": "周日的空白格还在",
+      "category": "家务与分工",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0013228267172915188,
+            "B": 0.9970198835928972,
+            "C": 0.0013228267172915188,
+            "D": 0.00033446297251970723
+          },
+          "confidence": 0.9960265114571962,
+          "model": "microsoft-decision-1",
+          "seconds": 1.6769630999988294
+        }
+      }
+    },
+    {
+      "id": "love-035",
+      "title": "试用装没有年付按钮",
+      "category": "家务与分工",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0009104216698008103,
+            "B": 0.00043005274570452715,
+            "C": 0.00026084029994171397,
+            "D": 0.998398685284553
+          },
+          "confidence": 0.9978649137127373,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5108687999963877
+        }
+      }
+    },
+    {
+      "id": "love-036",
+      "title": "被提前配好的字幕",
+      "category": "信任与隐私",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.000909917295987664,
+            "B": 0.0003347397067438031,
+            "C": 0.9978454257012809,
+            "D": 0.000909917295987664
+          },
+          "confidence": 0.9971272342683745,
+          "model": "microsoft-decision-1",
+          "seconds": 1.519415900002059
+        }
+      }
+    },
+    {
+      "id": "love-037",
+      "title": "门铃里的回放清单",
+      "category": "信任与隐私",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9296298235734973,
+            "B": 0.06734215353407659,
+            "C": 0.0017946080322372487,
+            "D": 0.0012334148601888244
+          },
+          "confidence": 0.9061730980979964,
+          "model": "microsoft-decision-1",
+          "seconds": 1.6073495999953593
+        }
+      }
+    },
+    {
+      "id": "love-038",
+      "title": "借手机时划到的相册",
+      "category": "信任与隐私",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0003797720986984902,
+            "B": 0.0003797720986984902,
+            "C": 0.0001793915515488482,
+            "D": 0.9990610642510541
+          },
+          "confidence": 0.9987480856680722,
+          "model": "microsoft-decision-1",
+          "seconds": 2.219166099996073
+        }
+      }
+    },
+    {
+      "id": "love-039",
+      "title": "旅行合照上的小锁",
+      "category": "信任与隐私",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0013235491633423655,
+            "B": 0.9975643439544131,
+            "C": 0.00048690652657331946,
+            "D": 0.0006252003556712875
+          },
+          "confidence": 0.9967524586058841,
+          "model": "microsoft-decision-1",
+          "seconds": 1.666734300000826
+        }
+      }
+    },
+    {
+      "id": "love-040",
+      "title": "咨询室之外的录音",
+      "category": "信任与隐私",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0005523289777383458,
+            "B": 0.00026090185960090273,
+            "C": 0.9986344401849223,
+            "D": 0.0005523289777383458
+          },
+          "confidence": 0.9981792535798965,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5314985000004526
+        }
+      }
+    },
+    {
+      "id": "love-041",
+      "title": "只在争吵时打开的奖状",
+      "category": "冲突与修复",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.004593482832360915,
+            "B": 0.9919159955874891,
+            "C": 0.0027860881726905215,
+            "D": 0.0007044334074594562
+          },
+          "confidence": 0.9892213274499855,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5127123999991454
+        }
+      }
+    },
+    {
+      "id": "love-042",
+      "title": "导航终于重算了",
+      "category": "冲突与修复",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9990940876984588,
+            "B": 0.0003797846644254598,
+            "C": 0.00023035104306271524,
+            "D": 0.00029577659405305884
+          },
+          "confidence": 0.9987921169312783,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5597073000026285
+        }
+      }
+    },
+    {
+      "id": "love-043",
+      "title": "第二杯茶放在桌边",
+      "category": "冲突与修复",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0007093410856222718,
+            "B": 0.0002609518777470841,
+            "C": 0.00020322952673338258,
+            "D": 0.9988264775098973
+          },
+          "confidence": 0.9984353033465297,
+          "model": "microsoft-decision-1",
+          "seconds": 1.559958199999528
+        }
+      }
+    },
+    {
+      "id": "love-044",
+      "title": "道歉后还开着的比赛",
+      "category": "冲突与修复",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.00080280135073773,
+            "B": 0.0004297085978128523,
+            "C": 0.9975994209784822,
+            "D": 0.0011680690729672925
+          },
+          "confidence": 0.9967992279713096,
+          "model": "microsoft-decision-1",
+          "seconds": 2.216142500001297
+        }
+      }
+    },
+    {
+      "id": "love-045",
+      "title": "翻到下一页之前",
+      "category": "冲突与修复",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0009104216684251852,
+            "B": 0.9983986852869724,
+            "C": 0.0004300527450547278,
+            "D": 0.0002608402995475906
+          },
+          "confidence": 0.9978649137159632,
+          "model": "microsoft-decision-1",
+          "seconds": 1.557702899997821
+        }
+      }
+    },
+    {
+      "id": "love-046",
+      "title": "永远在加载的明年",
+      "category": "长期承诺",
+      "phenomenon": "反话与讽刺",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9981405834940694,
+            "B": 0.0011687022532032461,
+            "C": 0.0004299415318042157,
+            "D": 0.0002607727209230711
+          },
+          "confidence": 0.9975207779920926,
+          "model": "microsoft-decision-1",
+          "seconds": 1.575484699998924
+        }
+      }
+    },
+    {
+      "id": "love-047",
+      "title": "植物的两份浇水记录",
+      "category": "长期承诺",
+      "phenomenon": "借题表达",
+      "subset": "marriage",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0011678028155978843,
+            "B": 0.0004296106472005865,
+            "C": 0.9973720041696068,
+            "D": 0.0010305823675947022
+          },
+          "confidence": 0.9964960055594757,
+          "model": "microsoft-decision-1",
+          "seconds": 1.7807194999986677
+        }
+      }
+    },
+    {
+      "id": "love-048",
+      "title": "五年地图的边上",
+      "category": "长期承诺",
+      "phenomenon": "间接请求",
+      "subset": "marriage",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0011688137463760912,
+            "B": 0.9982355181942753,
+            "C": 0.0002607974740546274,
+            "D": 0.0003348705852941034
+          },
+          "confidence": 0.997647357592367,
+          "model": "microsoft-decision-1",
+          "seconds": 2.1771108000029926
+        }
+      }
+    },
+    {
+      "id": "love-049",
+      "title": "备用钥匙的另一面",
+      "category": "长期承诺",
+      "phenomenon": "试探确认",
+      "subset": "marriage",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9987532030667797,
+            "B": 0.0004874867726565519,
+            "C": 0.00037965508028187453,
+            "D": 0.00037965508028187453
+          },
+          "confidence": 0.9983376040890396,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5770171000040136
+        }
+      }
+    },
+    {
+      "id": "love-050",
+      "title": "重见面时没有收回的箱子",
+      "category": "长期承诺",
+      "phenomenon": "回避与保留",
+      "subset": "marriage",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.001031656853317006,
+            "B": 0.00029557449624807524,
+            "C": 0.00026084357742192855,
+            "D": 0.998411925073013
+          },
+          "confidence": 0.9978825667640173,
+          "model": "microsoft-decision-1",
+          "seconds": 1.671092900003714
+        }
+      }
+    },
+    {
+      "id": "love-051",
+      "title": "约会中途的三件顺路事",
+      "category": "约会与陪伴",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0009103381127382684,
+            "B": 0.00029554337350472644,
+            "C": 0.00048726887865956715,
+            "D": 0.9983068496350974
+          },
+          "confidence": 0.9977424661801298,
+          "model": "microsoft-decision-1",
+          "seconds": 1.6087848000024678
+        }
+      }
+    },
+    {
+      "id": "love-052",
+      "title": "同事发来的周末截图",
+      "category": "约会与陪伴",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9990981677588612,
+            "B": 0.0003797861263963345,
+            "C": 0.000261023057371217,
+            "D": 0.000261023057371217
+          },
+          "confidence": 0.9987975570118149,
+          "model": "microsoft-decision-1",
+          "seconds": 1.6340827000021818
+        }
+      }
+    },
+    {
+      "id": "love-053",
+      "title": "地铁口没讲完的趣事",
+      "category": "约会与陪伴",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.004603910482300174,
+            "B": 0.994167819456015,
+            "C": 0.000800039679802142,
+            "D": 0.00042823038188277013
+          },
+          "confidence": 0.9922237592746866,
+          "model": "microsoft-decision-1",
+          "seconds": 1.6281295000007958
+        }
+      }
+    },
+    {
+      "id": "love-054",
+      "title": "只剩一个人的预约",
+      "category": "约会与陪伴",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.00048748852040897525,
+            "B": 0.00020321544918777318,
+            "C": 0.9987568991676139,
+            "D": 0.0005523968627892663
+          },
+          "confidence": 0.9983425322234852,
+          "model": "microsoft-decision-1",
+          "seconds": 1.639159300000756
+        }
+      }
+    },
+    {
+      "id": "love-055",
+      "title": "九点以后的那部电影",
+      "category": "约会与陪伴",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0008036067676835385,
+            "B": 0.9986005068880576,
+            "C": 0.00033499329994109286,
+            "D": 0.0002608930443177971
+          },
+          "confidence": 0.9981340091840768,
+          "model": "microsoft-decision-1",
+          "seconds": 2.133233399996243
+        }
+      }
+    },
+    {
+      "id": "love-056",
+      "title": "拆出来的同款礼盒",
+      "category": "节日与礼物",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.005128963582460125,
+            "B": 0.0016651306820368,
+            "C": 0.015798320044180664,
+            "D": 0.9774075856913224
+          },
+          "confidence": 0.9698767809217631,
+          "model": "microsoft-decision-1",
+          "seconds": 1.6782385999977123
+        }
+      }
+    },
+    {
+      "id": "love-057",
+      "title": "朋友卡片背面的日期",
+      "category": "节日与礼物",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9979639455235072,
+            "B": 0.0008030944870573999,
+            "C": 0.0008030944870573999,
+            "D": 0.0004298655023780696
+          },
+          "confidence": 0.9972852606980096,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5376537999982247
+        }
+      }
+    },
+    {
+      "id": "love-058",
+      "title": "写完才算寄出的明信片",
+      "category": "节日与礼物",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0010309402679015256,
+            "B": 0.0006252968808146312,
+            "C": 0.9977184659704693,
+            "D": 0.0006252968808146312
+          },
+          "confidence": 0.9969579546272924,
+          "model": "microsoft-decision-1",
+          "seconds": 1.6192603999952553
+        }
+      }
+    },
+    {
+      "id": "love-059",
+      "title": "被问到才出现的惊喜",
+      "category": "节日与礼物",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0009105124169792951,
+            "B": 0.9984982870956489,
+            "C": 0.00029560024368588926,
+            "D": 0.00029560024368588926
+          },
+          "confidence": 0.9979977161275319,
+          "model": "microsoft-decision-1",
+          "seconds": 2.1376720999978716
+        }
+      }
+    },
+    {
+      "id": "love-060",
+      "title": "暂时合上的手链扣",
+      "category": "节日与礼物",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9987469084287345,
+            "B": 0.0006259414569266654,
+            "C": 0.0004874836968113431,
+            "D": 0.00013966641752758836
+          },
+          "confidence": 0.9983292112383126,
+          "model": "microsoft-decision-1",
+          "seconds": 1.8082381999993231
+        }
+      }
+    },
+    {
+      "id": "love-061",
+      "title": "群里的第二十个表情",
+      "category": "消息与回复",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0058378748282082215,
+            "B": 0.01090658604779534,
+            "C": 0.9817794932120736,
+            "D": 0.0014760459119228706
+          },
+          "confidence": 0.9757059909494314,
+          "model": "microsoft-decision-1",
+          "seconds": 1.7636937999996007
+        }
+      }
+    },
+    {
+      "id": "love-062",
+      "title": "收藏夹里的天气预报",
+      "category": "消息与回复",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0008036630204716014,
+            "B": 0.9986704325662429,
+            "C": 0.00023025331042426296,
+            "D": 0.0002956511028612462
+          },
+          "confidence": 0.9982272434216571,
+          "model": "microsoft-decision-1",
+          "seconds": 2.4329115000000456
+        }
+      }
+    },
+    {
+      "id": "love-063",
+      "title": "刷过去的一段话",
+      "category": "消息与回复",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9803376270376021,
+            "B": 0.008481582139903573,
+            "C": 0.01089056704136099,
+            "D": 0.00029022378113333406
+          },
+          "confidence": 0.9737835027168028,
+          "model": "microsoft-decision-1",
+          "seconds": 2.26653119999537
+        }
+      }
+    },
+    {
+      "id": "love-064",
+      "title": "被误读的两个嗯字",
+      "category": "消息与回复",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9990133659557686,
+            "B": 0.00048761360873204174,
+            "C": 0.00029575274481496793,
+            "D": 0.00020326769068432977
+          },
+          "confidence": 0.9986844879410248,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5827130999969086
+        }
+      }
+    },
+    {
+      "id": "love-065",
+      "title": "还在输入框里的答复",
+      "category": "消息与回复",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0010309006404988794,
+            "B": 0.00037924715153000966,
+            "C": 0.9976800855858584,
+            "D": 0.0009097666221127364
+          },
+          "confidence": 0.9969067807811446,
+          "model": "microsoft-decision-1",
+          "seconds": 1.2575002999947174
+        }
+      }
+    },
+    {
+      "id": "love-066",
+      "title": "菜单上消失的清汤",
+      "category": "饮食与点餐",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0011687207443021835,
+            "B": 0.00037942807329059084,
+            "C": 0.00029549902150286666,
+            "D": 0.9981563521609044
+          },
+          "confidence": 0.9975418028812059,
+          "model": "microsoft-decision-1",
+          "seconds": 1.2541237000041292
+        }
+      }
+    },
+    {
+      "id": "love-067",
+      "title": "同事买的那份午饭",
+      "category": "饮食与点餐",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0010318346021238132,
+            "B": 0.9985840418680103,
+            "C": 0.0002608885193369665,
+            "D": 0.00012323501052891042
+          },
+          "confidence": 0.9981120558240137,
+          "model": "microsoft-decision-1",
+          "seconds": 1.3495960000000196
+        }
+      }
+    },
+    {
+      "id": "love-068",
+      "title": "没点主食的晚餐",
+      "category": "饮食与点餐",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0011685191878007908,
+            "B": 0.0002954480600142223,
+            "C": 0.9979840633716318,
+            "D": 0.0005519693805531899
+          },
+          "confidence": 0.9973120844955091,
+          "model": "microsoft-decision-1",
+          "seconds": 1.3884873999995762
+        }
+      }
+    },
+    {
+      "id": "love-069",
+      "title": "留在盘边的最后一口",
+      "category": "饮食与点餐",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0019247264096791511,
+            "B": 0.0007080672760006828,
+            "C": 0.0003344672982731631,
+            "D": 0.997032739016047
+          },
+          "confidence": 0.9960436520213961,
+          "model": "microsoft-decision-1",
+          "seconds": 1.3542358999984572
+        }
+      }
+    },
+    {
+      "id": "love-070",
+      "title": "还没划掉的两家店",
+      "category": "饮食与点餐",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9994060052484554,
+            "B": 0.00029586893442867405,
+            "C": 0.0001583672284966835,
+            "D": 0.00013975858861923007
+          },
+          "confidence": 0.9992080069979404,
+          "model": "microsoft-decision-1",
+          "seconds": 1.2787329999991925
+        }
+      }
+    },
+    {
+      "id": "love-071",
+      "title": "没有看过的第三套衣服",
+      "category": "外表与购物",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.006645867451975414,
+            "B": 0.0011548785947787295,
+            "C": 0.9863342965118898,
+            "D": 0.005864957441356081
+          },
+          "confidence": 0.981779062015853,
+          "model": "microsoft-decision-1",
+          "seconds": 1.3320256000006339
+        }
+      }
+    },
+    {
+      "id": "love-072",
+      "title": "妹妹一眼看出的变化",
+      "category": "外表与购物",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0007089561851371842,
+            "B": 0.9982845719594318,
+            "C": 0.0008033526044803587,
+            "D": 0.0002031192509506748
+          },
+          "confidence": 0.9977127626125757,
+          "model": "microsoft-decision-1",
+          "seconds": 1.8172133000043686
+        }
+      }
+    },
+    {
+      "id": "love-073",
+      "title": "快关门的试衣间",
+      "category": "外表与购物",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0010311078626994007,
+            "B": 0.0007086693793103719,
+            "C": 0.0003793233843173358,
+            "D": 0.9978808993736729
+          },
+          "confidence": 0.9971745324982305,
+          "model": "microsoft-decision-1",
+          "seconds": 1.434873600002902
+        }
+      }
+    },
+    {
+      "id": "love-074",
+      "title": "合照里被放大的腰线",
+      "category": "外表与购物",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9989209809761631,
+            "B": 0.0004875686436662856,
+            "C": 0.0002957251900853132,
+            "D": 0.0002957251900853132
+          },
+          "confidence": 0.9985613079682175,
+          "model": "microsoft-decision-1",
+          "seconds": 1.353016100001696
+        }
+      }
+    },
+    {
+      "id": "love-075",
+      "title": "折扣结束前的试穿",
+      "category": "外表与购物",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0008031349444718687,
+            "B": 0.00037937408510602295,
+            "C": 0.9980143560259503,
+            "D": 0.0008031349444718687
+          },
+          "confidence": 0.9973524747012671,
+          "model": "microsoft-decision-1",
+          "seconds": 1.498906300003
+        }
+      }
+    },
+    {
+      "id": "love-076",
+      "title": "没事以后又多一项",
+      "category": "情绪与身体",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0013234385674532213,
+            "B": 0.0007083856181721372,
+            "C": 0.0004868658406194252,
+            "D": 0.9974813099737553
+          },
+          "confidence": 0.9966417466316737,
+          "model": "microsoft-decision-1",
+          "seconds": 1.4715582999997423
+        }
+      }
+    },
+    {
+      "id": "love-077",
+      "title": "室友送来的热水",
+      "category": "情绪与身体",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0010312398462759486,
+            "B": 0.9980084871685511,
+            "C": 0.0006254785842837057,
+            "D": 0.0003347944008892832
+          },
+          "confidence": 0.9973446495580681,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5874438000028022
+        }
+      }
+    },
+    {
+      "id": "love-078",
+      "title": "够不到的热敷袋",
+      "category": "情绪与身体",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0010309299150576595,
+            "B": 0.000551817019036724,
+            "C": 0.9977087059881016,
+            "D": 0.000708547077804017
+          },
+          "confidence": 0.9969449413174688,
+          "model": "microsoft-decision-1",
+          "seconds": 1.2698873000044841
+        }
+      }
+    },
+    {
+      "id": "love-079",
+      "title": "笑着讲完的坏消息",
+      "category": "情绪与身体",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9989863288911117,
+            "B": 0.0004876003983341737,
+            "C": 0.00023032611927625922,
+            "D": 0.00029574459127776917
+          },
+          "confidence": 0.9986484385214823,
+          "model": "microsoft-decision-1",
+          "seconds": 1.9017401000019163
+        }
+      }
+    },
+    {
+      "id": "love-080",
+      "title": "大家都在等的一句没关系",
+      "category": "情绪与身体",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0009105203667078487,
+            "B": 0.0003795613590242499,
+            "C": 0.00020316455524192932,
+            "D": 0.998506753719026
+          },
+          "confidence": 0.9980090049587013,
+          "model": "microsoft-decision-1",
+          "seconds": 1.828692900002352
+        }
+      }
+    },
+    {
+      "id": "love-081",
+      "title": "饭桌边的临时摄影师",
+      "category": "朋友与社交",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0008031704288742658,
+            "B": 0.00042990615110344955,
+            "C": 0.9980581280042932,
+            "D": 0.0007087954157290806
+          },
+          "confidence": 0.9974108373390576,
+          "model": "microsoft-decision-1",
+          "seconds": 1.3500218999979552
+        }
+      }
+    },
+    {
+      "id": "love-082",
+      "title": "没有追问的那碗面",
+      "category": "朋友与社交",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0006260774366530492,
+            "B": 0.00023032112735161845,
+            "C": 0.00017937427433932922,
+            "D": 0.998964227161656
+          },
+          "confidence": 0.9986189695488746,
+          "model": "microsoft-decision-1",
+          "seconds": 1.4943141999974614
+        }
+      }
+    },
+    {
+      "id": "love-083",
+      "title": "到了散场还没回来的外套",
+      "category": "朋友与社交",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9990547428314552,
+            "B": 0.0003351456190491356,
+            "C": 0.0003797695586893716,
+            "D": 0.00023034199080623432
+          },
+          "confidence": 0.998739657108607,
+          "model": "microsoft-decision-1",
+          "seconds": 1.6493240999989212
+        }
+      }
+    },
+    {
+      "id": "love-084",
+      "title": "介绍到朋友就停住",
+      "category": "朋友与社交",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.00149980613989018,
+            "B": 0.9975835764427964,
+            "C": 0.00042970165343890184,
+            "D": 0.00048691576387454915
+          },
+          "confidence": 0.9967781019237285,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5384334000045783
+        }
+      }
+    },
+    {
+      "id": "love-085",
+      "title": "点头之后还没报名的露营",
+      "category": "朋友与社交",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0013241740377383298,
+            "B": 0.0003793822136897579,
+            "C": 0.00026074532803295616,
+            "D": 0.998035698420539
+          },
+          "confidence": 0.9973809312273852,
+          "model": "microsoft-decision-1",
+          "seconds": 1.2276941000018269
+        }
+      }
+    },
+    {
+      "id": "love-086",
+      "title": "第三遍讲到的那位同事",
+      "category": "异性与醋意",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.00048757266783857787,
+            "B": 0.00020325052705522808,
+            "C": 0.9989294548295893,
+            "D": 0.0003797219755168984
+          },
+          "confidence": 0.9985726064394523,
+          "model": "microsoft-decision-1",
+          "seconds": 1.84159410000575
+        }
+      }
+    },
+    {
+      "id": "love-087",
+      "title": "只在约会时响的求助",
+      "category": "异性与醋意",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.998275474650642,
+            "B": 0.0006256458542772814,
+            "C": 0.0002955343163433766,
+            "D": 0.0008033451787373443
+          },
+          "confidence": 0.9977006328675228,
+          "model": "microsoft-decision-1",
+          "seconds": 1.585134000000835
+        }
+      }
+    },
+    {
+      "id": "love-088",
+      "title": "合照站位旁的空隙",
+      "category": "异性与醋意",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.002470047305207435,
+            "B": 0.0007076804014135162,
+            "C": 0.0003342845516580801,
+            "D": 0.996487987741721
+          },
+          "confidence": 0.9953173169889613,
+          "model": "microsoft-decision-1",
+          "seconds": 1.3692238000003272
+        }
+      }
+    },
+    {
+      "id": "love-089",
+      "title": "看完头像后的那句好看",
+      "category": "异性与醋意",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0007093819100196878,
+            "B": 0.9988841354499273,
+            "C": 0.0002032413200264843,
+            "D": 0.0002032413200264843
+          },
+          "confidence": 0.998512180599903,
+          "model": "microsoft-decision-1",
+          "seconds": 1.315878800000064
+        }
+      }
+    },
+    {
+      "id": "love-090",
+      "title": "没有转发的活动邀请",
+      "category": "异性与醋意",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0004303696132445498,
+            "B": 0.0001397205568159018,
+            "C": 0.9991341214088392,
+            "D": 0.00029578842110039626
+          },
+          "confidence": 0.9988454952117856,
+          "model": "microsoft-decision-1",
+          "seconds": 1.2395799000005354
+        }
+      }
+    },
+    {
+      "id": "love-091",
+      "title": "空锅里的留饭",
+      "category": "生活照顾",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0008034843116223368,
+            "B": 0.9984483245301442,
+            "C": 0.0004873378695970471,
+            "D": 0.000260853288636428
+          },
+          "confidence": 0.9979310993735256,
+          "model": "microsoft-decision-1",
+          "seconds": 1.3385792999979458
+        }
+      }
+    },
+    {
+      "id": "love-092",
+      "title": "便利店阿姨的备用伞",
+      "category": "生活照顾",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9975413022937718,
+            "B": 0.0010307572617072084,
+            "C": 0.0006251858819468606,
+            "D": 0.0008027545625741108
+          },
+          "confidence": 0.9967217363916957,
+          "model": "microsoft-decision-1",
+          "seconds": 1.7691007999965223
+        }
+      }
+    },
+    {
+      "id": "love-093",
+      "title": "关灯前的晾衣架",
+      "category": "生活照顾",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.0009099848198700303,
+            "B": 0.0009099848198700303,
+            "C": 0.00026071489164414204,
+            "D": 0.9979193154686158
+          },
+          "confidence": 0.9972257539581544,
+          "model": "microsoft-decision-1",
+          "seconds": 1.3262943999943673
+        }
+      }
+    },
+    {
+      "id": "love-094",
+      "title": "修好的灯有没有听见",
+      "category": "生活照顾",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "C",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "C",
+          "probabilities": {
+            "A": 0.0008032026686101406,
+            "B": 0.0002954817488757097,
+            "C": 0.998098112913904,
+            "D": 0.0008032026686101406
+          },
+          "confidence": 0.9974641505518721,
+          "model": "microsoft-decision-1",
+          "seconds": 1.5298544000033871
+        }
+      }
+    },
+    {
+      "id": "love-095",
+      "title": "并没有答应代取的号码",
+      "category": "生活照顾",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0005526113653848933,
+            "B": 0.9991446778732382,
+            "C": 0.0001794065577147386,
+            "D": 0.00012330420366213362
+          },
+          "confidence": 0.998859570497651,
+          "model": "microsoft-decision-1",
+          "seconds": 1.2753061999974307
+        }
+      }
+    },
+    {
+      "id": "love-096",
+      "title": "未来说到下一场球赛",
+      "category": "关系确认",
+      "phenomenon": "反话与讽刺",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9981412594466095,
+            "B": 0.00080323707119052,
+            "C": 0.00042994182216484763,
+            "D": 0.0006255616600351588
+          },
+          "confidence": 0.997521679262146,
+          "model": "microsoft-decision-1",
+          "seconds": 1.2887483999948017
+        }
+      }
+    },
+    {
+      "id": "love-097",
+      "title": "婚礼座位卡上的称呼",
+      "category": "关系确认",
+      "phenomenon": "借题表达",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0008035022525902483,
+            "B": 0.9984708220242071,
+            "C": 0.0004300837635396828,
+            "D": 0.00029559195966289564
+          },
+          "confidence": 0.9979610960322761,
+          "model": "microsoft-decision-1",
+          "seconds": 1.2517803000009735
+        }
+      }
+    },
+    {
+      "id": "love-098",
+      "title": "周末名单上的加一",
+      "category": "关系确认",
+      "phenomenon": "间接请求",
+      "subset": "girlfriend-hint",
+      "reference": "B",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "B",
+          "probabilities": {
+            "A": 0.0009105440911083149,
+            "B": 0.9985329702732195,
+            "C": 0.0002956103858168804,
+            "D": 0.0002608752498552342
+          },
+          "confidence": 0.9980439603642927,
+          "model": "microsoft-decision-1",
+          "seconds": 1.553429799998412
+        }
+      }
+    },
+    {
+      "id": "love-099",
+      "title": "留在输入框的想你",
+      "category": "关系确认",
+      "phenomenon": "试探确认",
+      "subset": "girlfriend-hint",
+      "reference": "A",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "A",
+          "probabilities": {
+            "A": 0.9986808791053035,
+            "B": 0.0007092375554728305,
+            "C": 0.00023025583212196935,
+            "D": 0.0003796275071017039
+          },
+          "confidence": 0.9982411721404046,
+          "model": "microsoft-decision-1",
+          "seconds": 1.932432899993728
+        }
+      }
+    },
+    {
+      "id": "love-100",
+      "title": "没删掉也没发出的合影",
+      "category": "关系确认",
+      "phenomenon": "回避与保留",
+      "subset": "girlfriend-hint",
+      "reference": "D",
+      "decisions": {
+        "Microsoft Decision": {
+          "selected": "D",
+          "probabilities": {
+            "A": 0.001500093658373485,
+            "B": 0.0004297840288635547,
+            "C": 0.00029538595523351095,
+            "D": 0.9977747363575294
+          },
+          "confidence": 0.9970329818100393,
+          "model": "microsoft-decision-1",
+          "seconds": 1.3588735000012093
+        }
+      }
+    }
+  ],
+  "executed_at": "2026-10-12T09:13:04.311866+00:00",
+  "summary": {
+    "reference_agreement": {
+      "Microsoft Decision": {
+        "matches": 99,
+        "total": 100,
+        "rate": 0.99,
+        "groups": {
+          "subset": {
+            "girlfriend-hint": {
+              "matches": 50,
+              "total": 50,
+              "rate": 1.0
+            },
+            "marriage": {
+              "matches": 49,
+              "total": 50,
+              "rate": 0.98
+            }
+          },
+          "category": {
+            "事业与异地": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "信任与隐私": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "关系确认": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "冲突与修复": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "双方父母": {
+              "matches": 4,
+              "total": 5,
+              "rate": 0.8
+            },
+            "外表与购物": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "婚房与产权": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "家务与分工": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "异性与醋意": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "彩礼与财务": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "情绪与身体": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "朋友与社交": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "消息与回复": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "生活照顾": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "生育与照护": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "约会与陪伴": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "节日与礼物": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "酒席与仪式": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "长期承诺": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            },
+            "饮食与点餐": {
+              "matches": 5,
+              "total": 5,
+              "rate": 1.0
+            }
+          },
+          "phenomenon": {
+            "借题表达": {
+              "matches": 20,
+              "total": 20,
+              "rate": 1.0
+            },
+            "反话与讽刺": {
+              "matches": 20,
+              "total": 20,
+              "rate": 1.0
+            },
+            "回避与保留": {
+              "matches": 20,
+              "total": 20,
+              "rate": 1.0
+            },
+            "试探确认": {
+              "matches": 20,
+              "total": 20,
+              "rate": 1.0
+            },
+            "间接请求": {
+              "matches": 19,
+              "total": 20,
+              "rate": 0.95
+            }
+          }
+        },
+        "actual_models": [
+          "microsoft-decision-1"
+        ]
+      }
+    },
+    "pairwise_agreement": [],
+    "unanimous": {
+      "matches": 100,
+      "total": 100,
+      "rate": 1.0,
+      "all_correct": 99,
+      "all_wrong": 1
+    },
+    "disagreement_ids": []
+  },
+  "contrast_pairs": {
+    "by_model": {
+      "Microsoft Decision": {
+        "matches": 10,
+        "total": 10,
+        "rate": 1.0
+      }
+    },
+    "pairs": [
+      {
+        "ids": [
+          "love-001",
+          "love-015"
+        ],
+        "shared_utterance": "那就先这么定吧。",
+        "passed": {
+          "Microsoft Decision": true
+        }
+      },
+      {
+        "ids": [
+          "love-003",
+          "love-034"
+        ],
+        "shared_utterance": "那支笔还在你手边吗？",
+        "passed": {
+          "Microsoft Decision": true
+        }
+      },
+      {
+        "ids": [
+          "love-006",
+          "love-027"
+        ],
+        "shared_utterance": "这回你倒是挺会算。",
+        "passed": {
+          "Microsoft Decision": true
+        }
+      },
+      {
+        "ids": [
+          "love-014",
+          "love-048"
+        ],
+        "shared_utterance": "给我留个位子？",
+        "passed": {
+          "Microsoft Decision": true
+        }
+      },
+      {
+        "ids": [
+          "love-017",
+          "love-037"
+        ],
+        "shared_utterance": "这个门铃装得值。",
+        "passed": {
+          "Microsoft Decision": true
+        }
+      },
+      {
+        "ids": [
+          "love-052",
+          "love-097"
+        ],
+        "shared_utterance": "别人倒是安排得挺明白。",
+        "passed": {
+          "Microsoft Decision": true
+        }
+      },
+      {
+        "ids": [
+          "love-056",
+          "love-082"
+        ],
+        "shared_utterance": "还是你了解我。",
+        "passed": {
+          "Microsoft Decision": true
+        }
+      },
+      {
+        "ids": [
+          "love-063",
+          "love-078"
+        ],
+        "shared_utterance": "你现在方便吗？",
+        "passed": {
+          "Microsoft Decision": true
+        }
+      },
+      {
+        "ids": [
+          "love-067",
+          "love-087"
+        ],
+        "shared_utterance": "她倒是挺会挑的。",
+        "passed": {
+          "Microsoft Decision": true
+        }
+      },
+      {
+        "ids": [
+          "love-069",
+          "love-089"
+        ],
+        "shared_utterance": "你觉得呢？",
+        "passed": {
+          "Microsoft Decision": true
+        }
+      }
+    ]
+  }
+}

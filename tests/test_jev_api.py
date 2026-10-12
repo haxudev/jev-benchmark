@@ -10,14 +10,16 @@ from unittest.mock import patch
 import httpx
 
 from jev_benchmark import ModelError
-from jev_benchmark.jev_api import DEFAULT_ENDPOINT, JevClient
+from jev_benchmark.jev_api import DEFAULT_ENDPOINT, JevClient, parse_choice
 
 NO_ENV = Path("nonexistent-test-env")
 
 
 class JevAPITests(unittest.TestCase):
     def setUp(self) -> None:
-        self.env = patch.dict(os.environ, {"JEV_API_KEY": "test-secret", "JEV_ENDPOINT": DEFAULT_ENDPOINT})
+        self.env = patch.dict(os.environ, {
+            "JEV_API_KEY": "test-secret", "JEV_ENDPOINT": DEFAULT_ENDPOINT, "JEV_MODEL": "jev-latest",
+        })
         self.env.start()
         self.addCleanup(self.env.stop)
         self.client = JevClient(NO_ENV)
@@ -71,6 +73,20 @@ class JevAPITests(unittest.TestCase):
             with self.subTest(updates=updates), patch.dict(os.environ, updates):
                 with self.assertRaises(ModelError):
                     JevClient(NO_ENV)
+
+    def test_explicit_revision_does_not_accept_a_different_version(self):
+        with patch.dict(os.environ, {"JEV_MODEL": "jev-1.13.0"}):
+            client = JevClient(NO_ENV)
+        self.assertTrue(client.accepts_model("jev-1.13.0"))
+        self.assertFalse(client.accepts_model("jev-1.14.0"))
+
+    def test_native_rounded_choice_keeps_reported_values(self):
+        data = {"model": "jev-1.13.0", "answers": {"interpretation": {
+            "type": "choice", "choice": "A", "confidence": 0.0,
+            "probabilities": {"A": 0.33, "B": 0.33, "C": 0.33},
+        }}}
+        result = parse_choice(data, {"A": "One", "B": "Two", "C": "Three"}, "Jev-API")
+        self.assertEqual(result.probabilities, {"A": 0.33, "B": 0.33, "C": 0.33})
 
     @patch("jev_benchmark.jev_api.httpx.post")
     def test_safe_errors(self, post) -> None:
