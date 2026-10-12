@@ -332,6 +332,7 @@ def summarize_external(
         return sum(values)
     return {"suites": suites, "primitives": primitives, "option_reversal": consistency,
             "total_requests": len(rows), "recorded_requests": len(receipts),
+            "logical_items": len(rows), "recorded_items": len(receipts), "physical_requests": len(receipts),
             "manifest_sha256": digest(manifest), "model": actual_model or model, "requested_model": model,
             "primary_decisions": len(primary), "hard_families": families,
             "probability_reporting": (
@@ -360,7 +361,8 @@ def write_report(summary: dict, path: Path) -> None:
              f"Model: `{summary['model']}`. Manifest SHA-256: `{summary['manifest_sha256']}`.", "",
              f"Requested model: `{summary.get('requested_model', summary['model'])}`. "
              f"Run ended UTC: {summary.get('completed_at', 'not recorded')}.", "",
-             f"Requests recorded: {summary['recorded_requests']}/{summary['total_requests']}.", "",
+             f"Logical items recorded: {summary['recorded_requests']}/{summary['total_requests']}. "
+             f"Physical HTTP attempts: {summary.get('physical_requests', summary['recorded_requests'])}.", "",
              f"**Run status: {summary.get('status', 'complete' if summary['systems']['valid_responses'] == summary['total_requests'] else 'failed')}**. "
              f"Valid responses: {summary['systems']['valid_responses']}/{summary['total_requests']}.", "",
              f"All configured items attempted: {summary['recorded_requests'] == summary['total_requests']}. "
@@ -392,6 +394,15 @@ def write_report(summary: dict, path: Path) -> None:
                   f"{continued['retained_errors']} errors, from `{continued['source_directory']}`. "
                   f"Sent {continued['new_requests']} previously unattempted items; no saved attempt was resent.",
                   f"Continuation started UTC: {continued['started_at']}."]
+    if summary.get("user_directed_repair"):
+        repaired = summary["user_directed_repair"]
+        lines += ["", "## User-directed missing-answer recovery", "",
+                  f"Original valid answers: {repaired['initial_valid_items']}. "
+                  f"Explicit additional attempts: {repaired['new_physical_requests']}. "
+                  "Only items lacking valid responses were sent again; valid wrong predictions were not repeated.",
+                  f"Source snapshot: `{repaired['source_directory']}`. "
+                  "Original responses and the complete physical attempt history remain local and unchanged.",
+                  f"First-pass failed attempts retained: {summary['failed_physical_requests']}."]
     lines += ["", "## Interpretation", "",
               "- JevBench results cover only the pinned, published public cohorts, not the full leaderboard.",
               "- Accuracy counts failures and unattempted items as incorrect; probability metrics use valid vectors only.",
@@ -576,6 +587,124 @@ def run_external(
     return summary
 
 
+def repair_invalid_items(
+    manifest: dict, source: Path, output: Path, client=None, *, model_key: str,
+    min_interval: float = 1.25,
+) -> dict:
+    """Explicitly recover only missing valid answers, retaining every physical attempt."""
+    if output.exists():
+        raise FileExistsError(output)
+    if not math.isfinite(min_interval) or min_interval < 0:
+        raise ValueError("Minimum request interval must be finite and nonnegative.")
+    saved = json.loads((source / "manifest.json").read_text(encoding="utf-8"))
+    previous = json.loads((source / "summary.json").read_text(encoding="utf-8"))
+    if digest(saved) != digest(manifest) or previous.get("model_key", "intranet") != model_key:
+        raise ValueError("Recovery requires the same frozen manifest and model key.")
+    requested, actual = previous.get("requested_model", TARGET_MODEL), previous["model"]
+    receipts = [json.loads(line) for line in (source / "responses.jsonl").read_text(encoding="utf-8").splitlines()]
+    history_path = source / "attempt-history.jsonl"
+    history = ([json.loads(line) for line in history_path.read_text(encoding="utf-8").splitlines()]
+               if history_path.exists() else list(receipts))
+    items = {item["id"]: item for item in manifest["items"]}
+    by_id = {receipt["id"]: receipt for receipt in receipts}
+    if len(by_id) != len(receipts) or set(by_id) != set(items):
+        raise ValueError("Recovery requires a complete logical item ledger; use continuation for unattempted items.")
+    history_by_id = {}
+    for receipt in history:
+        if receipt["id"] not in items:
+            raise ValueError("Unknown physical attempt ID.")
+        item = items[receipt["id"]]
+        expected = digest({"model": requested, "state": item["state"], "questions": {"decision": item["question"]}})
+        if receipt.get("request_sha256") != expected:
+            raise ValueError("Recovery request integrity check failed.")
+        history_by_id.setdefault(receipt["id"], []).append(receipt)
+    for identifier, receipt in by_id.items():
+        attempts = history_by_id.get(identifier, [])
+        valid = []
+        for attempt in attempts:
+            try:
+                if attempt.get("error"):
+                    raise ValueError(attempt["error"])
+                distribution(items[identifier], attempt, actual)
+            except (ValueError, TypeError, AttributeError, KeyError):
+                continue
+            valid.append(attempt)
+        if len(valid) > 1 or not attempts or receipt != (valid[0] if valid else attempts[-1]):
+            raise ValueError("Recovery must preserve the first valid answer; successful answers cannot be repeated or selected.")
+    recomputed = summarize_external(manifest, receipts, requested, actual_model=actual)
+    if (previous["systems"]["valid_responses"] != recomputed["systems"]["valid_responses"]
+            or previous["recorded_requests"] != len(receipts) or previous["manifest_sha256"] != digest(manifest)):
+        raise ValueError("Saved summary differs from its logical responses.")
+    pending = []
+    for item in manifest["items"]:
+        receipt = by_id[item["id"]]
+        try:
+            if receipt.get("error"):
+                raise ValueError(receipt["error"])
+            distribution(item, receipt, actual)
+        except (ValueError, TypeError, AttributeError, KeyError):
+            pending.append(item)
+    if not pending:
+        raise ValueError("No invalid items remain; recovery would unnecessarily repeat valid answers.")
+    native = client or NativeClient(model_key=model_key)
+    if native.model != requested or not native.accepts_model(actual):
+        native.__exit__()
+        raise ValueError("Recovery configured model differs from the original run.")
+    output.mkdir(parents=True, exist_ok=False)
+    (output / "manifest.json").write_bytes((source / "manifest.json").read_bytes())
+    (output / "original-responses.jsonl").write_bytes((source / "responses.jsonl").read_bytes())
+    subset = {**manifest, "items": pending, "recovery_of_manifest_sha256": digest(manifest)}
+    repair_summary = run_external(
+        subset, output / "repair", client=native, model_key=model_key, min_interval=min_interval,
+    )
+    repairs = [json.loads(line) for line in (output / "repair" / "responses.jsonl").read_text(encoding="utf-8").splitlines()]
+    for receipt in repairs:
+        item = items[receipt["id"]]
+        expected = digest({"model": requested, "state": item["state"], "questions": {"decision": item["question"]}})
+        if receipt.get("request_sha256") != expected:
+            raise ValueError("Recovery changed a frozen request.")
+        by_id[receipt["id"]] = receipt
+    history.extend(repairs)
+    effective = [by_id[item["id"]] for item in manifest["items"]]
+    for filename, values in (("responses.jsonl", effective), ("attempt-history.jsonl", history)):
+        (output / filename).write_text(
+            "".join(json.dumps(value, ensure_ascii=False, allow_nan=False) + "\n" for value in values), encoding="utf-8",
+        )
+    summary = summarize_external(manifest, effective, requested, actual_model=actual)
+    summary.update(
+        model_key=model_key, completed_at=repair_summary["completed_at"], execution_complete=True,
+        status="complete" if summary["systems"]["valid_responses"] == len(items) else "failed",
+        logical_items=len(items), physical_requests=len(history),
+        user_directed_repair={
+            "source_directory": source.name, "target_ids": [item["id"] for item in pending],
+            "initial_valid_items": recomputed["systems"]["valid_responses"],
+            "new_physical_requests": len(repairs), "valid_answers_were_not_repeated": True,
+            "first_pass_completed_at": previous["completed_at"],
+        },
+        minimum_request_interval_seconds=min_interval,
+        new_requests_http_keepalive=repair_summary["new_requests_http_keepalive"],
+        network_error_policy="explicit_recovery_only; no_automatic_retry",
+    )
+    physical_latency = [receipt["seconds"] for receipt in history]
+    invalid_attempts = 0
+    for receipt in history:
+        try:
+            if receipt.get("error"):
+                raise ValueError(receipt["error"])
+            distribution(items[receipt["id"]], receipt, actual)
+        except (ValueError, TypeError, AttributeError, KeyError):
+            invalid_attempts += 1
+    summary["failed_physical_requests"] = invalid_attempts
+    summary["physical_request_latency"] = {
+        "n": len(history), "mean_seconds": statistics.mean(physical_latency),
+        "p50_seconds": percentile(physical_latency, 0.5), "p95_seconds": percentile(physical_latency, 0.95),
+        "sum_request_seconds": sum(physical_latency),
+    }
+    (output / "summary.json").write_text(json.dumps(summary, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    write_report(summary, output / "report.md")
+    return summary
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("manifest", type=Path)
@@ -588,9 +717,12 @@ def main():
     parser.add_argument("--min-interval", type=float, default=0.0, help="Minimum seconds between request starts; excluded from measured request latency.")
     parser.add_argument("--continue-on-network-errors", action="store_true", help="Record isolated network errors and move to NEXT item, never retry; stop after 3 consecutive errors. HTTP errors still stop.")
     parser.add_argument("--fresh-connections", action="store_true", help="Use new HTTPS connections instead of the default keepalive; TLS overhead is part of request latency.")
+    parser.add_argument("--repair-invalid-from", type=Path, help="User-directed recovery of ONLY invalid answers into a new directory; retain all original attempts.")
     args = parser.parse_args()
     if args.report_only and args.continue_from:
         parser.error("--continue-from is a live operation, not --report-only.")
+    if args.repair_invalid_from and (args.report_only or args.continue_from):
+        parser.error("--repair-invalid-from cannot be combined with --report-only or --continue-from.")
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
     if args.reference_summary:
         from .external_data import validate_reference
@@ -610,6 +742,8 @@ def main():
             "new_requests_http_keepalive", "continuation",
             "network_error_policy",
             "probability_reporting",
+            "logical_items", "physical_requests", "failed_physical_requests",
+            "user_directed_repair", "physical_request_latency",
         ):
             if field in previous:
                 summary[field] = previous[field]
@@ -618,12 +752,18 @@ def main():
     else:
         if args.model is None:
             parser.error("--model is required for live evaluation; --report-only never calls a model.")
-        summary = run_external(
-            manifest, args.output, model_key=args.model,
-            continue_from=args.continue_from, min_interval=args.min_interval,
-            continue_on_network_errors=args.continue_on_network_errors,
-            fresh_connections=args.fresh_connections,
-        )
+        if args.repair_invalid_from:
+            summary = repair_invalid_items(
+                manifest, args.repair_invalid_from, args.output, model_key=args.model,
+                min_interval=args.min_interval,
+            )
+        else:
+            summary = run_external(
+                manifest, args.output, model_key=args.model,
+                continue_from=args.continue_from, min_interval=args.min_interval,
+                continue_on_network_errors=args.continue_on_network_errors,
+                fresh_connections=args.fresh_connections,
+            )
     if args.export_prefix:
         args.export_prefix.parent.mkdir(parents=True, exist_ok=True)
         args.export_prefix.with_name(args.export_prefix.name + "-summary.json").write_text(

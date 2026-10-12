@@ -37,6 +37,11 @@ def compare_external(summaries: dict[str, dict], unavailable: dict[str, dict] | 
             "summary_file": filename, "completed_at": summary["completed_at"],
             "requested_model": summary.get("requested_model", model),
             "recorded_requests": summary["recorded_requests"],
+            "logical_items": summary.get("logical_items", summary["total_requests"]),
+            "physical_requests": summary.get("physical_requests", summary["recorded_requests"]),
+            "failed_physical_requests": summary.get(
+                "failed_physical_requests", summary["recorded_requests"] - summary["systems"]["valid_responses"],
+            ),
             "valid_responses": summary["systems"]["valid_responses"],
             "execution_complete": summary["recorded_requests"] == summary["total_requests"],
             "status": summary.get("status", "complete" if (
@@ -50,6 +55,8 @@ def compare_external(summaries: dict[str, dict], unavailable: dict[str, dict] | 
             "new_requests_http_keepalive": summary.get("new_requests_http_keepalive"),
             "network_error_policy": summary.get("network_error_policy", "not recorded"),
             "probability_reporting": summary.get("probability_reporting", "not recorded"),
+            "user_directed_repair": deepcopy(summary.get("user_directed_repair")),
+            "physical_request_latency": deepcopy(summary.get("physical_request_latency")),
         }
     return {
         "kind": "offline_comparison", "manifest_sha256": baseline["manifest_sha256"],
@@ -79,16 +86,24 @@ def external_report(comparison: dict) -> str:
         "Probability metrics use the reported vectors without renormalization. Jev 1.13 reports hundredths; "
         "its zero-rounding can inflate epsilon-floored NLL relative to full-precision providers. "
         "Ordinal metrics use each API's native Score.", "",
-        "| Model | UTC completed | Recorded | Valid | All items attempted | Status | Source |",
-        "| --- | --- | ---: | ---: | --- | --- | --- |",
+        "| Model | UTC completed | Logical items | Valid items | Physical HTTP attempts | All items attempted | Status | Source |",
+        "| --- | --- | ---: | ---: | ---: | --- | --- | --- |",
     ]
     for model, values in models.items():
         lines.append(f"| {model} | {values['completed_at']} | {values['recorded_requests']} | "
-                     f"{values['valid_responses']} | {values['execution_complete']} | "
+                     f"{values['valid_responses']} | {values['physical_requests']} | {values['execution_complete']} | "
                      f"{values['status']} | {values['summary_file']} |")
     for model, values in comparison.get("unavailable", {}).items():
-        lines.append(f"| {model} | Not run | 0 | 0 | False | {values['status']}: {values['reason']} | "
+        lines.append(f"| {model} | Not run | 0 | 0 | 0 | False | {values['status']}: {values['reason']} | "
                      f"{values['status_file']} |")
+    for model, values in models.items():
+        if values.get("user_directed_repair"):
+            recovered = values["user_directed_repair"]
+            lines += ["", f"**{model} explicit missing-answer recovery:** "
+                      f"{recovered['initial_valid_items']} initial valid items + "
+                      f"{recovered['new_physical_requests']} additional attempts. "
+                      f"{values['failed_physical_requests']} original failed attempts remain in the audit history; "
+                      "valid wrong predictions were not repeated. These are recovered-coverage metrics, not first-pass-only results."]
     lines += [
         "", "## Task metrics", "",
         "| Task | Model | N | Attempted | Valid | Status | Accuracy | Brier (sum) | NLL | ECE | MAE | Spearman | p50 / p95 (s) |",

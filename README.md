@@ -11,10 +11,22 @@
 | 模型 | 内部 100 题 | 外部 1,431＋90 题 | 来源 / 阻塞 |
 | --- | --- | --- | --- |
 | TypeSafe Jev | **新测完成：100/100** | **新测完成：1,521/1,521 次有效** | 用户要求重新验证后官方入口恢复；固定 `jev-1.13.0`，[状态记录](results/jev-20261012-status.json) |
-| Microsoft Decision-1 | **已完成：99/100** | **1,431＋90 题全部已尝试；1,505/1,521 次有效** | 保留 16 次失败：HTTP 429×1、连接错误×2、超时×13；没有重发失败题 |
+| Microsoft Decision-1 | **已完成：99/100** | **补测后完成：1,521/1,521 道题有效** | 用户指示仅补测16道无有效响应题；首轮失败与完整请求历史保留 |
 | Qwen3.5-4B-Jev | 复用已有 99/100 | 复用已有 1,521/1,521 有效结果 | 不重新调用、不调整模型或校准 |
 
-正式调用每题仅一次，**不自动重试、不自动补跑**。显式续跑只处理尚未尝试的题，原有失败不重发、原目录不覆盖。Jev 初次入口返回 HTTP 451；提交推送后按用户要求重新验证，官方接口恢复 HTTP 200，未改出口或绕过访问控制。本轮固定 [官方版本 `jev-1.13.0`](https://docs.typesafe.ai/models.md) 完成新评测。两份密钥仅保存在被 Git 忽略的本地 `.env`，不随仓库分发。
+首轮每题仅调用一次，**不自动重试**。用户要求补齐有效数量后，仅对 Microsoft 的16道无有效响应题进行显式补测；已有正确或错误的有效预测均未重跑，旧目录和失败记录不覆盖。Jev 官方入口恢复后固定 [版本 `jev-1.13.0`](https://docs.typesafe.ai/models.md) 完成新评测。两份密钥只在被 Git 忽略的本地 `.env`，不随仓库分发。
+
+### 数量口径
+
+每个模型的外部题集是 **1,431道主评测＋90道反序＝1,521道逻辑题**，内部另有100题；**逻辑题数不等于物理HTTP请求次数**，离线单元测试数量也不是评测题数。
+
+| 模型 | 外部逻辑题 | 主评测有效 | 反序有效 | 物理HTTP尝试 | 最终有效逻辑题 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| TypeSafe Jev | 1,521 | 1,431/1,431 | 90/90 | 1,521 | **1,521/1,521** |
+| Microsoft Decision-1 | 1,521 | 1,431/1,431 | 90/90 | **1,537＝首轮1,521＋显式补测16** | **1,521/1,521** |
+| Qwen3.5-4B-Jev（复用） | 1,521 | 1,431/1,431 | 90/90 | 原评测1,521 | **1,521/1,521** |
+
+Microsoft 补测没有新增题目，也没有抹除首轮16次失败；主表明确标为补测后成绩，首轮“一次调用、失败计错”的成绩另外保留。
 
 ## 内部评测 · 100 道言下之意题
 
@@ -28,7 +40,7 @@ Microsoft 与 Qwen 各错一题，但不是同一题：分别为 `love-018`、`l
 
 Microsoft 平均客户端耗时约 **1,760 ms/题**；Qwen 原有结果约 **635 ms/题**。两者分别经云端 HTTPS 与内网 HTTP 调用，包含传输和客户端开销，**不是同硬件纯推理速度比较**。
 
-**[三模型离线逐题对比](results/three-models-20261012-refreshed-internal.json)** · **[Jev 新测原始结果](results/jev-20261012.json)** · **[Microsoft 原始结果](results/microsoft-20261012.json)** · **[Qwen 原始结果](results/qwen35-4b.json)** · **[Qwen 报告](results/qwen35-4b-report.md)**。
+**[三模型离线逐题对比](results/three-models-20261012-complete-internal.json)** · **[Jev 新测原始结果](results/jev-20261012.json)** · **[Microsoft 原始结果](results/microsoft-20261012.json)** · **[Qwen 原始结果](results/qwen35-4b.json)** · **[Qwen 报告](results/qwen35-4b-report.md)**。
 
 合并结果保留每个模型的原始执行时间、题集哈希和来源；`kind=offline_comparison` 明确这是同题离线合并。Jev、Microsoft 使用本轮新结果，只有 Qwen 复用历史结果；旧 Jev 与小模型文件仍保留，但不进入本轮对比。
 
@@ -44,21 +56,21 @@ fbb21679cd930b0397a3adcc20d408e422cb816596f0921673ef5602621d4d02
 
 Jev 本轮 **1,431 道主评测题＋90 道反序题全部有效**，逐条实际版本均为 `jev-1.13.0`。其 Score 与概率按两位小数报告，早期第81条响应因此被过严的等式检查误判；修正为报告精度内的数学可行性检查后离线重验，保留原始响应，再从第82题继续，**没有重发旧题**。
 
-Microsoft 初次在第93次请求遇到 HTTP429。显式续跑最终覆盖全部1,431＋90题：主评测1,415/1,431有效，反序90/90有效，共 **1,505/1,521有效（98.95%）**；16道失败题均未重发。
+Microsoft 首轮只有1,505/1,521有效，另16次失败没有模型答案。按用户指示补测这16道题后，**1,431道主评测与90道反序全部有效**；原1,505道有效预测逐条保留，包括原本答错的题。新汇总 `status=complete`，`logical_items=1521`、`physical_requests=1537`，物理历史仍保留16个失败。
 
-**这是完整调用覆盖，不是无故障通过**：机器汇总保留 `execution_complete=true` 与 `status=failed`，区分“所有题均已尝试”和“所有响应均有效”。分类准确率把失败计为错误；概率、MAE、Spearman 只使用有效响应。
+下表 Microsoft 列为**显式补测后完整有效题集**；首轮列按一次调用、API失败计错，避免把补测版伪装为零重试成绩。连续分数和概率指标只使用有效响应。
 
-| 任务 | 主评测题量 | TypeSafe Jev | Microsoft Decision-1 | MS 有效数 | Qwen3.5-4B-Jev（已有结果） |
+| 任务 | 主评测题量 | TypeSafe Jev | Microsoft Decision-1（补测后） | MS 首轮（失败计错） | Qwen3.5-4B-Jev（已有结果） |
 | --- | ---: | --- | --- | ---: | --- |
-| JevBench easy 公开题 | 48 | **48/48，100%** | **48/48，100%** | 48/48 | 48/48，100% |
-| JevBench original 公开题 | 72 | **71/72，98.6%** | **71/72，98.6%** | 71/72 | 68/72，94.4% |
-| JevBench hard 公开题 | 111 | 80/111，72.1% | **91/111，82.0%** | 111/111 | 61/111，55.0% |
-| AG News 新闻分类 | 200 | 174/200，87.0% | **178/200，89.0%** | 199/200 | 165/200，82.5% |
-| BoolQ 阅读真假判断 | 200 | **180/200，90.0%** | 172/200，86.0% | 199/200 | 166/200，83.0% |
-| ANLI 对抗自然语言推断 | 200 | **143/200，71.5%** | 126/200，63.0% | 199/200 | 96/200，48.0% |
-| SST-5 五级情感 | 200 | 104/200，52.0%；MAE 0.598 | **105/200，52.5%；MAE 0.550** | 197/200 | 85/200，42.5%；MAE 0.679 |
-| STS-B 语义相似度 | 200 | Spearman 0.901；MAE 0.506 | **Spearman 0.929；MAE 0.450** | 198/200 | Spearman 0.878；0–5 分 MAE 0.600 |
-| Belebele 简体中文阅读 | 200 | **188/200，94.0%** | **188/200，94.0%** | 193/200 | 169/200，84.5% |
+| JevBench easy 公开题 | 48 | **48/48，100%** | **48/48，100%** | 100% | 48/48，100% |
+| JevBench original 公开题 | 72 | 71/72，98.6% | **72/72，100%** | 98.6% | 68/72，94.4% |
+| JevBench hard 公开题 | 111 | 80/111，72.1% | **91/111，82.0%** | 82.0% | 61/111，55.0% |
+| AG News 新闻分类 | 200 | 174/200，87.0% | **179/200，89.5%** | 89.0% | 165/200，82.5% |
+| BoolQ 阅读真假判断 | 200 | **180/200，90.0%** | 173/200，86.5% | 86.0% | 166/200，83.0% |
+| ANLI 对抗自然语言推断 | 200 | **143/200，71.5%** | 127/200，63.5% | 63.0% | 96/200，48.0% |
+| SST-5 五级情感 | 200 | 104/200，52.0%；MAE 0.598 | **106/200，53.0%；MAE 0.552** | 52.5%；MAE 0.550 | 85/200，42.5%；MAE 0.679 |
+| STS-B 语义相似度 | 200 | Spearman 0.901；MAE 0.506 | **Spearman 0.930；MAE 0.447** | Spearman 0.929；MAE 0.450 | Spearman 0.878；0–5 分 MAE 0.600 |
+| Belebele 简体中文阅读 | 200 | 188/200，94.0% | **194/200，97.0%** | 94.0% | 169/200，84.5% |
 
 | 反序对照 | TypeSafe Jev | Microsoft Decision-1 | Qwen3.5-4B-Jev |
 | --- | --- | --- | --- |
@@ -66,9 +78,9 @@ Microsoft 初次在第93次请求遇到 HTTP429。显式续跑最终覆盖全部
 | 选择一致率 | 89/90，98.9% | **90/90，100%** | 90/90，100% |
 | 两次均正确 | 75/90，83.3% | **81/90，90.0%** | 68/90，75.6% |
 
-全体请求客户端耗时：Jev 平均 **267 ms**、p50 **254 ms**、p95 **308 ms**；Microsoft 平均 **1,457 ms**、p50 **1,310 ms**、p95 **1,911 ms**；Qwen 原有结果平均 **540 ms**、p50 **422 ms**、p95 **653 ms**。Microsoft 包含失败请求耗时，不含请求间隔及中断等待；部分续跑使用新 TLS 连接。云端与内网、连接模式和有效率不同，**不是同硬件纯推理速度比较**。账单金额未测得，不虚构费用。
+全部物理请求客户端耗时：Jev平均 **267 ms**、p50 **254 ms**、p95 **308 ms**；Microsoft的1,537次尝试（含原失败）平均 **1,454 ms**、p50 **1,309 ms**、p95 **1,911 ms**；Qwen原有结果平均 **540 ms**、p50 **422 ms**、p95 **653 ms**。Microsoft最终1,521份有效答案的耗时另列于汇总，不与物理请求时间混淆。等待间隔和中断等待不计入单题耗时；部署、连接模式和补测策略不同，**不是同硬件纯推理速度比较**。账单金额未测得，不虚构费用。
 
-**[完整三模型外部对比](results/three-models-20261012-refreshed-external-report.md)** · **[机器可读对比](results/three-models-20261012-refreshed-external-summary.json)** · **[Jev 完整新测报告](results/jev-20261012-continued-external-report.md)** · **[Jev 汇总](results/jev-20261012-continued-external-summary.json)** · **[Microsoft 汇总](results/microsoft-20261012-continued3-external-summary.json)** · **[Microsoft 报告](results/microsoft-20261012-continued3-external-report.md)** · **[Qwen 完整外部报告](results/qwen35-4b-external-report.md)** · **[Qwen 汇总](results/qwen35-4b-external-summary.json)**。
+**[完整三模型外部对比](results/three-models-20261012-complete-external-report.md)** · **[机器可读对比](results/three-models-20261012-complete-external-summary.json)** · **[Jev 完整新测报告](results/jev-20261012-continued-external-report.md)** · **[Jev 汇总](results/jev-20261012-continued-external-summary.json)** · **[Microsoft 补测后汇总](results/microsoft-20261012-recovered-external-summary.json)** · **[Microsoft 补测报告](results/microsoft-20261012-recovered-external-report.md)** · **[Microsoft 首轮原始汇总](results/microsoft-20261012-continued3-external-summary.json)** · **[Qwen 完整外部报告](results/qwen35-4b-external-report.md)** · **[Qwen 汇总](results/qwen35-4b-external-summary.json)**。
 
 初次受限及中间故障快照仍保留，例如 [Microsoft 初始汇总](results/microsoft-20261012-external-summary.json) 和 [Jev 初始汇总](results/jev-20261012-external-summary.json)。主表只使用各模型最终结果，不把早期部分样本伪装为完整成绩。
 
@@ -134,10 +146,20 @@ Copy-Item .env.example .env   # 仅在 .env 不存在时创建，然后填写凭
 
 如果已确认是孤立的网络重置或超时，可显式增加 `--continue-on-network-errors`：记录该题失败并移向**下一道**题，不重发；三个连续网络错误、任何 HTTP 错误或协议错误仍停止。默认不启用此行为。默认保持 HTTP keepalive；可显式使用 `--fresh-connections` 测试新连接，TLS 开销包含在单题耗时中。本轮部分续跑使用新连接，但未完全消除超时；保留的旧响应保持原有计时，不将混合传输条件当成纯推理速度。
 
-离线重算本轮 Microsoft 的最终结果，不调用模型，仍返回非零状态以提示保留的请求失败：
+### 显式补测无有效答案的题目
+
+`--repair-invalid-from` 与“继续未尝试题”不同：源必须已覆盖整套逻辑题，程序只选择缺少有效响应的题，不重复有效答案（包括答错的有效预测），也不改变请求或题集。补测使用新目录，保留原始响应、追加的16次补测日志以及全部1,537次物理尝试历史；不是自动重试或选择最好结果。
 
 ```powershell
-.\.venv\Scripts\python.exe -m jev_benchmark.external data\external-20261012.json --output results\external-microsoft-20261012-continued3 --report-only --export-prefix results\microsoft-20261012-continued3-external
+.\.venv\Scripts\python.exe -m jev_benchmark.external data\external-20261012.json --model microsoft --repair-invalid-from results\external-microsoft-20261012-continued3 --output results\external-microsoft-recovery-new --min-interval 1.25 --reference-summary results\qwen35-4b-external-summary.json --export-prefix results\microsoft-recovery-new-external
+```
+
+这是**新的显式补测**，会产生请求；本轮补测已经完成，不需重复运行。选择已经没有无效答案的源会直接拒绝，避免无谓付费。
+
+离线重算本轮 Microsoft 的完整有效结果，不调用模型，并保留物理请求计数和原始失败审计：
+
+```powershell
+.\.venv\Scripts\python.exe -m jev_benchmark.external data\external-20261012.json --output results\external-microsoft-20261012-recovered --report-only --export-prefix results\microsoft-20261012-recovered-external
 ```
 
 离线重算 Jev 的完整新结果，不调用模型：
@@ -149,7 +171,7 @@ Copy-Item .env.example .env   # 仅在 .env 不存在时创建，然后填写凭
 离线重建三模型对比，输出前缀必须不存在；Jev 与 Microsoft 使用本轮新结果，只有 Qwen 标为历史复用：
 
 ```powershell
-.\.venv\Scripts\python.exe -m jev_benchmark.compare --internal results\jev-20261012.json results\microsoft-20261012.json results\qwen35-4b.json --external results\jev-20261012-continued-external-summary.json results\microsoft-20261012-continued3-external-summary.json results\qwen35-4b-external-summary.json --output-prefix results\comparison-new
+.\.venv\Scripts\python.exe -m jev_benchmark.compare --internal results\jev-20261012.json results\microsoft-20261012.json results\qwen35-4b.json --external results\jev-20261012-continued-external-summary.json results\microsoft-20261012-recovered-external-summary.json results\qwen35-4b-external-summary.json --output-prefix results\comparison-new
 ```
 
 ## 配置
@@ -202,7 +224,7 @@ Copy-Item .env.example .env   # 仅在 .env 不存在时创建，然后填写凭
 .\.venv\Scripts\python.exe -m unittest discover -s tests
 ```
 
-离线测试不调用真实模型，覆盖数据结构、协议、密钥保护、完整 endpoint、模型版本变化、原生报告精度的数学可行边界、失败检查点、续跑不重发、请求节流、孤立与系统性网络故障、哈希完整性、合并来源及默认不联网的 notebook。
+离线测试不调用真实模型，覆盖数据结构、协议、密钥保护、完整 endpoint、模型版本变化、原生报告精度的数学可行边界、失败检查点、续跑不重发、显式补测保留有效错误预测、逻辑与物理计数、请求节流、网络故障、哈希完整性、合并来源及默认不联网的 notebook。
 
 ## 局限与许可
 

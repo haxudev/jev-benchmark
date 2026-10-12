@@ -11,7 +11,7 @@ from unittest.mock import patch
 import httpx
 
 from jev_benchmark import ModelError
-from jev_benchmark.external import NativeClient, TARGET_MODEL, digest, distribution, run_external, summarize_external
+from jev_benchmark.external import NativeClient, TARGET_MODEL, digest, distribution, repair_invalid_items, run_external, summarize_external
 from jev_benchmark.external_data import convert_row, reverse_options, sample_rows, validate_reference
 from jev_benchmark.compare import compare_external, external_report
 
@@ -455,6 +455,79 @@ class EvaluationTests(unittest.TestCase):
                 }}}}
                 with self.subTest(levels=count, score=score):
                     self.assertEqual(distribution(item, receipt, "jev-1.13.0"), reported)
+
+    def test_user_directed_repair_preserves_valid_wrong_answers_and_attempt_history(self):
+        items = [{**self.item(), "id": f"item-{index}", "state": f"state-{index}"} for index in range(2)]
+        manifest = {"items": items}
+        native = unittest.mock.MagicMock()
+        native.model = TARGET_MODEL
+        native.accepts_model = lambda actual: actual == TARGET_MODEL
+        calls = []
+
+        def request(state, questions):
+            calls.append(state)
+            receipt = {"seconds": 0.1, "request_sha256": digest({
+                "model": TARGET_MODEL, "state": state, "questions": questions,
+            })}
+            if state == "state-1" and calls.count(state) == 1:
+                return {**receipt, "http_status": 429, "error": "http_429"}
+            selected = "b" if state == "state-0" else "a"
+            return {**receipt, "response": {"model": TARGET_MODEL, "answers": {"decision": {
+                "type": "choice", "choice": selected,
+                "probabilities": {"a": 0.2 if selected == "b" else 0.8, "b": 0.8 if selected == "b" else 0.2},
+            }}}}
+
+        native.__enter__.return_value.request.side_effect = request
+        with tempfile.TemporaryDirectory() as directory:
+            source, output = Path(directory) / "source", Path(directory) / "recovered"
+            run_external(manifest, source, client=native)
+            original = (source / "responses.jsonl").read_bytes()
+            summary = repair_invalid_items(
+                manifest, source, output, client=native, model_key="intranet", min_interval=0,
+            )
+            self.assertEqual((source / "responses.jsonl").read_bytes(), original)
+            effective = [json.loads(line) for line in (output / "responses.jsonl").read_text().splitlines()]
+            history = [json.loads(line) for line in (output / "attempt-history.jsonl").read_text().splitlines()]
+            self.assertEqual(effective[0], history[0])
+            self.assertEqual(history[1]["error"], "http_429")
+            with self.assertRaisesRegex(ValueError, "No invalid items"):
+                repair_invalid_items(manifest, output, Path(directory) / "no-more", client=native, model_key="intranet")
+        self.assertEqual(calls, ["state-0", "state-1", "state-1"])
+        self.assertEqual(summary["status"], "complete")
+        self.assertEqual(summary["logical_items"], 2)
+        self.assertEqual(summary["physical_requests"], 3)
+        self.assertEqual(summary["systems"]["valid_responses"], 2)
+        self.assertEqual(summary["suites"]["fixture"]["accuracy"], 0.5)
+        self.assertEqual(summary["failed_physical_requests"], 1)
+
+    def test_recovery_rejects_changed_requests_before_network(self):
+        items = [{**self.item(), "id": f"item-{index}"} for index in range(2)]
+        native = unittest.mock.MagicMock()
+        native.model = TARGET_MODEL
+        native.accepts_model = lambda actual: actual == TARGET_MODEL
+        native.__enter__.return_value.request.return_value = {
+            "seconds": 0.1, "http_status": 429, "error": "http_429",
+            "request_sha256": digest({
+                "model": TARGET_MODEL, "state": items[0]["state"], "questions": {"decision": items[0]["question"]},
+            }),
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source"
+            # A complete failed ledger is required; construct both immutable receipts.
+            source.mkdir()
+            (source / "manifest.json").write_text(json.dumps({"items": items}))
+            receipts = [dict(native.__enter__.return_value.request.return_value, id=item["id"]) for item in items]
+            (source / "responses.jsonl").write_text("".join(json.dumps(r) + "\n" for r in receipts))
+            summary = summarize_external({"items": items}, receipts)
+            summary.update(model_key="intranet", completed_at="2026-10-12T00:00:00Z")
+            (source / "summary.json").write_text(json.dumps(summary))
+            receipts[0]["request_sha256"] = "changed"
+            (source / "responses.jsonl").write_text("".join(json.dumps(r) + "\n" for r in receipts))
+            with self.assertRaisesRegex(ValueError, "integrity"):
+                repair_invalid_items(
+                    {"items": items}, source, Path(directory) / "never", client=native, model_key="intranet",
+                )
+            native.__enter__.return_value.request.assert_not_called()
 
 
 if __name__ == "__main__":
